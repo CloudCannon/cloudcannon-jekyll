@@ -1,7 +1,6 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.5
   - 2.6
 
 before_install:
@@ -9,9 +8,6 @@ before_install:
   - gem install bundler
 
 script: script/cibuild
-
-env:
-  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 
 gemfile:
   - Gemfile
