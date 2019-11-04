@@ -1,0 +1,37 @@
+#!/bin/sh
+
+set -e
+
+# Ensure we're in the project root
+
+cd $(dirname "$0")/..
+
+# Build the new gem
+
+rm -rf cloudcannon-jekyll-*.gem
+gem build -q cloudcannon-jekyll.gemspec
+
+# Ensure we're on the master branch
+
+(git branch | grep -q '* master') || {
+	echo "Only release from the master branch."
+	exit 1
+}
+
+# Figure out what version we're releasing
+
+tag=v`ls cloudcannon-jekyll-*.gem | sed 's/^cloudcannon-jekyll-\(.*\)\.gem$/\1/'`
+
+# Ensure we haven't released this version before
+
+git fetch -t origin
+
+(git tag -l | grep -q "$tag") && {
+	echo "Whoops, there's already a '${tag}' tag."
+	exit 1
+}
+
+# Push tag and upload new gem
+
+gem push cloudcannon-jekyll-*.gem && git tag "$tag" &&
+	git push origin master && git push origin "$tag"

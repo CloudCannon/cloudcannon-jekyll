@@ -1,1 +1,5 @@
 spec/dest/
+spec/fixtures/.jekyll-cache/
+spec/fixtures/_site/
+gemfiles/.bundle/
+cloudcannon-jekyll-*.gem
