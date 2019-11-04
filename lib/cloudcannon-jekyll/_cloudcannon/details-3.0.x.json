@@ -1,0 +1,20 @@
+{
+	"time": {{ site.time | jsonify }},
+	"generator": {
+		"name": "jekyll",
+		"version": {{ jekyll.version | jsonify }},
+		"environment": {{ jekyll.env | jsonify }},
+		"metadata": {
+			"markdown": {{ site.markdown | cc_safe_jsonify }},
+			"kramdown": {{ site.kramdown | cc_safe_jsonify }},
+			"commonmark": {{ site.commonmark | cc_safe_jsonify }}
+		}
+	},{% if site.cloudcannon.data %}
+	"data": {{ site.data | cc_safe_jsonify }},{% endif %}
+	"collections": {
+		{% for collection in site.collections %}"{{ collection.label | xml_escape }}": {{ collection.docs | cc_safe_jsonify }}{% unless forloop.last %},{% endunless %}
+		{% endfor %}
+	},
+	"pages": {{ site.pages | cc_safe_jsonify }},
+	"static": {{ site.static_files | cc_static_files_jsonify }}
+}

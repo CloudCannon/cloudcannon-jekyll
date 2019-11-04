@@ -1,0 +1,32 @@
+# ----
+# Site
+
+title: Example site
+url: "https://example.com"
+baseurl:
+
+description: Example site for testing
+
+timezone: Etc/UTC
+
+collections:
+  - "staff_members"
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: page
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+
+permalink: pretty
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE
