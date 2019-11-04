@@ -29,6 +29,10 @@ describe CloudCannonJekyll::Generator do
     it "allow details with data" do
       expect(content.scan(%r!"data": {"!).length).to eq(1)
     end
+
+    it "allow details with data without unsupported items" do
+      expect(content.scan(%r!UNSUPPORTED!).length).to eq(0)
+    end
   end
 
   context "content" do

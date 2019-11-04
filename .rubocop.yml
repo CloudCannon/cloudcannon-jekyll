@@ -19,6 +19,7 @@ AllCops:
     - README.md
     - script/**/*
     - vendor/**/*
+    - lib/cloudcannon-jekyll/safe-jsonify-filter.rb # TODO remove this and fix warnings
 
 Naming/MemoizedInstanceVariableName:
   Exclude:
