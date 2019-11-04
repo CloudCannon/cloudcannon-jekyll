@@ -15,7 +15,7 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "details without data" do
-      expect(content.scan(%r!"data": {"company"!).length).to eq(0)
+      expect(content.scan(%r!"data": {"!).length).to eq(0)
     end
 
     it "details without unsupported items" do
@@ -27,7 +27,7 @@ describe CloudCannonJekyll::Generator do
     let(:site_data) { { :cloudcannon => { "data" => true } } }
 
     it "allow details with data" do
-      expect(content.scan(%r!"data": {"company"!).length).to eq(1)
+      expect(content.scan(%r!"data": {"!).length).to eq(1)
     end
   end
 
