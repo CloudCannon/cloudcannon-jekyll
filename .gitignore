@@ -1,3 +1,4 @@
+Gemfile.lock
 spec/dest/
 spec/fixtures/.jekyll-cache/
 spec/fixtures/_site/

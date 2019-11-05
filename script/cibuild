@@ -3,5 +3,5 @@
 set -ex
 
 bundle exec rspec "$@"
-bundle exec rubocop -S -D
+bundle exec rubocop -S
 bundle exec gem build cloudcannon-jekyll.gemspec

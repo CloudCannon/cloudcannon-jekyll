@@ -4,7 +4,7 @@ inherit_gem:
   rubocop-jekyll: .rubocop.yml
 
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
   Include:
     - lib/**/*.rb
 
@@ -19,6 +19,7 @@ AllCops:
     - README.md
     - script/**/*
     - vendor/**/*
+    - gemfiles/**/*
     - lib/cloudcannon-jekyll/safe-jsonify-filter.rb # TODO remove this and fix warnings
 
 Naming/MemoizedInstanceVariableName:
