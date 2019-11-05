@@ -33,9 +33,8 @@ plugins:
 bundle exec rspec
 ```
 
-Test multiple Jekyll versions use [wwtd](https://github.com/grosser/wwtd):
+To test a specific Jekyll version:
 
 ```
-gem install wwtd
-wwtd
+JEKYLL_VERSION="2.4.0" bundle update && bundle exec rspec
 ```
