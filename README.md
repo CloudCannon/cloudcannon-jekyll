@@ -30,14 +30,12 @@ plugins:
 ## Testing
 
 ```
-bundle exec rake test
+bundle exec rspec
 ```
 
-Test multiple Jekyll versions with Appraisal:
+Test multiple Jekyll versions use [wwtd](https://github.com/grosser/wwtd):
 
 ```
-bundle exec appraisal install
-bundle exec appraisal rake test
-bundle exec appraisal jekyll-2 rake test
-bundle exec appraisal jekyll-4 rake test
+gem install wwtd
+wwtd
 ```

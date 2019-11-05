@@ -9,9 +9,11 @@ before_install:
 
 script: script/cibuild
 
-gemfile:
-  - Gemfile
-  - gemfiles/jekyll_2.gemfile
-  - gemfiles/jekyll_3_0_0.gemfile
-  - gemfiles/jekyll_3_8_5.gemfile
-  - gemfiles/jekyll_4.gemfile
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+  matrix:
+    - JEKYLL_VERSION="2.4.0"
+    - JEKYLL_VERSION="3.0.0"
+    - JEKYLL_VERSION="3.8.5"
+    - JEKYLL_VERSION="4.0.0"
