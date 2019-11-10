@@ -43,6 +43,11 @@ describe CloudCannonJekyll::Generator do
       expect(parsed["time"]).to match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
     end
 
+    it "contains gem information" do
+      expect(parsed["cloudcannon"]["name"]).to eq("cloudcannon-jekyll")
+      expect(parsed["cloudcannon"]["version"]).to eq(CloudCannonJekyll::VERSION)
+    end
+
     it "contains generator information" do
       expect(parsed["generator"]["name"]).to eq("jekyll")
       expect(parsed["generator"]["version"]).to match(%r![2-4]\.\d+\.\d+!)

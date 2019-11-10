@@ -1,5 +1,9 @@
 {
 	"time": {{ site.time | jsonify }},
+	"cloudcannon": {
+		"name": "cloudcannon-jekyll",
+		"version": {{ gem_version | jsonify }}
+	},
 	"generator": {
 		"name": "jekyll",
 		"version": {{ jekyll.version | jsonify }},

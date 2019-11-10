@@ -35,7 +35,7 @@ module CloudCannonJekyll
       json.data["sitemap"] = false
       json.data["permalink"] = "/_cloudcannon/details.json"
 
-      json.render({}, @site.site_payload)
+      json.render({}, @site.site_payload.merge("gem_version" => CloudCannonJekyll::VERSION))
       json.output
     end
   end
