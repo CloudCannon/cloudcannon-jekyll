@@ -16,7 +16,7 @@ Liquid::Template.register_filter(CloudCannonJekyll::SafeJsonifyFilter)
 if Jekyll::VERSION.start_with? "2"
   module Jekyll
     class Site
-      alias jekyll_reset reset
+      alias_method :jekyll_reset, :reset
 
       def reset
         jekyll_reset

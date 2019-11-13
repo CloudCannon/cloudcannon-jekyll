@@ -17,26 +17,20 @@ module CloudCannonJekyll
         config = config.fix_common_issues if config.respond_to? :fix_common_issues
         config = config.add_default_excludes if config.respond_to? :add_default_excludes
 
-        if Jekyll::VERSION.start_with? "2"
-          config["gems"] = Array(config["gems"])
-          config["gems"].push("cloudcannon-jekyll") unless config["gems"].include? "cloudcannon-jekyll"
-        else
-          config["plugins"] = Array(config["plugins"])
-          config["plugins"].push("cloudcannon-jekyll") unless config["plugins"].include? "cloudcannon-jekyll"
-        end
+        key = Jekyll::VERSION.start_with?("2") ? "gems" : "plugins"
 
+        config[key] = Array(config[key])
+        config[key].push("cloudcannon-jekyll") unless config[key].include? "cloudcannon-jekyll"
         config
       end
 
       def set(site)
         return if processed? site
 
-        config = overridden_config(site.config)
-
         if site.respond_to? :config=
-          site.config = config
+          site.config = overridden_config(site.config)
         else # Jekyll pre 3.5
-          site.instance_variable_set :@config, config
+          site.instance_variable_set :@config, overridden_config(site.config)
         end
 
         process(site)
