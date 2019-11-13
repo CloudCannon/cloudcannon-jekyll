@@ -72,14 +72,14 @@ describe CloudCannonJekyll::Generator do
         match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
       )
 
-      if parsed["generator"]["version"] == "2.4.0"
+      if Jekyll::VERSION.start_with? "2"
         expect(parsed["collections"]["posts"][0]["categories"]).to eq(["business"])
       else
         expect(parsed["collections"]["posts"][0]["categories"]).to eq(["Business"])
       end
 
       expect(parsed["collections"]["staff_members"]).not_to be_nil
-      if parsed["generator"]["version"] != "2.4.0"
+      unless Jekyll::VERSION.start_with? "2"
         expect(parsed["collections"]["staff_members"][0]["id"]).not_to be_nil
       end
     end
@@ -97,7 +97,7 @@ describe CloudCannonJekyll::Generator do
       expect(parsed["static"][0]["path"]).to eq("/static-page.html")
       expect(parsed["static"][0]["extname"]).to eq(".html")
 
-      if parsed["generator"]["version"] != "2.4.0"
+      unless Jekyll::VERSION.start_with? "2"
         expect(parsed["static"][0]["modified_time"]).to(
           match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
         )

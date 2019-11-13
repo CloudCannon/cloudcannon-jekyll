@@ -26,9 +26,7 @@ RSpec.configure do |config|
 
   CONFIG_DEFAULTS = YAML.load_file(source_dir("_config.yml")).merge(
     "source"      => source_dir,
-    "destination" => dest_dir,
-    "plugins"     => ["cloudcannon-jekyll"],
-    "gems"        => ["cloudcannon-jekyll"]
+    "destination" => dest_dir
   ).freeze
 
   def make_site(options = {})
