@@ -5,3 +5,4 @@ spec/fixtures/_site/
 gemfiles/.bundle/
 gemfiles/*.gemfile.lock
 cloudcannon-jekyll-*.gem
+pkg/
