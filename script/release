@@ -33,5 +33,7 @@ git fetch -t origin
 
 # Push tag and upload new gem
 
-gem push cloudcannon-jekyll-*.gem && git tag "$tag" &&
-	git push origin master && git push origin "$tag"
+git tag "$tag" &&
+	git push origin master &&
+	git push origin "$tag" &&
+	gem push cloudcannon-jekyll-*.gem
