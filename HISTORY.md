@@ -1,7 +1,7 @@
-# 1.0.0
+# 0.0.6
 
-* Initial release
-* Dropped support for ruby 2.3
+* Fixed unsupported Fixnum for Ruby 2.3
+* Fixed reference to unsupported String::match? for Ruby 2.3
 
 # 0.0.5
 

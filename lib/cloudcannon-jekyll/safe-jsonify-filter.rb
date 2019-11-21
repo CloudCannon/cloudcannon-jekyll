@@ -12,7 +12,8 @@ module CloudCannonJekyll
       Date,
       Time,
       NilClass,
-    ].freeze
+      Object.const_defined?("Fixnum") ? Fixnum : nil,
+    ].compact.freeze
 
     @document_types = [
       Jekyll::Document,

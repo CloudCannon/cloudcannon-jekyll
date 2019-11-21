@@ -18,7 +18,7 @@ module CloudCannonJekyll
     def source_path
       path = "_cloudcannon/details.json"
       path = "_cloudcannon/details-2.x.json" if Jekyll::VERSION.start_with? "2."
-      path = "_cloudcannon/details-3.0.x.json" if Jekyll::VERSION.match? %r!3\.[0-4]\.!
+      path = "_cloudcannon/details-3.0.x.json" unless (%r!3\.[0-4]\.! =~ Jekyll::VERSION).nil?
 
       File.expand_path(path, File.dirname(__FILE__))
     end
