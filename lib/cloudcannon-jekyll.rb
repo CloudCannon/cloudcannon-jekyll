@@ -2,13 +2,11 @@
 
 require "jekyll"
 
-module CloudCannonJekyll
-  autoload :PageWithoutAFile,  "cloudcannon-jekyll/page-without-a-file"
-  autoload :Generator,         "cloudcannon-jekyll/generator"
-  autoload :Configuration,     "cloudcannon-jekyll/configuration"
-  autoload :SafeJsonifyFilter, "cloudcannon-jekyll/safe-jsonify-filter"
-  autoload :VERSION,           "cloudcannon-jekyll/version"
-end
+require_relative "cloudcannon-jekyll/page-without-a-file"
+require_relative "cloudcannon-jekyll/generator"
+require_relative "cloudcannon-jekyll/configuration"
+require_relative "cloudcannon-jekyll/safe-jsonify-filter"
+require_relative "cloudcannon-jekyll/version"
 
 Liquid::Template.register_filter(CloudCannonJekyll::SafeJsonifyFilter)
 
