@@ -1,3 +1,11 @@
+# 1.0.2
+
+* Change module load style for easier dropping into _plugins
+
+# 1.0.1
+
+* Set required Ruby version
+
 # 1.0.0
 
 * Initial release
