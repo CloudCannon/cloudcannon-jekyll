@@ -16,7 +16,7 @@
 	},{% if site.cloudcannon.data %}
 	"data": {{ site.data | cc_safe_jsonify }},{% endif %}
 	"collections": {
-		"posts": {{ site.posts | reverse | cc_safe_jsonify }},
+		"posts": {{ site.posts | reverse | cc_safe_jsonify }}{% if site.collections.size > 0 %},{% endif %}
 		{% for collection in site.collections %}"{{ collection[0] | xml_escape }}": {{ collection[1].docs | cc_safe_jsonify }}{% unless forloop.last %},{% endunless %}
 		{% endfor %}
 	},
