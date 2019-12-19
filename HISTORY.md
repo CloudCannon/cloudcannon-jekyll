@@ -1,3 +1,7 @@
+# 0.0.7
+
+* Fix invalid JSON issue for sites built with Jekyll 2 and no collections
+
 # 0.0.6
 
 * Fixed unsupported Fixnum for Ruby 2.3
