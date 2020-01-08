@@ -1,3 +1,7 @@
+# 0.0.8
+
+* Removed unsupported Jekyll test targets
+
 # 0.0.7
 
 * Fix invalid JSON issue for sites built with Jekyll 2 and no collections
