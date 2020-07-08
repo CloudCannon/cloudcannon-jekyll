@@ -16,4 +16,4 @@ env:
     - JEKYLL_VERSION="2.4.0"
     - JEKYLL_VERSION="3.0.0"
     - JEKYLL_VERSION="3.8.5"
-    - JEKYLL_VERSION="4.0.0"
+    - JEKYLL_VERSION="4.1.1"

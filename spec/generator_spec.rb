@@ -104,4 +104,14 @@ describe CloudCannonJekyll::Generator do
       end
     end
   end
+
+  context "specific data" do
+    let(:site_data) { { :cloudcannon => { "data" => { "company" => true } } } }
+    let(:parsed) { JSON.parse(content) }
+
+    it "contains a single data entry" do
+      expect(parsed["data"].keys.length).to eq(1)
+      expect(parsed["data"]["company"]).not_to be_nil
+    end
+  end
 end

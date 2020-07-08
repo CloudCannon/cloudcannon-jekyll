@@ -1,3 +1,7 @@
+# 1.1.0
+
+* Add support for including only specified `data` keys
+
 # 1.0.3
 
 * Fix invalid JSON issue for sites built with Jekyll 2 and no collections
