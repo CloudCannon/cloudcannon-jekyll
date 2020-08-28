@@ -45,12 +45,11 @@ module CloudCannonJekyll
     def self.document_data_to_json(data, out, prevent, depth)
       prevent += %w(content output next previous excerpt)
 
-      data.map do |key, value|
-        unless prevent.include? key
-          out.push("\"#{key}\": #{SafeJsonifyFilter.to_json(value, depth + 1)}")
-          prevent.push(key)
-        end
-      end
+      data.each { |key, value|
+        next if prevent.include? key
+        prevent.push key
+        out.push("#{key.to_json}: #{SafeJsonifyFilter.to_json(value, depth + 1)}")
+      }
 
       "{#{out.join(",")}}"
     end
@@ -120,10 +119,43 @@ module CloudCannonJekyll
 
     def self.hash_to_json(input, depth)
       hash = input.map do |key, value|
-        "\"#{key}\": #{SafeJsonifyFilter.to_json(value, depth + 1)}"
+        "#{key.to_json}: #{SafeJsonifyFilter.to_json(value, depth + 1)}"
       end
 
       "{#{hash.join(",")}}"
+    end
+
+    def self.site_drop_legacy_select_data_to_json(input, depth)
+      prevent = %w(config time related_posts destination cache_dir safe
+        keep_files encoding markdown_ext strict_front_matter show_drafts
+        limit_posts future unpublished whitelist maruku markdown highlighter
+        lsi excerpt_separator incremental detach port host show_dir_listing
+        permalink paginate_path quiet verbose defaults liquid kramdown title
+        url description categories data tags static_files html_pages pages
+        documents posts related_posts time source timezone include exclude
+        baseurl collections _comments _editor _source_editor _explore
+        uploads_dir plugins_dir data_dir collections_dir includes_dir
+        layouts_dir _array_structures cloudcannon rdiscount redcarpet redcloth)
+
+      if Jekyll::VERSION.start_with?("2.")
+        prevent = prevent.concat input["collections"].keys
+        prevent.push "gems"
+      elsif Jekyll::VERSION.match?(%r!3\.[0-4]\.!)
+        prevent = prevent.concat input["collections"].map { |c| c["label"] }
+        prevent = prevent.concat %w(plugins gems)
+      else
+        prevent.push "plugins"
+      end
+
+      out = input.map { |key, value|
+        next unless value.is_a?(Array) || value.is_a?(Hash)
+        next if prevent.include? key
+        prevent.push key
+
+        "#{key.to_json}: #{SafeJsonifyFilter.to_json(value, depth + 1)}"
+      }.compact
+
+      "{#{out.join(",")}}" if out.any?
     end
 
     def self.to_json(input, depth)
@@ -144,7 +176,7 @@ module CloudCannonJekyll
       elsif input.is_a?(Hash)
         SafeJsonifyFilter.hash_to_json(input, depth)
       else
-        "\"UNSUPPORTED:#{input.class}\""
+        "\"UNSUPPORTED:#{input.class.to_json}\""
       end
     end
 
@@ -160,6 +192,14 @@ module CloudCannonJekyll
       end
 
       "[#{out.join(",")}]"
+    end
+
+    def cc_site_select_data_jsonify(input)
+      if input.key? "_select_data"
+        SafeJsonifyFilter.to_json(input["_select_data"], 0)
+      else
+        SafeJsonifyFilter.site_drop_legacy_select_data_to_json(input, 0)
+      end
     end
 
     def cc_safe_jsonify(input)

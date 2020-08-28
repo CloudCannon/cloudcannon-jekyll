@@ -9,33 +9,49 @@ module CloudCannonJekyll
 
     def generate(site)
       @site = site
-      FileUtils.mkdir_p(File.dirname(destination_path))
-      File.open(destination_path, "w") { |f| f.write(file_content) }
+
+      details_data = { "gem_version" => CloudCannonJekyll::VERSION }
+
+      generate_file("details", @site.site_payload.merge(details_data))
+      generate_file("config", @site.site_payload)
+
       @site.keep_files ||= []
-      @site.keep_files << "_cloudcannon/details.json"
+      @site.keep_files << path("details")
+      @site.keep_files << path("config")
     end
 
-    def source_path
-      path = "_cloudcannon/details.json"
-      path = "_cloudcannon/details-2.x.json" if Jekyll::VERSION.start_with? "2."
-      path = "_cloudcannon/details-3.0.x.json" if Jekyll::VERSION.match? %r!3\.[0-4]\.!
-
-      File.expand_path(path, File.dirname(__FILE__))
+    def generate_file(filename, data)
+      dest = destination_path(filename)
+      FileUtils.mkdir_p(File.dirname(dest))
+      File.open(dest, "w") { |f| f.write(file_content(filename, data)) }
     end
 
-    def destination_path
-      Jekyll.sanitized_path(@site.dest, "_cloudcannon/details.json")
+    def version_path_suffix
+      return "-2.x" if Jekyll::VERSION.start_with? "2."
+      return "-3.0-4.x" if Jekyll::VERSION.match? %r!3\.[0-4]\.!
+
+      ""
     end
 
-    def file_content
-      json = PageWithoutAFile.new(@site, File.dirname(__FILE__), "", "_cloudcannon/details.json")
-      json.content = File.read(source_path)
+    def path(filename, suffix = "")
+      "_cloudcannon/#{filename}#{suffix}.json"
+    end
 
+    def source_path(filename)
+      File.expand_path(path(filename, version_path_suffix), File.dirname(__FILE__))
+    end
+
+    def destination_path(filename)
+      Jekyll.sanitized_path(@site.dest, path(filename))
+    end
+
+    def file_content(filename, data)
+      json = PageWithoutAFile.new(@site, File.dirname(__FILE__), "", path(filename))
+      json.content = File.read(source_path(filename))
       json.data["layout"] = nil
       json.data["sitemap"] = false
-      json.data["permalink"] = "/_cloudcannon/details.json"
-
-      json.render({}, @site.site_payload.merge("gem_version" => CloudCannonJekyll::VERSION))
+      json.data["permalink"] = "/#{path(filename)}"
+      json.render({}, data)
       json.output
     end
   end

@@ -24,10 +24,10 @@ RSpec.configure do |config|
     File.join(DEST_DIR, *files)
   end
 
-  CONFIG_DEFAULTS = YAML.load_file(source_dir("_config.yml")).merge(
-    "source"      => source_dir,
+  CONFIG_DEFAULTS = {
+    "source" => source_dir,
     "destination" => dest_dir
-  ).freeze
+  }.freeze
 
   def make_site(options = {})
     site_config = Jekyll.configuration(CONFIG_DEFAULTS.merge(options))
