@@ -13,8 +13,10 @@
 			"kramdown": {{ site.kramdown | cc_safe_jsonify }},
 			"commonmark": {{ site.commonmark | cc_safe_jsonify }}
 		}
-	},{% if site.cloudcannon.data %}
-	"data": {{ site.data | cc_safe_jsonify }},{% endif %}
+	},{% if site.cloudcannon.data.first %}{% assign data_seen = false %}
+	"data": {
+		{% for data in site.data %}{% assign key = data[0] %}{% if site.cloudcannon.data[key] %}{% if data_seen %},{% endif %}{{ data[0] | cc_safe_jsonify }}: {{ data[1] | cc_safe_jsonify }}{% assign data_seen = true %}{% endif %}{% endfor %}},
+	{% elsif site.cloudcannon.data %}"data": {{ site.data | cc_safe_jsonify }},{% endif %}
 	"collections": {
 		"posts": {{ site.posts | reverse | cc_safe_jsonify }}{% if site.collections.size > 0 %},{% endif %}
 		{% for collection in site.collections %}"{{ collection[0] | xml_escape }}": {{ collection[1].docs | cc_safe_jsonify }}{% unless forloop.last %},{% endunless %}

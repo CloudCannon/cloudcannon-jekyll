@@ -3,14 +3,17 @@
 
 title: Example site
 url: "https://example.com"
-baseurl:
+baseurl: basic
 
 description: Example site for testing
 
 timezone: Etc/UTC
 
 collections:
-  - "staff_members"
+  staff_members:
+    output: false
+    _sort_key: name
+    _singular_name: staff_member
 
 defaults:
   - scope:
@@ -30,3 +33,50 @@ exclude:
   - Gemfile.lock
   - README.md
   - LICENSE
+
+uploads_dir: uploads
+
+staff:
+  - jim
+  - bob
+
+things:
+  - hello
+  - there
+
+_comments:
+  heading_image: This image should be related to the content
+
+_editor:
+  default_path: basic
+
+_explore:
+  groups:
+    - heading: Blogging
+      collections:
+        - posts
+        - drafts
+    - heading: Other
+      collections:
+        - pages
+        - staff_members
+
+_source_editor:
+  tab_size: 2
+  show_gutter: false
+  theme: dawn
+
+_array_structures:
+  gallery:
+    style: select
+    values:
+      - label: Image
+        image: /path/to/source-image.png
+        value:
+          image: /placeholder.png
+          caption:
+      - label: External link
+        icon: link
+        value:
+          url:
+          title:
