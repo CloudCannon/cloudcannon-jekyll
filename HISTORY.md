@@ -1,3 +1,7 @@
+# 0.1.0
+
+* Add output config file
+
 # 0.0.8
 
 * Removed unsupported Jekyll test targets
