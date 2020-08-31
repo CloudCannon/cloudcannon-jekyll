@@ -177,7 +177,7 @@ module CloudCannonJekyll
       elsif input.is_a?(Hash)
         SafeJsonifyFilter.hash_to_json(input, depth)
       else
-        "\"UNSUPPORTED:#{input.class.to_json}\""
+        input.class.to_s.prepend("UNSUPPORTED:").to_json
       end
     end
 

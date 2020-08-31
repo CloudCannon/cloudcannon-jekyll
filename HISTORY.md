@@ -1,3 +1,7 @@
+# 0.1.1
+
+* Fix invalid output when unsupported class found
+
 # 0.1.0
 
 * Add output config file
