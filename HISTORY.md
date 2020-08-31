@@ -1,3 +1,7 @@
+# 1.2.0
+
+# Add output config file
+
 # 1.1.0
 
 * Add support for including only specified `data` keys
