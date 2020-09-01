@@ -204,7 +204,7 @@ describe CloudCannonJekyll::Generator do
         expect(config["paths"]["collections"]).to be_nil
         expect(config["paths"]["includes"]).to be_nil
         expect(config["paths"]["layouts"]).to be_nil
-      elsif Jekyll::VERSION.match? %r!3\.[0-5]\.!
+      elsif %r!3\.[0-5]\.! =~ Jekyll::VERSION
         expect(config["paths"]["plugins"]).to eq("_plugins")
         expect(config["paths"]["data"]).to eq("_data")
         expect(config["paths"]["collections"]).to be_nil
@@ -293,7 +293,7 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "has no base-url" do
-      if Jekyll::VERSION.start_with?("2") || Jekyll::VERSION.match?(%r!3\.[0-4]\.!)
+      if Jekyll::VERSION.start_with?("2") || (%r!3\.[0-4]\.! =~ Jekyll::VERSION)
         expect(config["base-url"]).to eq("")
       else
         expect(config).not_to have_key("base-url")

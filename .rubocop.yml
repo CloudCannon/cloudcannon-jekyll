@@ -25,3 +25,8 @@ AllCops:
 Naming/MemoizedInstanceVariableName:
   Exclude:
     - lib/cloudcannon-jekyll/page-without-a-file.rb
+
+# This is excluded since the ruby target is 2.3.8 which doesn't support String.match?(Regexp)
+Performance/RegexpMatch:
+  Exclude:
+    - lib/cloudcannon-jekyll/generator.rb

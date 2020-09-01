@@ -28,7 +28,7 @@ module CloudCannonJekyll
 
     def version_path_suffix
       return "-2.x" if Jekyll::VERSION.start_with? "2."
-      return "-3.0-4.x" if Jekyll::VERSION.match? %r!3\.[0-4]\.!
+      return "-3.0-4.x" if %r!3\.[0-4]\.! =~ Jekyll::VERSION
 
       ""
     end

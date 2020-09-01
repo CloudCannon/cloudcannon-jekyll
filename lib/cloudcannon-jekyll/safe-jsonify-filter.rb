@@ -142,7 +142,7 @@ module CloudCannonJekyll
       if Jekyll::VERSION.start_with?("2.")
         prevent.push "gems"
         prevent = prevent.concat input["collections"].keys
-      elsif Jekyll::VERSION.match?(%r!3\.[0-4]\.!)
+      elsif %r!3\.[0-4]\.! =~ Jekyll::VERSION
         prevent.push "gems"
         prevent.push "plugins"
         prevent = prevent.concat(input["collections"].map { |c| c["label"] })
