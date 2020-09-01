@@ -20,6 +20,8 @@
 		{% endfor %}
 	},
 	{% if site._comments %}"comments": {{ site._comments | cc_safe_jsonify }},{% endif %}
+	{% if site._options %}"input-options": {{ site._options | cc_safe_jsonify }},{% endif %}
+	{% if site.defaults %}"defaults": {{ site.defaults | cc_safe_jsonify }},{% endif %}
 	{% if site._editor %}"editor": {
 		"default-path": {{ site._editor.default_path | jsonify }}
 	},{% endif %}

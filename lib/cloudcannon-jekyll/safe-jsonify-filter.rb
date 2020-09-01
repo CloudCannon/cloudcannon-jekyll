@@ -136,25 +136,31 @@ module CloudCannonJekyll
         documents posts related_posts time source timezone include exclude
         baseurl collections _comments _editor _source_editor _explore
         uploads_dir plugins_dir data_dir collections_dir includes_dir
-        layouts_dir _array_structures cloudcannon rdiscount redcarpet redcloth)
+        layouts_dir _array_structures _options cloudcannon rdiscount redcarpet
+        redcloth jekyll-archives archives)
 
       if Jekyll::VERSION.start_with?("2.")
-        prevent = prevent.concat input["collections"].keys
         prevent.push "gems"
+        prevent = prevent.concat input["collections"].keys
       elsif Jekyll::VERSION.match?(%r!3\.[0-4]\.!)
-        prevent = prevent.concat input["collections"].map { |c| c["label"] }
-        prevent = prevent.concat %w(plugins gems)
+        prevent.push "gems"
+        prevent.push "plugins"
+        prevent = prevent.concat(input["collections"].map { |c| c["label"] })
       else
         prevent.push "plugins"
+        prevent = prevent.concat(input.content_methods).uniq
       end
 
-      out = input.map { |key, value|
-        next unless value.is_a?(Array) || value.is_a?(Hash)
+      out = []
+
+      input.each_key { |key|
         next if prevent.include? key
         prevent.push key
 
-        "#{key.to_json}: #{SafeJsonifyFilter.to_json(value, depth + 1)}"
-      }.compact
+        next unless input[key].is_a?(Array) || input[key].is_a?(Hash)
+
+        out << "#{key.to_json}: #{SafeJsonifyFilter.to_json(input[key], depth + 1)}"
+      }
 
       "{#{out.join(",")}}" if out.any?
     end

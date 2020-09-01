@@ -1,5 +1,8 @@
-# 0.1.1
+# 0.2.0
 
+* Add defaults and input-options keys to config output
+* Add more ignore keys for legacy select data filter
+* Reduce methods added from other plugins clashing
 * Fix invalid output when unsupported class found
 
 # 0.1.0
