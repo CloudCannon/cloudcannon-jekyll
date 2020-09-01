@@ -204,7 +204,7 @@ describe CloudCannonJekyll::Generator do
         expect(config["paths"]["collections"]).to be_nil
         expect(config["paths"]["includes"]).to be_nil
         expect(config["paths"]["layouts"]).to be_nil
-      elsif Jekyll::VERSION.match? %r!3\.[0-4]\.!
+      elsif Jekyll::VERSION.match? %r!3\.[0-5]\.!
         expect(config["paths"]["plugins"]).to eq("_plugins")
         expect(config["paths"]["data"]).to eq("_data")
         expect(config["paths"]["collections"]).to be_nil
