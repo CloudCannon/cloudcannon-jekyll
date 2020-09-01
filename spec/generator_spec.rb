@@ -253,6 +253,26 @@ describe CloudCannonJekyll::Generator do
         "staff" => ["jim", "bob"]
       })
     end
+
+    it "has populated input-options" do
+      expect(config["input-options"]).to eq({
+        "content" => {"image" => true, "bold" => true},
+        "my_html" => {"italic" => true, "bold" => true, "styles" => "hello.css"}
+      })
+    end
+
+    it "has populated defaults" do
+      expect(config["defaults"]).to eq([
+        {
+          "scope" => {"path" => ""},
+          "values" => {"layout" => "page"}
+        },
+        {
+          "scope" => {"path" => "", "type" => "posts"},
+          "values" => {"layout" => "post"}
+        }
+      ])
+    end
   end
 
   context "empty config data" do
@@ -317,6 +337,14 @@ describe CloudCannonJekyll::Generator do
 
     it "has no select-data" do
       expect(config).not_to have_key("select-data")
+    end
+
+    it "has no input-options" do
+      expect(config).not_to have_key("input-options")
+    end
+
+    it "has no defaults" do
+      expect(config["defaults"]).to eq([])
     end
   end
 

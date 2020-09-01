@@ -47,6 +47,15 @@ things:
 _comments:
   heading_image: This image should be related to the content
 
+_options:
+  content:
+    image: true
+    bold: true
+  my_html:
+    italic: true
+    bold: true
+    styles: "hello.css"
+
 _editor:
   default_path: basic
 
