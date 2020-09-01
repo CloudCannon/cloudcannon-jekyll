@@ -136,7 +136,7 @@ module CloudCannonJekyll
         baseurl collections _comments _editor _source_editor _explore
         uploads_dir plugins_dir data_dir collections_dir includes_dir
         layouts_dir _array_structures _options cloudcannon rdiscount redcarpet
-        redcloth)
+        redcloth jekyll-archives archives)
 
       if Jekyll::VERSION.start_with?("2.")
         prevent.push "gems"

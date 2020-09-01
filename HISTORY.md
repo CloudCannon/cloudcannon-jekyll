@@ -1,3 +1,11 @@
+# 1.2.3
+
+* Add more ignore keys for legacy select data filter
+
+# 1.2.2
+
+* Reduce methods added from other plugins clashing
+
 # 1.2.1
 
 * Fix invalid output when unsupported class found
