@@ -41,5 +41,5 @@
 	},
 	{% if site._array_structures %}"array-structures": {{ site._array_structures | cc_safe_jsonify }},{% endif %}
 	{% assign select_data = site | cc_site_select_data_jsonify %}{% if select_data %}"select-data": {{ select_data }},{% endif %}
-	"source": {{ site.source | jsonify }}
+	"source": {{ site.source | replace: pwd, "" | jsonify }}
 }

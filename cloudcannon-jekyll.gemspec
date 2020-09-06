@@ -1,6 +1,6 @@
-# coding: utf-8
+# frozen_string_literal: true
 
-lib = File.expand_path("../lib", __FILE__)
+lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require "cloudcannon-jekyll/version"
@@ -23,9 +23,9 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "jekyll", ">= 2.4.0", "< 5"
 
+  spec.add_development_dependency "json_schemer", "~> 0.2.13"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.9"
   spec.add_development_dependency "rubocop", "~> 0.80"
   spec.add_development_dependency "rubocop-jekyll", "~> 0.11"
-  spec.add_development_dependency "json_schemer", "~> 0.2.13"
 end

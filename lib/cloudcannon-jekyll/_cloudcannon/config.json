@@ -63,5 +63,5 @@
 	{% if select_data -%}
 		"select-data": {{ select_data }},
 	{%- endif %}
-	"source": {{ site.source | jsonify }}
+	"source": {{ site.source | replace: pwd, "" | jsonify }}
 }

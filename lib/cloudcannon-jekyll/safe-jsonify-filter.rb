@@ -45,11 +45,12 @@ module CloudCannonJekyll
     def self.document_data_to_json(data, out, prevent, depth)
       prevent += %w(content output next previous excerpt)
 
-      data.each { |key, value|
+      data.each do |key, value|
         next if prevent.include? key
+
         prevent.push key
         out.push("#{key.to_json}: #{SafeJsonifyFilter.to_json(value, depth + 1)}")
-      }
+      end
 
       "{#{out.join(",")}}"
     end
@@ -126,17 +127,15 @@ module CloudCannonJekyll
     end
 
     def self.site_drop_legacy_select_data_to_json(input, depth)
-      prevent = %w(config time related_posts destination cache_dir safe
-        keep_files encoding markdown_ext strict_front_matter show_drafts
-        limit_posts future unpublished whitelist maruku markdown highlighter
-        lsi excerpt_separator incremental detach port host show_dir_listing
-        permalink paginate_path quiet verbose defaults liquid kramdown title
-        url description categories data tags static_files html_pages pages
-        documents posts related_posts time source timezone include exclude
-        baseurl collections _comments _editor _source_editor _explore
-        uploads_dir plugins_dir data_dir collections_dir includes_dir
-        layouts_dir _array_structures _options cloudcannon rdiscount redcarpet
-        redcloth jekyll-archives archives)
+      prevent = %w(config time related_posts destination cache_dir safe keep_files encoding
+                   markdown_ext strict_front_matter show_drafts limit_posts future unpublished
+                   whitelist maruku markdown highlighter lsi excerpt_separator incremental detach
+                   port host show_dir_listing permalink paginate_path quiet verbose defaults liquid
+                   kramdown title url description categories data tags static_files html_pages
+                   pages documents posts related_posts time source timezone include exclude baseurl
+                   collections _comments _editor _source_editor _explore uploads_dir plugins_dir
+                   data_dir collections_dir includes_dir layouts_dir _array_structures _options
+                   cloudcannon rdiscount redcarpet redcloth jekyll-archives archives)
 
       if Jekyll::VERSION.start_with?("2.")
         prevent.push "gems"
@@ -152,14 +151,15 @@ module CloudCannonJekyll
 
       out = []
 
-      input.each_key { |key|
+      input.each_key do |key|
         next if prevent.include? key
+
         prevent.push key
 
         next unless input[key].is_a?(Array) || input[key].is_a?(Hash)
 
         out << "#{key.to_json}: #{SafeJsonifyFilter.to_json(input[key], depth + 1)}"
-      }
+      end
 
       "{#{out.join(",")}}" if out.any?
     end
