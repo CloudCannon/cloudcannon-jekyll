@@ -1,3 +1,8 @@
+# 1.3.1
+
+* Fix source being output as full path on disk
+* Read content for output config file directly from site config
+
 # 1.3.0
 
 * Add defaults and input-options keys to config output
