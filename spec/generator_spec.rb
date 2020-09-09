@@ -306,9 +306,9 @@ describe CloudCannonJekyll::Generator do
       end
     end
 
-    it "has no non-default collections" do
-      if Jekyll::VERSION.start_with? "2"
-        expect(config["collections"].length).to eq(0)
+    it "has no non-default collections", focus: true do
+      if Jekyll::VERSION.start_with?("2") || Jekyll::VERSION.match?(%r!3\.[0-4]\.!)
+        expect(config["collections"]).to be_nil
       else
         expect(config["collections"].length).to eq(1)
         expect(config["collections"]["posts"]).not_to be_nil

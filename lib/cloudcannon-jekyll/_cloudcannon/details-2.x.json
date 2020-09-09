@@ -1,27 +1,27 @@
 {
-	"time": {{ site.time | jsonify }},
+	"time": {{ site.time | cc_jsonify }},
 	"cloudcannon": {
 		"name": "cloudcannon-jekyll",
-		"version": {{ gem_version | jsonify }}
+		"version": {{ gem_version | cc_jsonify }}
 	},
 	"generator": {
 		"name": "jekyll",
-		"version": {{ jekyll.version | jsonify }},
-		"environment": {{ jekyll.env | jsonify }},
+		"version": {{ jekyll.version | cc_jsonify }},
+		"environment": {{ jekyll.env | cc_jsonify }},
 		"metadata": {
-			"markdown": {{ site.markdown | cc_safe_jsonify }},
-			"kramdown": {{ site.kramdown | cc_safe_jsonify }},
-			"commonmark": {{ site.commonmark | cc_safe_jsonify }}
+			"markdown": {{ site.markdown | cc_jsonify }},
+			"kramdown": {{ site.kramdown | cc_jsonify }},
+			"commonmark": {{ site.commonmark | cc_jsonify }}
 		}
 	},{% if site.cloudcannon.data.first %}{% assign data_seen = false %}
 	"data": {
-		{% for data in site.data %}{% assign key = data[0] %}{% if site.cloudcannon.data[key] %}{% if data_seen %},{% endif %}{{ data[0] | cc_safe_jsonify }}: {{ data[1] | cc_safe_jsonify }}{% assign data_seen = true %}{% endif %}{% endfor %}},
-	{% elsif site.cloudcannon.data %}"data": {{ site.data | cc_safe_jsonify }},{% endif %}
+		{% for data in site.data %}{% assign key = data[0] %}{% if site.cloudcannon.data[key] %}{% if data_seen %},{% endif %}{{ data[0] | cc_jsonify }}: {{ data[1] | cc_jsonify }}{% assign data_seen = true %}{% endif %}{% endfor %}},
+	{% elsif site.cloudcannon.data %}"data": {{ site.data | cc_jsonify }},{% endif %}
 	"collections": {
-		"posts": {{ site.posts | reverse | cc_safe_jsonify }}{% if site.collections.size > 0 %},{% endif %}
-		{% for collection in site.collections %}"{{ collection[0] | xml_escape }}": {{ collection[1].docs | cc_safe_jsonify }}{% unless forloop.last %},{% endunless %}
+		"posts": {{ site.posts | reverse | cc_jsonify }}{% if site.collections.size > 0 %},{% endif %}
+		{% for collection in site.collections %}"{{ collection[0] | xml_escape }}": {{ collection[1].docs | cc_jsonify }}{% unless forloop.last %},{% endunless %}
 		{% endfor %}
 	},
-	"pages": {{ site.pages | cc_safe_jsonify }},
+	"pages": {{ site.pages | cc_jsonify }},
 	"static": {{ site.static_files | cc_static_files_jsonify }}
 }

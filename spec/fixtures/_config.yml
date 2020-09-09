@@ -12,6 +12,7 @@ timezone: Etc/UTC
 collections:
   staff_members:
     output: false
+    custom: indeed
     _sort_key: name
     _singular_name: staff_member
 
