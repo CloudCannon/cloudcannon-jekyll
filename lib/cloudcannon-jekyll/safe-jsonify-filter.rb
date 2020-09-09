@@ -126,39 +126,34 @@ module CloudCannonJekyll
       "{#{hash.join(",")}}"
     end
 
-    def self.site_drop_legacy_select_data_to_json(input, depth)
-      prevent = %w(config time related_posts destination cache_dir safe keep_files encoding
-                   markdown_ext strict_front_matter show_drafts limit_posts future unpublished
-                   whitelist maruku markdown highlighter lsi excerpt_separator incremental detach
-                   port host show_dir_listing permalink paginate_path quiet verbose defaults liquid
-                   kramdown title url description categories data tags static_files html_pages
-                   pages documents posts related_posts time source timezone include exclude baseurl
-                   collections _comments _editor _source_editor _explore uploads_dir plugins_dir
-                   data_dir collections_dir includes_dir layouts_dir _array_structures _options
-                   cloudcannon rdiscount redcarpet redcloth jekyll-archives archives)
+    def self.legacy_select_data_to_json(config, depth)
+      prevent = %w(source destination collections_dir cache_dir plugins_dir layouts_dir data_dir
+                   includes_dir collections safe include exclude keep_files encoding markdown_ext
+                   strict_front_matter show_drafts limit_posts future unpublished whitelist
+                   plugins markdown highlighter lsi excerpt_separator incremental detach port host
+                   baseurl show_dir_listing permalink paginate_path timezone quiet verbose defaults
+                   liquid kramdown title url description uploads_dir _comments _options _editor
+                   _explore _source_editor _array_structures maruku redcloth rdiscount redcarpet)
 
       if Jekyll::VERSION.start_with?("2.")
         prevent.push "gems"
-        prevent = prevent.concat input["collections"].keys
       elsif Jekyll::VERSION.match?(%r!3\.[0-4]\.!)
         prevent.push "gems"
         prevent.push "plugins"
-        prevent = prevent.concat(input["collections"].map { |c| c["label"] })
       else
         prevent.push "plugins"
-        prevent = prevent.concat(input.content_methods).uniq
       end
 
       out = []
 
-      input.each_key do |key|
+      config.each_key do |key|
         next if prevent.include? key
 
         prevent.push key
 
-        next unless input[key].is_a?(Array) || input[key].is_a?(Hash)
+        next unless config[key].is_a?(Array) || config[key].is_a?(Hash)
 
-        out << "#{key.to_json}: #{SafeJsonifyFilter.to_json(input[key], depth + 1)}"
+        out << "#{key.to_json}: #{SafeJsonifyFilter.to_json(config[key], depth + 1)}"
       end
 
       "{#{out.join(",")}}" if out.any?
@@ -204,7 +199,7 @@ module CloudCannonJekyll
       if input.key? "_select_data"
         SafeJsonifyFilter.to_json(input["_select_data"], 0)
       else
-        SafeJsonifyFilter.site_drop_legacy_select_data_to_json(input, 0)
+        SafeJsonifyFilter.legacy_select_data_to_json(@context.registers[:site].config, 0)
       end
     end
 

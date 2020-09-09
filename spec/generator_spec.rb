@@ -250,8 +250,9 @@ describe CloudCannonJekyll::Generator do
 
     it "has populated select-data" do
       expect(config["select-data"]).to eq({
-        "things" => %w(hello there),
-        "staff"  => %w(jim bob),
+        "categories" => %w(forever strings),
+        "things"     => %w(hello there),
+        "staff"      => %w(jim bob),
       })
     end
 
