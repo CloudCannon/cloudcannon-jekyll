@@ -1,3 +1,7 @@
+# 1.3.2
+
+* Fix missing in-place compact
+
 # 1.3.1
 
 * Fix source being output as full path on disk

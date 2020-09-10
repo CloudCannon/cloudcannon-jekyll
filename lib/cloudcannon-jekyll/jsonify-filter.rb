@@ -158,7 +158,7 @@ module CloudCannonJekyll
         "#{key.to_json}: #{JsonifyFilter.to_json(value, depth + 1)}"
       end
 
-      out.compact
+      out.compact!
 
       "{#{out.join(",")}}" if out.any?
     end
