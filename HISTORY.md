@@ -1,3 +1,7 @@
+# 1.3.3
+
+* Add gem information and time to output config file
+
 # 1.3.2
 
 * Fix missing in-place compact
