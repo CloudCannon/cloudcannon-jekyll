@@ -133,6 +133,15 @@ describe CloudCannonJekyll::Generator do
       expect(schemer.valid?(config)).to eq(true)
     end
 
+    it "contains valid time" do
+      expect(details["time"]).to match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
+    end
+
+    it "contains gem information" do
+      expect(details["cloudcannon"]["name"]).to eq("cloudcannon-jekyll")
+      expect(details["cloudcannon"]["version"]).to eq(CloudCannonJekyll::VERSION)
+    end
+
     it "has populated source" do
       # Usually this would be output without a trailing slash, but spec_helper.rb
       # does some overwriting which doesn't fully replicate a normal build.

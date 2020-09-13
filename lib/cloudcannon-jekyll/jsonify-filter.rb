@@ -13,7 +13,6 @@ module CloudCannonJekyll
         "_singular_name" => "_singular-name",
         "_singular_key"  => "_singular-key",
         "_disable_add"   => "_disable-add",
-        "_icon"          => "_icon",
         "_add_options"   => "_add-options",
       },
     }.freeze

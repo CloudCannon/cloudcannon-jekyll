@@ -1,4 +1,9 @@
 {
+	"time": {{ site.time | cc_jsonify }},
+	"cloudcannon": {
+		"name": "cloudcannon-jekyll",
+		"version": {{ gem_version | cc_jsonify }}
+	},
 	{% if config.timezone -%}
 		"timezone": {{ config.timezone | cc_jsonify }},
 	{%- endif %}
