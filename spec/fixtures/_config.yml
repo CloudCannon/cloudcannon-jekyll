@@ -12,6 +12,7 @@ timezone: Etc/UTC
 collections:
   staff_members:
     output: false
+    custom: indeed
     _sort_key: name
     _singular_name: staff_member
 
@@ -33,6 +34,10 @@ exclude:
   - Gemfile.lock
   - README.md
   - LICENSE
+
+categories:
+  - forever
+  - strings
 
 uploads_dir: uploads
 

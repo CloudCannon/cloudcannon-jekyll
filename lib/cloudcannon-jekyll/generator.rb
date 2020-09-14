@@ -10,10 +10,14 @@ module CloudCannonJekyll
     def generate(site)
       @site = site
 
-      details_data = { "gem_version" => CloudCannonJekyll::VERSION }
+      payload = @site.site_payload.merge({
+        "gem_version" => CloudCannonJekyll::VERSION,
+        "pwd"         => Dir.pwd,
+        "config"      => @site.config,
+      })
 
-      generate_file("details", @site.site_payload.merge(details_data))
-      generate_file("config", @site.site_payload)
+      generate_file("details", payload)
+      generate_file("config", payload)
 
       @site.keep_files ||= []
       @site.keep_files << path("details")

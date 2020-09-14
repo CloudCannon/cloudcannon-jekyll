@@ -25,8 +25,8 @@ RSpec.configure do |config|
   end
 
   CONFIG_DEFAULTS = {
-    "source" => source_dir,
-    "destination" => dest_dir
+    "source"      => source_dir,
+    "destination" => dest_dir,
   }.freeze
 
   def make_site(options = {})

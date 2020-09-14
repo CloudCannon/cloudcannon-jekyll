@@ -1,3 +1,10 @@
+# 0.2.1
+
+* Add gem information and time to output config file
+* Fix missing in-place compact
+* Fix source being output as full path on disk
+* Read content for output config file directly from site config
+
 # 0.2.0
 
 * Add defaults and input-options keys to config output

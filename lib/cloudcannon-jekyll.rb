@@ -5,10 +5,10 @@ require "jekyll"
 require_relative "cloudcannon-jekyll/page-without-a-file"
 require_relative "cloudcannon-jekyll/generator"
 require_relative "cloudcannon-jekyll/configuration"
-require_relative "cloudcannon-jekyll/safe-jsonify-filter"
+require_relative "cloudcannon-jekyll/jsonify-filter"
 require_relative "cloudcannon-jekyll/version"
 
-Liquid::Template.register_filter(CloudCannonJekyll::SafeJsonifyFilter)
+Liquid::Template.register_filter(CloudCannonJekyll::JsonifyFilter)
 
 # Hooks didn't exist in Jekyll 2 so we monkey patch to get an :after_reset hook
 if Jekyll::VERSION.start_with? "2"

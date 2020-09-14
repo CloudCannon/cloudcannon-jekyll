@@ -1,45 +1,35 @@
 {
-	{% if site.timezone %}"timezone": {{ site.timezone | jsonify }},{% endif %}
-	"include": {{ site.include | jsonify }},
-	"exclude": {{ site.exclude | jsonify }},
-	{% if site.baseurl %}"base-url": {{ site.baseurl | jsonify }},{% endif %}
-	"collections": {
-		{% for collection in site.collections %}
-		"{{ collection.label | xml_escape }}": {
-			"output": {{ collection.output | jsonify }},
-			"_sort-key": {{ collection._sort_key | jsonify }},
-			"_subtext-key": {{ collection._subtext_key | jsonify }},
-			"_image-key": {{ collection._image_key | jsonify }},
-			"_image-size": {{ collection._image_size | jsonify }},
-			"_singular-name": {{ collection._singular_name | jsonify }},
-			"_singular-key": {{ collection._singular_key | jsonify }},
-			"_disable-add": {{ collection._disable_add | jsonify }},
-			"_icon": {{ collection._icon | jsonify }},
-			"_add-options": {{ collection._add_options | cc_safe_jsonify }}
-		}{% unless forloop.last %},{% endunless %}
-		{% endfor %}
+	"time": {{ site.time | cc_jsonify }},
+	"cloudcannon": {
+		"name": "cloudcannon-jekyll",
+		"version": {{ gem_version | cc_jsonify }}
 	},
-	{% if site._comments %}"comments": {{ site._comments | cc_safe_jsonify }},{% endif %}
-	{% if site._options %}"input-options": {{ site._options | cc_safe_jsonify }},{% endif %}
-	{% if site.defaults %}"defaults": {{ site.defaults | cc_safe_jsonify }},{% endif %}
-	{% if site._editor %}"editor": {
-		"default-path": {{ site._editor.default_path | jsonify }}
+	{% if config.timezone %}"timezone": {{ config.timezone | cc_jsonify }},{% endif %}
+	"include": {{ config.include | cc_jsonify }},
+	"exclude": {{ config.exclude | cc_jsonify }},
+	{% if config.baseurl %}"base-url": {{ config.baseurl | cc_jsonify }},{% endif %}
+	{% if config.collections %}"comments": {{ config.collections | cc_jsonify: 'collections' }},{% endif %}
+	{% if config._comments %}"comments": {{ config._comments | cc_jsonify }},{% endif %}
+	{% if config._options %}"input-options": {{ config._options | cc_jsonify }},{% endif %}
+	{% if config.defaults %}"defaults": {{ config.defaults | cc_jsonify }},{% endif %}
+	{% if config._editor %}"editor": {
+		"default-path": {{ config._editor.default_path | cc_jsonify }}
 	},{% endif %}
-	{% if site._source_editor %}"source-editor": {
-		"tab-size": {{ site._source_editor.tab_size | jsonify }},
-		"show-gutter": {{ site._source_editor.show_gutter | jsonify }},
-		"theme": {{ site._source_editor.theme | jsonify }}
+	{% if config._source_editor %}"source-editor": {
+		"tab-size": {{ config._source_editor.tab_size | cc_jsonify }},
+		"show-gutter": {{ config._source_editor.show_gutter | cc_jsonify }},
+		"theme": {{ config._source_editor.theme | cc_jsonify }}
 	},{% endif %}
-	{% if site._explore %}"explore": {{ site._explore | cc_safe_jsonify }},{% endif %}
+	{% if config._explore %}"explore": {{ config._explore | cc_jsonify }},{% endif %}
 	"paths": {
-		"uploads": {{ site.uploads_dir | jsonify }},
-		"plugins": {{ site.plugins_dir | jsonify }},
-		"data": {{ site.data_dir | jsonify }},
-		"collections": {{ site.collections_dir | jsonify }},
-		"includes": {{ site.includes_dir | jsonify }},
-		"layouts": {{ site.layouts_dir | jsonify }}
+		"uploads": {{ config.uploads_dir | cc_jsonify }},
+		"plugins": {{ config.plugins_dir | cc_jsonify }},
+		"data": {{ config.data_dir | cc_jsonify }},
+		"collections": {{ config.collections_dir | cc_jsonify }},
+		"includes": {{ config.includes_dir | cc_jsonify }},
+		"layouts": {{ config.layouts_dir | cc_jsonify }}
 	},
-	{% if site._array_structures %}"array-structures": {{ site._array_structures | cc_safe_jsonify }},{% endif %}
-	{% assign select_data = site | cc_site_select_data_jsonify %}{% if select_data %}"select-data": {{ select_data }},{% endif %}
-	"source": {{ site.source | jsonify }}
+	{% if config._array_structures %}"array-structures": {{ config._array_structures | cc_jsonify }},{% endif %}
+	{% assign select_data = config | cc_select_data_jsonify %}{% if select_data %}"select-data": {{ select_data }},{% endif %}
+	"source": {{ config.source | replace: pwd, "" | cc_jsonify }}
 }

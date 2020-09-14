@@ -2,6 +2,5 @@
 
 set -ex
 
-bundle exec rspec "$@"
-bundle exec rubocop -S
+$(dirname "$0")/test
 bundle exec gem build cloudcannon-jekyll.gemspec
