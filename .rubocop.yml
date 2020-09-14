@@ -45,3 +45,8 @@ Metrics/AbcSize:
 Performance/RegexpMatch:
   Exclude:
     - lib/cloudcannon-jekyll/generator.rb
+
+# This is excluded since Jekyll used this and we need to check for it
+Lint/UnifiedInteger:
+  Exclude:
+    - lib/cloudcannon-jekyll/jsonify-filter.rb
