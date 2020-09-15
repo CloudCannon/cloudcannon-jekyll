@@ -1,5 +1,5 @@
 {
-	"time": {{ site.time | cc_jsonify }},
+	"time": {{ site.time | date_to_xmlschema | cc_jsonify }},
 	"cloudcannon": {
 		"name": "cloudcannon-jekyll",
 		"version": {{ gem_version | cc_jsonify }}

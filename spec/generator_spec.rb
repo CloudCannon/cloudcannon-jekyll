@@ -43,7 +43,7 @@ describe CloudCannonJekyll::Generator do
     let(:site_data) { { :cloudcannon => { "data" => true } } }
 
     it "contains valid time" do
-      expect(details["time"]).to match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
+      expect(details["time"]).to match(%r!\d{4}\-\d\d\-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d!)
     end
 
     it "contains gem information" do
@@ -134,7 +134,7 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "contains valid time" do
-      expect(details["time"]).to match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
+      expect(details["time"]).to match(%r!\d{4}\-\d\d\-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d!)
     end
 
     it "contains gem information" do
@@ -315,8 +315,8 @@ describe CloudCannonJekyll::Generator do
       end
     end
 
-    it "has no non-default collections", focus: true do
-      if Jekyll::VERSION.start_with?("2") || Jekyll::VERSION.match?(%r!3\.[0-4]\.!)
+    it "has no non-default collections" do
+      if Jekyll::VERSION.start_with?("2")
         expect(config["collections"]).to be_nil
       else
         expect(config["collections"].length).to eq(1)
