@@ -1,3 +1,9 @@
+# 1.4.0
+
+* Fix typo for collections key in older Jekyll versions
+* Change date format to ISO8601
+* Validate against new version of config schema
+
 # 1.3.3
 
 * Add gem information and time to output config file
