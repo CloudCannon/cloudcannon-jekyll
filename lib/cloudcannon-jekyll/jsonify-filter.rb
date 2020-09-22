@@ -134,7 +134,8 @@ module CloudCannonJekyll
 
     def self.hash_to_json(input, depth, key_swaps = {})
       hash = input.map do |key, value|
-        "#{(key_swaps[key] || key).to_json}: #{JsonifyFilter.to_json(value, depth + 1, key_swaps)}"
+        string_key = (key_swaps[key] || key).to_s.to_json
+        "#{string_key}: #{JsonifyFilter.to_json(value, depth + 1, key_swaps)}"
       end
 
       "{#{hash.join(",")}}"
@@ -155,7 +156,7 @@ module CloudCannonJekyll
         next if prevent.include? key
 
         prevent.push key
-        "#{key.to_json}: #{JsonifyFilter.to_json(value, depth + 1)}"
+        "#{key.to_s.to_json}: #{JsonifyFilter.to_json(value, depth + 1)}"
       end
 
       out.compact!

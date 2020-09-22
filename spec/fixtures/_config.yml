@@ -49,6 +49,12 @@ things:
   - hello
   - there
 
+cards_per_rows:
+  2: Two
+  3: Three
+  4: Four
+  6: Six
+
 _comments:
   heading_image: This image should be related to the content
 

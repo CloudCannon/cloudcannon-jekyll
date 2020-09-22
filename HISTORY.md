@@ -1,3 +1,10 @@
+# 0.2.2
+
+* Added JSON handling for integers in hash keys
+* Fix typo for collections key in older Jekyll versions
+* Change date format to ISO8601
+* Validate against new version of config schema
+
 # 0.2.1
 
 * Add gem information and time to output config file
