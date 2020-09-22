@@ -1,3 +1,7 @@
+# 1.4.1
+
+* Added JSON handling for integers in hash keys
+
 # 1.4.0
 
 * Fix typo for collections key in older Jekyll versions
