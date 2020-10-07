@@ -1,3 +1,7 @@
+# 1.4.2
+
+* Added max depth parameter for jsonify filter and increase it for array structures in config output
+
 # 1.4.1
 
 * Added JSON handling for integers in hash keys
