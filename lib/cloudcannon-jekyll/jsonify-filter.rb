@@ -3,7 +3,11 @@
 require "jekyll"
 
 module CloudCannonJekyll
+  # Filter for converting Jekyll objects into JSON
   module JsonifyFilter
+    STATIC_EXTENSIONS = [".html", ".htm"].freeze
+    STATIC_PATHS = ["/robots.txt", "/sitemap.xml"].freeze
+
     CC_JSONIFY_KEY_SWAPS = {
       "collections" => {
         "_sort_key"      => "_sort-key",
@@ -41,103 +45,113 @@ module CloudCannonJekyll
       @simple_types.include?(input.class) || [true, false].include?(input)
     end
 
-    def self.static_file_to_json(input, depth)
+    def self.static_file_to_json(input, depth, max_depth)
       out = [
-        "\"extname\": #{JsonifyFilter.to_json(input.extname, depth + 1)}",
-        "\"path\": #{JsonifyFilter.to_json(input.relative_path, depth + 1)}",
+        "\"extname\": #{JsonifyFilter.to_json(input.extname, depth, max_depth)}",
+        "\"path\": #{JsonifyFilter.to_json(input.relative_path, depth, max_depth)}",
       ]
 
       # modified_time isn't defined in Jekyll 2.4.0
       if input.respond_to? :modified_time
-        out.push("\"modified_time\": #{JsonifyFilter.to_json(input.modified_time, depth + 1)}")
+        file_json = JsonifyFilter.to_json(input.modified_time, depth, max_depth)
+        out.push("\"modified_time\": #{file_json}")
       end
 
       "{#{out.join(",")}}"
     end
 
-    def self.document_data_to_json(data, out, prevent, depth)
+    def self.document_data_to_a(data, prevent, depth, max_depth)
       prevent += %w(content output next previous excerpt)
 
-      data.each do |key, value|
+      out = data.map do |key, value|
         next if prevent.include? key
 
         prevent.push key
-        out.push("#{key.to_json}: #{JsonifyFilter.to_json(value, depth + 1)}")
+        "#{key.to_json}: #{JsonifyFilter.to_json(value, depth, max_depth)}"
       end
 
-      "{#{out.join(",")}}"
+      out.compact
     end
 
-    def self.legacy_post_to_json(input, depth)
+    def self.legacy_post_to_json(input, depth, max_depth)
       prevent = %w(dir name path url date id categories tags)
 
       out = [
-        "\"dir\": #{JsonifyFilter.to_json(input.dir, depth + 1)}",
-        "\"name\": #{JsonifyFilter.to_json(input.name, depth + 1)}",
-        "\"path\": #{JsonifyFilter.to_json(input.path, depth + 1)}",
-        "\"url\": #{JsonifyFilter.to_json(input.url, depth + 1)}",
-        "\"date\": #{JsonifyFilter.to_json(input.date, depth + 1)}",
-        "\"id\": #{JsonifyFilter.to_json(input.id, depth + 1)}",
-        "\"categories\": #{JsonifyFilter.to_json(input.categories, depth + 1)}",
-        "\"tags\": #{JsonifyFilter.to_json(input.tags, depth + 1)}",
+        "\"dir\": #{JsonifyFilter.to_json(input.dir, depth, max_depth)}",
+        "\"name\": #{JsonifyFilter.to_json(input.name, depth, max_depth)}",
+        "\"path\": #{JsonifyFilter.to_json(input.path, depth, max_depth)}",
+        "\"url\": #{JsonifyFilter.to_json(input.url, depth, max_depth)}",
+        "\"date\": #{JsonifyFilter.to_json(input.date, depth, max_depth)}",
+        "\"id\": #{JsonifyFilter.to_json(input.id, depth, max_depth)}",
+        "\"categories\": #{JsonifyFilter.to_json(input.categories, depth, max_depth)}",
+        "\"tags\": #{JsonifyFilter.to_json(input.tags, depth, max_depth)}",
       ]
 
-      JsonifyFilter.document_data_to_json(input.data, out, prevent, depth)
+      out += JsonifyFilter.document_data_to_a(input.data, prevent, depth, max_depth)
+      "{#{out.join(",")}}"
     end
 
-    def self.page_to_json(input, depth)
+    def self.page_to_json(input, depth, max_depth)
       prevent = %w(dir name path url)
 
       out = [
-        "\"dir\": #{JsonifyFilter.to_json(input.dir, depth + 1)}",
-        "\"name\": #{JsonifyFilter.to_json(input.name, depth + 1)}",
-        "\"path\": #{JsonifyFilter.to_json(input.path, depth + 1)}",
-        "\"url\": #{JsonifyFilter.to_json(input.url, depth + 1)}",
+        "\"dir\": #{JsonifyFilter.to_json(input.dir, depth, max_depth)}",
+        "\"name\": #{JsonifyFilter.to_json(input.name, depth, max_depth)}",
+        "\"path\": #{JsonifyFilter.to_json(input.path, depth, max_depth)}",
+        "\"url\": #{JsonifyFilter.to_json(input.url, depth, max_depth)}",
       ]
 
       # Merge Jekyll Defaults into data for pages (missing at v3.8.5)
-      defaults = input.site.frontmatter_defaults.all(input.relative_path, :pages).tap do |h|
-        h.delete("date")
+      defaults = input.site.frontmatter_defaults.all(input.relative_path, :pages).tap do |default|
+        default.delete("date")
       end
 
       data = Jekyll::Utils.deep_merge_hashes(defaults, input.data)
-      JsonifyFilter.document_data_to_json(data, out, prevent, depth)
+
+      out += JsonifyFilter.document_data_to_a(data, prevent, depth, max_depth)
+      "{#{out.join(",")}}"
     end
 
-    def self.document_to_json(input, depth)
+    def self.document_to_json(input, depth, max_depth)
       prevent = %w(dir id relative_path url collection)
+      path_json = JsonifyFilter.to_json(input.relative_path, depth, max_depth)
 
       out = [
-        "\"path\": #{JsonifyFilter.to_json(input.relative_path, depth + 1)}",
-        "\"relative_path\": #{JsonifyFilter.to_json(input.relative_path, depth + 1)}",
-        "\"url\": #{JsonifyFilter.to_json(input.url, depth + 1)}",
+        "\"path\": #{path_json}",
+        "\"relative_path\": #{path_json}",
+        "\"url\": #{JsonifyFilter.to_json(input.url, depth, max_depth)}",
       ]
 
-      unless input.collection.nil?
-        out.push("\"collection\": #{JsonifyFilter.to_json(input.collection.label, depth + 1)}")
+      collection = input.collection
+      unless collection.nil?
+        collection_json = JsonifyFilter.to_json(collection.label, depth, max_depth)
+        out.push("\"collection\": #{collection_json}")
       end
 
       # id isn't defined in Jekyll 2.4.0
-      out.push("\"id\": #{JsonifyFilter.to_json(input.id, depth + 1)}") if input.respond_to? :id
+      if input.respond_to? :id
+        out.push("\"id\": #{JsonifyFilter.to_json(input.id, depth, max_depth)}")
+      end
 
-      JsonifyFilter.document_data_to_json(input.data, out, prevent, depth)
+      out += JsonifyFilter.document_data_to_a(input.data, prevent, depth, max_depth)
+      "{#{out.join(",")}}"
     end
 
-    def self.array_to_json(input, depth, key_swaps = {})
+    def self.array_to_json(input, depth, max_depth, key_swaps = {})
       array = input.map do |value|
-        JsonifyFilter.to_json(value, depth + 1, key_swaps)
+        JsonifyFilter.to_json(value, depth, max_depth, key_swaps)
       end
 
       "[#{array.join(",")}]"
     end
 
-    def self.hash_to_json(input, depth, key_swaps = {})
-      hash = input.map do |key, value|
+    def self.hash_to_json(input, depth, max_depth, key_swaps = {})
+      out = input.map do |key, value|
         string_key = (key_swaps[key] || key).to_s.to_json
-        "#{string_key}: #{JsonifyFilter.to_json(value, depth + 1, key_swaps)}"
+        "#{string_key}: #{JsonifyFilter.to_json(value, depth, max_depth, key_swaps)}"
       end
 
-      "{#{hash.join(",")}}"
+      "{#{out.join(",")}}"
     end
 
     def self.config_to_select_data_json(input, depth)
@@ -155,7 +169,7 @@ module CloudCannonJekyll
         next if prevent.include? key
 
         prevent.push key
-        "#{key.to_s.to_json}: #{JsonifyFilter.to_json(value, depth + 1)}"
+        "#{key.to_s.to_json}: #{JsonifyFilter.to_json(value, depth)}"
       end
 
       out.compact!
@@ -163,38 +177,38 @@ module CloudCannonJekyll
       "{#{out.join(",")}}" if out.any?
     end
 
-    def self.to_json(input, depth, key_swaps = {})
-      if depth > 8 || (depth > 2 && JsonifyFilter.document_type?(input))
+    def self.to_json(input, depth, max_depth = 9, key_swaps = {})
+      depth += 1
+
+      if depth > max_depth || (depth > 2 && JsonifyFilter.document_type?(input))
         '"MAXIMUM_DEPTH"'
       elsif JsonifyFilter.simple_type?(input)
         input.to_json
       elsif input.is_a?(Jekyll::StaticFile)
-        JsonifyFilter.static_file_to_json(input, depth)
+        JsonifyFilter.static_file_to_json(input, depth, max_depth)
       elsif input.is_a?(Jekyll::Page)
-        JsonifyFilter.page_to_json(input, depth)
+        JsonifyFilter.page_to_json(input, depth, max_depth)
       elsif Jekyll::VERSION.start_with?("2.") && input.is_a?(Jekyll::Post)
-        JsonifyFilter.legacy_post_to_json(input, depth)
+        JsonifyFilter.legacy_post_to_json(input, depth, max_depth)
       elsif input.is_a?(Jekyll::Document)
-        JsonifyFilter.document_to_json(input, depth)
+        JsonifyFilter.document_to_json(input, depth, max_depth)
       elsif input.is_a?(Array)
-        JsonifyFilter.array_to_json(input, depth, key_swaps)
+        JsonifyFilter.array_to_json(input, depth, max_depth, key_swaps)
       elsif input.is_a?(Hash)
-        JsonifyFilter.hash_to_json(input, depth, key_swaps)
+        JsonifyFilter.hash_to_json(input, depth, max_depth, key_swaps)
       else
         input.class.to_s.prepend("UNSUPPORTED:").to_json
       end
     end
 
     def cc_static_files_jsonify(input)
-      out = []
-      input.each do |page|
-        next if page.extname != ".html" &&
-          page.extname != ".htm" &&
-          page.path != "/robots.txt" &&
-          page.path != "/sitemap.xml"
+      out = input.map do |page|
+        next unless STATIC_EXTENSIONS.include?(page.extname) || STATIC_PATHS.include?(page.path)
 
-        out.push(JsonifyFilter.to_json(page, 1))
+        JsonifyFilter.to_json(page, 1)
       end
+
+      out.compact!
 
       "[#{out.join(",")}]"
     end
@@ -207,11 +221,11 @@ module CloudCannonJekyll
       end
     end
 
-    def cc_jsonify(input, key_swaps_key = nil)
+    def cc_jsonify(input, key_swaps_key = nil, max_depth = 8)
       if CC_JSONIFY_KEY_SWAPS.key? key_swaps_key
-        JsonifyFilter.to_json(input, 0, CC_JSONIFY_KEY_SWAPS[key_swaps_key])
+        JsonifyFilter.to_json(input, 0, max_depth, CC_JSONIFY_KEY_SWAPS[key_swaps_key])
       else
-        JsonifyFilter.to_json(input, 0)
+        JsonifyFilter.to_json(input, 0, max_depth)
       end
     end
   end

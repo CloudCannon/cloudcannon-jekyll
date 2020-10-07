@@ -10,9 +10,9 @@ require_relative "cloudcannon-jekyll/version"
 
 Liquid::Template.register_filter(CloudCannonJekyll::JsonifyFilter)
 
-# Hooks didn't exist in Jekyll 2 so we monkey patch to get an :after_reset hook
 if Jekyll::VERSION.start_with? "2"
   module Jekyll
+    # Hooks didn't exist in Jekyll 2 so we monkey patch to get an :after_reset hook
     class Site
       alias_method :jekyll_reset, :reset
 

@@ -48,7 +48,7 @@
 		"layouts": {{ config.layouts_dir | cc_jsonify }}
 	},
 	{% if config._array_structures -%}
-		"array-structures": {{ config._array_structures | cc_jsonify }},
+		"array-structures": {{ config._array_structures | cc_jsonify: nil, 20 }},
 	{%- endif %}
 	{% assign select_data = config | cc_select_data_jsonify -%}
 	{% if select_data -%}

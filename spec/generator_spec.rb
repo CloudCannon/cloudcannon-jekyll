@@ -70,6 +70,11 @@ describe CloudCannonJekyll::Generator do
       expect(details["collections"].keys.length).to eq(2)
 
       expect(details["collections"]["posts"]).not_to be_nil
+      expect(details["collections"]["posts"][0].key?("content")).to eql(false)
+      expect(details["collections"]["posts"][0].key?("output")).to eql(false)
+      expect(details["collections"]["posts"][0].key?("next")).to eql(false)
+      expect(details["collections"]["posts"][0].key?("previous")).to eql(false)
+      expect(details["collections"]["posts"][0].key?("excerpt")).to eql(false)
       expect(details["collections"]["posts"][0]["tags"]).to eq(["hello"])
       expect(details["collections"]["posts"][0]["date"]).to(
         match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
@@ -241,6 +246,27 @@ describe CloudCannonJekyll::Generator do
             "value" => {
               "image"   => "/placeholder.png",
               "caption" => nil,
+              "nested"  => {
+                "thing" => {
+                  "which" => {
+                    "keeps" => {
+                      "nesting" => {
+                        "beyond" => {
+                          "what" => {
+                            "would" => {
+                              "is" => {
+                                "likely" => {
+                                  "usually" => "hello",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
           {
@@ -260,9 +286,9 @@ describe CloudCannonJekyll::Generator do
     it "has populated select-data" do
       expect(config["select-data"]).to eq({
         "cards_per_rows" => {
-          "2" => "Two", 
-          "3" => "Three", 
-          "4" => "Four", 
+          "2" => "Two",
+          "3" => "Three",
+          "4" => "Four",
           "6" => "Six",
         },
         "categories"     => %w(forever strings),

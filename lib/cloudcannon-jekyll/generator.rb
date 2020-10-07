@@ -4,6 +4,7 @@ require "jekyll"
 require "fileutils"
 
 module CloudCannonJekyll
+  # Generates JSON files containing build config and build output details
   class Generator < Jekyll::Generator
     priority :lowest
 
@@ -27,7 +28,7 @@ module CloudCannonJekyll
     def generate_file(filename, data)
       dest = destination_path(filename)
       FileUtils.mkdir_p(File.dirname(dest))
-      File.open(dest, "w") { |f| f.write(file_content(filename, data)) }
+      File.open(dest, "w") { |file| file.write(file_content(filename, data)) }
     end
 
     def version_path_suffix
@@ -50,13 +51,13 @@ module CloudCannonJekyll
     end
 
     def file_content(filename, data)
-      json = PageWithoutAFile.new(@site, File.dirname(__FILE__), "", path(filename))
-      json.content = File.read(source_path(filename))
-      json.data["layout"] = nil
-      json.data["sitemap"] = false
-      json.data["permalink"] = "/#{path(filename)}"
-      json.render({}, data)
-      json.output
+      page = PageWithoutAFile.new(@site, File.dirname(__FILE__), "", path(filename))
+      page.content = File.read(source_path(filename))
+      page.data["layout"] = nil
+      page.data["sitemap"] = false
+      page.data["permalink"] = "/#{path(filename)}"
+      page.render({}, data)
+      page.output
     end
   end
 end

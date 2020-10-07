@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module CloudCannonJekyll
+  # Processes Jekyll configuration to enable the plugin is run and fix common issues
   class Configuration
     def self.processed?(site)
       site.instance_variable_get(:@_cloudcannon_jekyll_processed) == true

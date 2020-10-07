@@ -1,0 +1,6 @@
+detectors:
+  LongParameterList:
+    max_params: 4 # Matches the Rubocop setting
+
+exclude_paths:
+  - spec
