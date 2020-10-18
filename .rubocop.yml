@@ -28,6 +28,7 @@ Naming/MemoizedInstanceVariableName:
 Metrics/CyclomaticComplexity:
   Exclude:
     - lib/cloudcannon-jekyll/jsonify-filter.rb # TODO remove this and fix warnings
+    - lib/cloudcannon-jekyll/old-data-reader.rb # TODO remove this and fix warnings
 
 Metrics/PerceivedComplexity:
   Exclude:
@@ -40,3 +41,4 @@ Metrics/MethodLength:
 Metrics/AbcSize:
   Exclude:
     - lib/cloudcannon-jekyll/jsonify-filter.rb # TODO remove this and fix warnings
+    - lib/cloudcannon-jekyll/old-data-reader.rb # TODO remove this and fix warnings

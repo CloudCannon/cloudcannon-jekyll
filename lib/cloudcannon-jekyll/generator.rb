@@ -11,24 +11,82 @@ module CloudCannonJekyll
     def generate(site)
       @site = site
 
+      collections_config = @site.config["collections"].dup || {}
+      drafts = read_drafts
+
       payload = @site.site_payload.merge({
         "gem_version" => CloudCannonJekyll::VERSION,
-        "pwd"         => Dir.pwd,
-        "config"      => @site.config,
       })
 
-      generate_file("details", payload)
-      generate_file("config", payload)
+      add_blogging_config(collections_config, drafts)
+      add_collection_paths(collections_config)
+      add_data_config(collections_config)
 
-      @site.keep_files ||= []
-      @site.keep_files << path("details")
-      @site.keep_files << path("config")
+      generate_file("config", payload.merge({
+        "pwd"         => Dir.pwd,
+        "config"      => @site.config,
+        "collections" => collections_config,
+      }))
+
+      generate_file("details", payload.merge({
+        "drafts" => drafts,
+      }))
+    end
+
+    def collections_dir
+      @site.config["collections_dir"] || ""
+    end
+
+    def data_dir
+      @site.config["data_dir"] || "_data"
+    end
+
+    def read_data
+      if Jekyll::VERSION.start_with? "2."
+        CloudCannonJekyll::OldDataReader.new(@site).read("_data")
+      else
+        CloudCannonJekyll::DataReader.new(@site).read(data_dir)
+      end
+    end
+
+    def read_drafts
+      if Jekyll::VERSION.start_with? "2."
+        @site.read_content("", "_drafts", Jekyll::Draft)
+      else
+        Jekyll::PostReader.new(@site).read_drafts(collections_dir)
+      end
+    end
+
+    # Add data to collections config if raw data files exist
+    def add_data_config(collections)
+      data_files = read_data
+      collections["data"] = { "_path" => data_dir } if data_files&.keys&.any?
+    end
+
+    # Add posts/drafts to collections config
+    def add_blogging_config(collections, drafts)
+      collections["posts"] = { "output" => true } if Jekyll::VERSION.start_with? "2."
+
+      if collections.key?("posts")
+        collections["drafts"] = collections["posts"].dup
+      elsif drafts&.any?
+        collections["drafts"] = {}
+      end
+    end
+
+    # Add _path to each collection config
+    def add_collection_paths(collections)
+      collections.each do |key, collection|
+        collection["_path"] = File.join(collections_dir, "_#{key}").sub(%r!^\/+!, "")
+      end
     end
 
     def generate_file(filename, data)
       dest = destination_path(filename)
       FileUtils.mkdir_p(File.dirname(dest))
       File.open(dest, "w") { |file| file.write(file_content(filename, data)) }
+      @site.keep_files ||= []
+      @site.keep_files << path(filename)
     end
 
     def version_path_suffix

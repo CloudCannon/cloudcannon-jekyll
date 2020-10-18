@@ -6,7 +6,6 @@ module CloudCannonJekyll
   # Filter for converting Jekyll objects into JSON
   module JsonifyFilter
     STATIC_EXTENSIONS = [".html", ".htm"].freeze
-    STATIC_PATHS = ["/robots.txt", "/sitemap.xml"].freeze
 
     CC_JSONIFY_KEY_SWAPS = {
       "collections" => {
@@ -47,15 +46,8 @@ module CloudCannonJekyll
 
     def self.static_file_to_json(input, depth, max_depth)
       out = [
-        "\"extname\": #{JsonifyFilter.to_json(input.extname, depth, max_depth)}",
         "\"path\": #{JsonifyFilter.to_json(input.relative_path, depth, max_depth)}",
       ]
-
-      # modified_time isn't defined in Jekyll 2.4.0
-      if input.respond_to? :modified_time
-        file_json = JsonifyFilter.to_json(input.modified_time, depth, max_depth)
-        out.push("\"modified_time\": #{file_json}")
-      end
 
       "{#{out.join(",")}}"
     end
@@ -77,7 +69,6 @@ module CloudCannonJekyll
       prevent = %w(dir name path url date id categories tags)
 
       out = [
-        "\"dir\": #{JsonifyFilter.to_json(input.dir, depth, max_depth)}",
         "\"name\": #{JsonifyFilter.to_json(input.name, depth, max_depth)}",
         "\"path\": #{JsonifyFilter.to_json(input.path, depth, max_depth)}",
         "\"url\": #{JsonifyFilter.to_json(input.url, depth, max_depth)}",
@@ -95,7 +86,6 @@ module CloudCannonJekyll
       prevent = %w(dir name path url)
 
       out = [
-        "\"dir\": #{JsonifyFilter.to_json(input.dir, depth, max_depth)}",
         "\"name\": #{JsonifyFilter.to_json(input.name, depth, max_depth)}",
         "\"path\": #{JsonifyFilter.to_json(input.path, depth, max_depth)}",
         "\"url\": #{JsonifyFilter.to_json(input.url, depth, max_depth)}",
@@ -114,11 +104,9 @@ module CloudCannonJekyll
 
     def self.document_to_json(input, depth, max_depth)
       prevent = %w(dir id relative_path url collection)
-      path_json = JsonifyFilter.to_json(input.relative_path, depth, max_depth)
 
       out = [
-        "\"path\": #{path_json}",
-        "\"relative_path\": #{path_json}",
+        "\"path\": #{JsonifyFilter.to_json(input.relative_path, depth, max_depth)}",
         "\"url\": #{JsonifyFilter.to_json(input.url, depth, max_depth)}",
       ]
 
@@ -126,11 +114,6 @@ module CloudCannonJekyll
       unless collection.nil?
         collection_json = JsonifyFilter.to_json(collection.label, depth, max_depth)
         out.push("\"collection\": #{collection_json}")
-      end
-
-      # id isn't defined in Jekyll 2.4.0
-      if input.respond_to? :id
-        out.push("\"id\": #{JsonifyFilter.to_json(input.id, depth, max_depth)}")
       end
 
       out += JsonifyFilter.document_data_to_a(input.data, prevent, depth, max_depth)
@@ -203,9 +186,7 @@ module CloudCannonJekyll
 
     def cc_static_files_jsonify(input)
       out = input.map do |page|
-        next unless STATIC_EXTENSIONS.include?(page.extname) || STATIC_PATHS.include?(page.path)
-
-        JsonifyFilter.to_json(page, 1)
+        JsonifyFilter.to_json(page, 1) if STATIC_EXTENSIONS.include?(page.extname)
       end
 
       out.compact!

@@ -17,7 +17,7 @@ module CloudCannonJekyll
       config = config.fix_common_issues if config.respond_to? :fix_common_issues
       config = config.add_default_excludes if config.respond_to? :add_default_excludes
 
-      key = Jekyll::VERSION.start_with?("2") ? "gems" : "plugins"
+      key = Jekyll::VERSION.start_with?("2.") ? "gems" : "plugins"
 
       config[key] = Array(config[key])
       config[key].push("cloudcannon-jekyll") unless config[key].include? "cloudcannon-jekyll"

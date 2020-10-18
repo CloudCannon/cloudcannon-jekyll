@@ -67,29 +67,35 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "contains collections" do
-      expect(details["collections"].keys.length).to eq(2)
-
       expect(details["collections"]["posts"]).not_to be_nil
-      expect(details["collections"]["posts"][0].key?("content")).to eql(false)
-      expect(details["collections"]["posts"][0].key?("output")).to eql(false)
-      expect(details["collections"]["posts"][0].key?("next")).to eql(false)
-      expect(details["collections"]["posts"][0].key?("previous")).to eql(false)
-      expect(details["collections"]["posts"][0].key?("excerpt")).to eql(false)
-      expect(details["collections"]["posts"][0]["tags"]).to eq(["hello"])
-      expect(details["collections"]["posts"][0]["date"]).to(
+      expect(details["collections"]["staff_members"]).not_to be_nil
+      expect(details["collections"]["drafts"]).not_to be_nil
+      expect(details["collections"].length).to eq(3)
+
+      first_post = details["collections"]["posts"][0]
+      expect(first_post.key?("content")).to eql(false)
+      expect(first_post.key?("output")).to eql(false)
+      expect(first_post.key?("next")).to eql(false)
+      expect(first_post.key?("previous")).to eql(false)
+      expect(first_post.key?("excerpt")).to eql(false)
+      expect(first_post["tags"]).to eq(["hello"])
+      expect(first_post["date"]).to(
         match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
       )
 
-      if Jekyll::VERSION.start_with? "2"
-        expect(details["collections"]["posts"][0]["categories"]).to eq(["business"])
+      if Jekyll::VERSION.start_with? "2."
+        expect(first_post["categories"]).to eq(["business"])
       else
-        expect(details["collections"]["posts"][0]["categories"]).to eq(["Business"])
+        expect(first_post["categories"]).to eq(["Business"])
       end
 
-      expect(details["collections"]["staff_members"]).not_to be_nil
-      unless Jekyll::VERSION.start_with? "2"
-        expect(details["collections"]["staff_members"][0]["id"]).not_to be_nil
-      end
+      first_staff_member = details["collections"]["staff_members"][0]
+      expect(first_staff_member["path"]).not_to be_nil
+      expect(first_staff_member["name"]).to eql("Jane Doe")
+
+      first_draft = details["collections"]["drafts"][0]
+      expect(first_draft["path"]).to eql("_drafts/incomplete.md")
+      expect(first_draft["title"]).to eql("WIP")
     end
 
     it "contains pages" do
@@ -101,15 +107,8 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "contains static files" do
-      expect(details["static"].length).to eq(1)
-      expect(details["static"][0]["path"]).to eq("/static-page.html")
-      expect(details["static"][0]["extname"]).to eq(".html")
-
-      unless Jekyll::VERSION.start_with? "2"
-        expect(details["static"][0]["modified_time"]).to(
-          match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
-        )
-      end
+      expect(details["static-pages"].length).to eq(1)
+      expect(details["static-pages"][0]["path"]).to eq("/static-page.html")
     end
   end
 
@@ -132,6 +131,7 @@ describe CloudCannonJekyll::Generator do
   schema = Pathname.new("spec/build-configuration-schema.json")
   schemer = JSONSchemer.schema(schema, :ref_resolver => "net/http")
 
+  # Tests for the config file
   context "full config data" do
     it "matches the schema" do
       schemer.validate(config).each { |v| log_schema_error(v) }
@@ -170,19 +170,29 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "has populated collections" do
-      if Jekyll::VERSION.start_with? "2"
-        expect(config["collections"].length).to eq(1)
-      else
-        expect(config["collections"].length).to eq(2)
-        expect(config["collections"]["posts"]).not_to be_nil
-        expect(config["collections"]["posts"]["output"]).to eq(true)
-      end
+      collections = config["collections"]
 
-      staff_members = config["collections"]["staff_members"]
+      posts = collections["posts"]
+      expect(posts).not_to be_nil
+      expect(posts["output"]).to eq(true)
+      expect(posts["_path"]).to eq("_posts")
+
+      drafts = collections["drafts"]
+      expect(drafts).not_to be_nil
+      expect(drafts["_path"]).to eq("_drafts")
+
+      data = collections["data"]
+      expect(data).not_to be_nil
+      expect(data["_path"]).to eq("_data")
+
+      staff_members = collections["staff_members"]
       expect(staff_members).not_to be_nil
       expect(staff_members["output"]).to eq(false)
+      expect(staff_members["_path"]).to eq("_staff_members")
       expect(staff_members["_sort-key"]).to eq("name")
       expect(staff_members["_singular-name"]).to eq("staff_member")
+
+      expect(collections.length).to eq(4)
     end
 
     it "has populated comments" do
@@ -213,7 +223,7 @@ describe CloudCannonJekyll::Generator do
     it "has populated paths" do
       expect(config["paths"]["uploads"]).to eq("uploads")
 
-      if Jekyll::VERSION.start_with? "2"
+      if Jekyll::VERSION.start_with? "2."
         expect(config["paths"]["plugins"]).to be_nil
         expect(config["paths"]["data"]).to be_nil
         expect(config["paths"]["collections"]).to be_nil
@@ -322,11 +332,12 @@ describe CloudCannonJekyll::Generator do
     end
   end
 
+  # Tests for when the config file is almost empty
   context "empty config data" do
     let(:site_data) do
       {
         :skip_config_files => true,
-        :config            => "spec/fixtures/_config-empty.yml",
+        :config            => "spec/fixtures/_config-almost-empty.yml",
       }
     end
 
@@ -340,7 +351,7 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "has no base-url" do
-      if Jekyll::VERSION.start_with?("2") || Jekyll::VERSION.match?(%r!3\.[0-4]\.!)
+      if Jekyll::VERSION.start_with?("2.") || Jekyll::VERSION.match?(%r!3\.[0-4]\.!)
         expect(config["base-url"]).to eq("")
       else
         expect(config).not_to have_key("base-url")
@@ -348,13 +359,11 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "has no non-default collections" do
-      if Jekyll::VERSION.start_with?("2")
-        expect(config["collections"]).to be_nil
-      else
-        expect(config["collections"].length).to eq(1)
-        expect(config["collections"]["posts"]).not_to be_nil
-        expect(config["collections"]["posts"]["output"]).to eq(true)
+      expected_collections = %w(posts drafts data)
+      expected_collections.each do |collection|
+        expect(config["collections"][collection]).not_to be_nil
       end
+      expect(config["collections"].length).to eq(expected_collections.length)
     end
 
     it "has no comments" do
