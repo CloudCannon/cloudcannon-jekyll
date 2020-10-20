@@ -96,6 +96,12 @@ describe CloudCannonJekyll::Generator do
       first_draft = details["collections"]["drafts"][0]
       expect(first_draft["path"]).to eql("_drafts/incomplete.md")
       expect(first_draft["title"]).to eql("WIP")
+
+      second_draft = details["collections"]["drafts"][1]
+      expect(second_draft["path"]).to eql("other/_drafts/testing-for-category.md")
+      expect(second_draft["title"]).to eql("Testing for category drafts")
+
+      expect(details["collections"]["drafts"].length).to eql(2)
     end
 
     it "contains pages" do
@@ -177,6 +183,16 @@ describe CloudCannonJekyll::Generator do
       expect(posts["output"]).to eq(true)
       expect(posts["_path"]).to eq("_posts")
 
+      category_other_posts = collections["other/posts"]
+      expect(category_other_posts).not_to be_nil
+      expect(category_other_posts["output"]).to eq(true)
+      expect(category_other_posts["_path"]).to eq("other/_posts")
+
+      category_other_drafts = collections["other/drafts"]
+      expect(category_other_drafts).not_to be_nil
+      expect(category_other_drafts["output"]).to eq(true)
+      expect(category_other_drafts["_path"]).to eq("other/_drafts")
+
       drafts = collections["drafts"]
       expect(drafts).not_to be_nil
       expect(drafts["_path"]).to eq("_drafts")
@@ -192,7 +208,7 @@ describe CloudCannonJekyll::Generator do
       expect(staff_members["_sort-key"]).to eq("name")
       expect(staff_members["_singular-name"]).to eq("staff_member")
 
-      expect(collections.length).to eq(4)
+      expect(collections.length).to eq(6)
     end
 
     it "has populated comments" do
@@ -359,7 +375,7 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "has no non-default collections" do
-      expected_collections = %w(posts drafts data)
+      expected_collections = %w(posts drafts data other/posts other/drafts)
       expected_collections.each do |collection|
         expect(config["collections"][collection]).not_to be_nil
       end

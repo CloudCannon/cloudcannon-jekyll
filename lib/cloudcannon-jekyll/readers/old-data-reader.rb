@@ -16,7 +16,6 @@ module CloudCannonJekyll
 
     def read(dir)
       base = Jekyll.sanitized_path(@site.source, dir)
-      # base = @site.in_source_dir(dir)
       read_data_to(base, @content)
       @content
     end
@@ -30,7 +29,6 @@ module CloudCannonJekyll
 
       entries.each do |entry|
         path = Jekyll.sanitized_path(dir, entry)
-        # path = @site.in_source_dir(dir, entry)
         next if File.symlink?(path) && @safe
 
         key = sanitize_filename(File.basename(entry, ".*"))

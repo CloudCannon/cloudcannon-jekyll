@@ -2,12 +2,6 @@
 
 require "jekyll"
 
-if !Jekyll::VERSION.start_with? "2."
-  require_relative "cloudcannon-jekyll/data-reader"
-else
-  require_relative "cloudcannon-jekyll/old-data-reader"
-end
-
 require_relative "cloudcannon-jekyll/page-without-a-file"
 require_relative "cloudcannon-jekyll/generator"
 require_relative "cloudcannon-jekyll/configuration"
