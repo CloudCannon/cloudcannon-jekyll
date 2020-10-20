@@ -60,15 +60,16 @@ module CloudCannonJekyll
 
         seen[path] = true
         folder = path.sub(%r!^\/+!, "")
+        collections_path = "#{collections_dir}/#{folder}".gsub(%r!\/+!, "/").sub(%r!^\/+!, "")
 
         collections_config["#{folder}/posts"] = posts_config.merge({
-          "_path" => "#{folder}/_posts",
+          "_path" => "#{collections_path}/_posts",
         })
 
         # Adding the category draft config like this isn't ideal, since you could have drafts
         #  without posts, but it's a decent trade off vs looking for _drafts folders
         collections_config["#{folder}/drafts"] = posts_config.merge({
-          "_path" => "#{folder}/_drafts",
+          "_path" => "#{collections_path}/_drafts",
         })
 
         path
