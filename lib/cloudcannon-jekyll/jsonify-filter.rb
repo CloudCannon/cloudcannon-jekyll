@@ -46,9 +46,11 @@ module CloudCannonJekyll
 
     def self.static_file_to_json(input, depth, max_depth)
       path = input.relative_path.sub(%r!^\/+!, "")
+      url = Jekyll::VERSION.start_with?("2.") ? "/#{path}" : input.url
 
       out = [
         "\"path\": #{JsonifyFilter.to_json(path, depth, max_depth)}",
+        "\"url\": #{JsonifyFilter.to_json(url, depth, max_depth)}",
       ]
 
       "{#{out.join(",")}}"

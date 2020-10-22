@@ -115,6 +115,7 @@ describe CloudCannonJekyll::Generator do
     it "contains static files" do
       expect(details["static-pages"].length).to eq(1)
       expect(details["static-pages"][0]["path"]).to eq("static-page.html")
+      expect(details["static-pages"][0]["url"]).to eq("/static-page.html")
     end
   end
 
