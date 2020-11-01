@@ -13,6 +13,13 @@ describe CloudCannonJekyll::Generator do
   let(:details) { JSON.parse(details_raw) }
   before { site.process }
 
+  def log_schema_error(error)
+    # Expecting here rather than logging means it get output in the test results
+    log = "'#{error["data_pointer"]}' schema mismatch: (data: #{error["data"]})"\
+      " (schema: #{error["schema"]})"
+    expect(log).to be_nil
+  end
+
   context "creates" do
     it "a details file" do
       expect(Pathname.new(dest_dir("_cloudcannon/details.json"))).to exist
@@ -41,6 +48,14 @@ describe CloudCannonJekyll::Generator do
 
   context "details" do
     let(:site_data) { { :cloudcannon => { "data" => true } } }
+
+    details_schema = Pathname.new("spec/build-details-schema.json")
+    details_schemer = JSONSchemer.schema(details_schema, :ref_resolver => "net/http")
+
+    it "matches the schema" do
+      details_schemer.validate(details).each { |v| log_schema_error(v) }
+      expect(details_schemer.valid?(details)).to eq(true)
+    end
 
     it "contains valid time" do
       expect(details["time"]).to match(%r!\d{4}\-\d\d\-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d!)
@@ -128,21 +143,15 @@ describe CloudCannonJekyll::Generator do
     end
   end
 
-  def log_schema_error(error)
-    # Expecting here rather than logging means it get output in the test results
-    log = "'#{error["data_pointer"]}' schema mismatch: (data: #{error["data"]})"\
-      " (schema: #{error["schema"]})"
-    expect(log).to be_nil
-  end
-
-  schema = Pathname.new("spec/build-configuration-schema.json")
-  schemer = JSONSchemer.schema(schema, :ref_resolver => "net/http")
-
   # Tests for the config file
+
+  config_schema = Pathname.new("spec/build-configuration-schema.json")
+  config_schemer = JSONSchemer.schema(config_schema, :ref_resolver => "net/http")
+
   context "full config data" do
     it "matches the schema" do
-      schemer.validate(config).each { |v| log_schema_error(v) }
-      expect(schemer.valid?(config)).to eq(true)
+      config_schemer.validate(config).each { |v| log_schema_error(v) }
+      expect(config_schemer.valid?(config)).to eq(true)
     end
 
     it "contains valid time" do
@@ -359,8 +368,8 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "matches the schema" do
-      schemer.validate(config).each { |v| log_schema_error(v) }
-      expect(schemer.valid?(config)).to eq(true)
+      config_schemer.validate(config).each { |v| log_schema_error(v) }
+      expect(config_schemer.valid?(config)).to eq(true)
     end
 
     it "has no timezone" do
