@@ -25,6 +25,7 @@
 		"uploads": {{ config.uploads_dir | cc_jsonify }},
 		"plugins": {{ config.plugins_dir | cc_jsonify }},
 		"data": {{ config.data_dir | cc_jsonify }},
+		"pages": "",
 		"collections": {{ config.collections_dir | cc_jsonify }},
 		"includes": {{ config.includes_dir | cc_jsonify }},
 		"layouts": {{ config.layouts_dir | cc_jsonify }}
