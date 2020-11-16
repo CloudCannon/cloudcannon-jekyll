@@ -6,7 +6,7 @@ describe CloudCannonJekyll::Configuration do
   let(:site) { make_site(site_data) }
   before { site.process }
   let(:plugins_key) do
-    if Jekyll::VERSION.start_with? "2"
+    if Jekyll::VERSION.start_with? "2."
       "gems"
     else
       "plugins"
@@ -23,7 +23,7 @@ describe CloudCannonJekyll::Configuration do
 
   context "sets" do
     let(:site_data) do
-      if Jekyll::VERSION.start_with? "2"
+      if Jekyll::VERSION.start_with? "2."
         { :gems => ["cloudcannon-jekyll"] }
       else
         { :plugins => ["cloudcannon-jekyll"] }

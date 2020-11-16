@@ -18,10 +18,11 @@
 		{% for data in site.data %}{% assign key = data[0] %}{% if site.cloudcannon.data[key] %}{% if data_seen %},{% endif %}{{ data[0] | cc_jsonify }}: {{ data[1] | cc_jsonify }}{% assign data_seen = true %}{% endif %}{% endfor %}},
 	{% elsif site.cloudcannon.data %}"data": {{ site.data | cc_jsonify }},{% endif %}
 	"collections": {
+		"drafts": {{ drafts | cc_jsonify }},
 		"posts": {{ site.posts | reverse | cc_jsonify }}{% if site.collections.size > 0 %},{% endif %}
 		{% for collection in site.collections %}"{{ collection[0] | xml_escape }}": {{ collection[1].docs | cc_jsonify }}{% unless forloop.last %},{% endunless %}
 		{% endfor %}
 	},
 	"pages": {{ site.pages | cc_jsonify }},
-	"static": {{ site.static_files | cc_static_files_jsonify }}
+	"static-pages": {{ site.static_files | cc_static_files_jsonify }}
 }

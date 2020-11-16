@@ -12,9 +12,7 @@
 	{% if config.baseurl -%}
 		"base-url": {{ config.baseurl | cc_jsonify }},
 	{%- endif %}
-	{% if config.collections -%}
-		"collections": {{ config.collections | cc_jsonify: 'collections' }},
-	{%- endif %}
+	"collections": {{ collections | cc_jsonify: 'collections' }},
 	{% if config._comments -%}
 		"comments": {{ config._comments | cc_jsonify }},
 	{%- endif %}
@@ -43,12 +41,13 @@
 		"uploads": {{ config.uploads_dir | cc_jsonify }},
 		"plugins": {{ config.plugins_dir | cc_jsonify }},
 		"data": {{ config.data_dir | cc_jsonify }},
+		"pages": "",
 		"collections": {{ config.collections_dir | cc_jsonify }},
 		"includes": {{ config.includes_dir | cc_jsonify }},
 		"layouts": {{ config.layouts_dir | cc_jsonify }}
 	},
 	{% if config._array_structures -%}
-		"array-structures": {{ config._array_structures | cc_jsonify }},
+		"array-structures": {{ config._array_structures | cc_jsonify: nil, 20 }},
 	{%- endif %}
 	{% assign select_data = config | cc_select_data_jsonify -%}
 	{% if select_data -%}
