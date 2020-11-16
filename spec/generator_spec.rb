@@ -248,6 +248,7 @@ describe CloudCannonJekyll::Generator do
 
     it "has populated paths" do
       expect(config["paths"]["uploads"]).to eq("uploads")
+      expect(config["paths"]["pages"]).to eq("")
 
       if Jekyll::VERSION.start_with? "2."
         expect(config["paths"]["plugins"]).to be_nil
@@ -269,7 +270,7 @@ describe CloudCannonJekyll::Generator do
         expect(config["paths"]["layouts"]).to eq("_layouts")
       end
 
-      expect(config["paths"].keys.length).to eq(6)
+      expect(config["paths"].keys.length).to eq(7)
     end
 
     it "has populated array-structures" do
@@ -410,7 +411,7 @@ describe CloudCannonJekyll::Generator do
 
     it "has no uploads path" do
       expect(config["paths"]["uploads"]).to be_nil
-      expect(config["paths"].keys.length).to eq(6)
+      expect(config["paths"].keys.length).to eq(7)
     end
 
     it "has no array-structures" do
