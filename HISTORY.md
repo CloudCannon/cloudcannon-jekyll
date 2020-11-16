@@ -1,3 +1,7 @@
+# 1.5.1
+
+* Add empty paths.pages
+
 # 1.5.0
 
 * Added drafts to collections in details
