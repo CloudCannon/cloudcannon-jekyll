@@ -15,6 +15,11 @@ module CloudCannonJekyll
 
       collections_config = @site.config["collections"].dup || {}
 
+      # Workaround for empty collection configurations
+      collections_config.each_key do |key|
+        collections_config[key] ||= { "output" => false }
+      end
+
       payload = @site.site_payload.merge({
         "gem_version" => CloudCannonJekyll::VERSION,
       })

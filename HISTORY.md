@@ -1,5 +1,10 @@
+# 0.3.1
+
+* Fix for empty collection configurations
+
 # 0.3.0
 
+* Add empty paths.pages
 * Added drafts to collections in details
 * Added drafts and data to collections in config
 * Added category folder drafts and posts to collections in config
