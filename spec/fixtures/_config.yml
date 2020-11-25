@@ -15,6 +15,7 @@ collections:
     custom: indeed
     _sort_key: name
     _singular_name: staff_member
+  empty:
 
 defaults:
   - scope:

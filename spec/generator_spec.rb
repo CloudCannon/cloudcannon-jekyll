@@ -85,7 +85,8 @@ describe CloudCannonJekyll::Generator do
       expect(details["collections"]["posts"]).not_to be_nil
       expect(details["collections"]["staff_members"]).not_to be_nil
       expect(details["collections"]["drafts"]).not_to be_nil
-      expect(details["collections"].length).to eq(3)
+      expect(details["collections"]["empty"]).not_to be_nil
+      expect(details["collections"].length).to eq(4)
 
       first_post = details["collections"]["posts"][0]
       expect(first_post.key?("content")).to eql(false)
@@ -218,7 +219,11 @@ describe CloudCannonJekyll::Generator do
       expect(staff_members["_sort-key"]).to eq("name")
       expect(staff_members["_singular-name"]).to eq("staff_member")
 
-      expect(collections.length).to eq(6)
+      empty = collections["empty"]
+      expect(empty).not_to be_nil
+      expect(empty["_path"]).to eq("_empty")
+
+      expect(collections.length).to eq(7)
     end
 
     it "has populated comments" do
