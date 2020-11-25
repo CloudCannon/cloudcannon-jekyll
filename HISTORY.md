@@ -1,3 +1,7 @@
+# 1.5.2
+
+* Fix for empty collection configurations
+
 # 1.5.1
 
 * Add empty paths.pages
