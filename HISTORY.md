@@ -17,6 +17,10 @@
 * Add `url` to static-pages
 * Normalise `_path` in static-pages
 
+# 1.4.3
+
+* Fix off-by-one depth for nested documents from last change
+
 # 1.4.2
 
 * Added max depth parameter for jsonify filter and increase it for array structures in config output

@@ -167,7 +167,7 @@ module CloudCannonJekyll
     def self.to_json(input, depth, max_depth = 9, key_swaps = {})
       depth += 1
 
-      if depth > max_depth || (depth > 2 && JsonifyFilter.document_type?(input))
+      if depth > max_depth || (depth > 3 && JsonifyFilter.document_type?(input))
         '"MAXIMUM_DEPTH"'
       elsif JsonifyFilter.simple_type?(input)
         input.to_json
