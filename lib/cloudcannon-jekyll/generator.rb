@@ -49,11 +49,13 @@ module CloudCannonJekyll
       @site.config["data_dir"] || "_data"
     end
 
+    # rubocop:disable Metrics/AbcSize
     def add_category_folder_config(collections_config, posts_config = {})
       posts = @site.posts || @site.collections["posts"]
+      docs = posts.class.method_defined?(:docs) ? posts.docs : posts
       seen = {}
 
-      posts.map do |post|
+      docs.map do |post|
         parts = post.relative_path.split("/_posts/")
         path = parts.first
 
@@ -80,6 +82,7 @@ module CloudCannonJekyll
         path
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     # Add data to collections config if raw data files exist
     def add_data_config(collections_config)

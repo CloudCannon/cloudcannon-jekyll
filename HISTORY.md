@@ -1,6 +1,12 @@
+# 0.3.2
+
+* Rework fallback for older versions of Jekyll when reading data, posts and drafts
+* Fix deprecation warning for `posts.map`
+
 # 0.3.1
 
 * Fix for empty collection configurations
+* Added max depth parameter for jsonify filter and increase it for array structures in config output
 
 # 0.3.0
 
@@ -13,7 +19,6 @@
 * Renamed static to static-pages in details and removed `robots.txt` and `sitemap.xml` exceptions
 * Add `url` to static-pages
 * Normalise `_path` in static-pages
-* Added max depth parameter for jsonify filter and increase it for array structures in config output
 
 # 0.2.2
 

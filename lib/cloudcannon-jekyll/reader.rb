@@ -2,9 +2,9 @@
 
 require "jekyll"
 
-if !Jekyll::VERSION.start_with? "2."
+begin
   require_relative "readers/data-reader"
-else
+rescue NameError
   require_relative "readers/old-data-reader"
 end
 
@@ -18,27 +18,21 @@ module CloudCannonJekyll
     end
 
     def read_data(dir = "_data")
-      if Jekyll::VERSION.start_with? "2."
-        CloudCannonJekyll::OldDataReader.new(@site).read(dir)
-      else
-        CloudCannonJekyll::DataReader.new(@site).read(dir)
-      end
+      CloudCannonJekyll::DataReader.new(@site).read(dir)
+    rescue NameError # DataReader doesn't exist in old versions of Jekyll
+      CloudCannonJekyll::OldDataReader.new(@site).read(dir)
     end
 
     def read_drafts(dir = "")
-      if Jekyll::VERSION.start_with? "2."
-        @site.read_content(dir, "_drafts", Jekyll::Draft)
-      else
-        Jekyll::PostReader.new(@site).read_drafts(dir)
-      end
+      Jekyll::PostReader.new(@site).read_drafts(dir)
+    rescue NameError # PostReader doesn't exist in old versions of Jekyll
+      @site.read_content(dir, "_drafts", Jekyll::Draft)
     end
 
     def read_posts(dir = "")
-      if Jekyll::VERSION.start_with? "2."
-        @site.read_content(dir, "_posts", Jekyll::Post)
-      else
-        Jekyll::PostReader.new(@site).read_posts(dir)
-      end
+      Jekyll::PostReader.new(@site).read_posts(dir)
+    rescue NameError # PostReader doesn't exist in old versions of Jekyll
+      @site.read_content(dir, "_posts", Jekyll::Post)
     end
   end
 end
