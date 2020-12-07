@@ -1,3 +1,8 @@
+# 1.5.3
+
+* Rework fallback for older versions of Jekyll when reading data, posts and drafts
+* Fix deprecation warning for `posts.map`
+
 # 1.5.2
 
 * Fix for empty collection configurations
