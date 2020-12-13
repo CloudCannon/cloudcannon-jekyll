@@ -1,3 +1,7 @@
+# 1.5.4
+
+* Rework fallback for older versions of Jekyll when reading data, posts and drafts again
+
 # 1.5.3
 
 * Rework fallback for older versions of Jekyll when reading data, posts and drafts
