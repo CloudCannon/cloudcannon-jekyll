@@ -13,7 +13,7 @@ module CloudCannonJekyll
       @site = site
       @reader = Reader.new(@site)
 
-      collections_config = @site.config["collections"].dup || {}
+      collections_config = @site.config["collections"]&.dup || {}
 
       # Workaround for empty collection configurations
       collections_config.each_key do |key|
@@ -96,7 +96,7 @@ module CloudCannonJekyll
       drafts = @reader.read_drafts(collections_dir)
 
       if collections_config.key?("posts")
-        collections_config["drafts"] = collections_config["posts"].dup
+        collections_config["drafts"] = collections_config["posts"]&.dup || {}
       elsif drafts.any?
         collections_config["drafts"] = {}
       end
