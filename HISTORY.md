@@ -1,3 +1,8 @@
+# 0.3.4
+
+* Re-add id field for documents
+* Fix for potential nil reference
+
 # 0.3.3
 
 * Rework fallback for older versions of Jekyll when reading data, posts and drafts again
