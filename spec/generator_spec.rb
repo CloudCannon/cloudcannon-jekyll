@@ -94,6 +94,7 @@ describe CloudCannonJekyll::Generator do
       expect(first_post.key?("next")).to eql(false)
       expect(first_post.key?("previous")).to eql(false)
       expect(first_post.key?("excerpt")).to eql(false)
+      expect(first_post["id"]).to eq("/business/2016/08/10/business-mergers")
       expect(first_post["tags"]).to eq(["hello"])
       expect(first_post["date"]).to(
         match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)

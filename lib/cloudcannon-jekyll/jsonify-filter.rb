@@ -107,7 +107,7 @@ module CloudCannonJekyll
     end
 
     def self.document_to_json(input, depth, max_depth)
-      prevent = %w(dir id relative_path url collection)
+      prevent = %w(dir relative_path url collection)
 
       out = [
         "\"path\": #{JsonifyFilter.to_json(input.relative_path, depth, max_depth)}",
@@ -118,6 +118,10 @@ module CloudCannonJekyll
       unless collection.nil?
         collection_json = JsonifyFilter.to_json(collection.label, depth, max_depth)
         out.push("\"collection\": #{collection_json}")
+      end
+
+      if input.respond_to? :id
+        out.push("\"id\": #{JsonifyFilter.to_json(input.id, depth, max_depth)}")
       end
 
       out += JsonifyFilter.document_data_to_a(input.data, prevent, depth, max_depth)
