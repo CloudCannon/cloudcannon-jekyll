@@ -7,7 +7,12 @@ require_relative "reader"
 module CloudCannonJekyll
   # Generates JSON files containing build config and build output details
   class Generator < Jekyll::Generator
+    
+    # Override the Jekyll::Plugin spaceship to push our plugin to the very end
     priority :lowest
+    def self.<=>(other)
+      return 1
+    end
 
     def generate(site)
       @site = site
