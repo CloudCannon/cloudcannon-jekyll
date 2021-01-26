@@ -1,3 +1,7 @@
+# 1.5.6
+
+* Force generator to run after other lowest priority plugins
+
 # 1.5.5
 
 * Re-add id field for documents
