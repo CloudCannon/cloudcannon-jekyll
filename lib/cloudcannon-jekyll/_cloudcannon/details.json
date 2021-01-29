@@ -36,6 +36,6 @@
 			{%- unless forloop.last %},{% endunless %}
 		{%- endfor -%}
 	},
-	"pages": {{ site.pages | cc_jsonify }},
+	"pages": {{ site.html_pages | cc_jsonify }},
 	"static-pages": {{ site.static_files | cc_static_files_jsonify }}
 }
