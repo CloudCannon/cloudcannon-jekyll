@@ -10,6 +10,8 @@ description: Example site for testing
 timezone: Etc/UTC
 
 collections:
+  posts:
+    title: "Blog Posts"
   staff_members:
     output: false
     custom: indeed

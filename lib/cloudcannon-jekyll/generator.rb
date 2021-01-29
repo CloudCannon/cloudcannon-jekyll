@@ -99,9 +99,7 @@ module CloudCannonJekyll
       collections_config["posts"] = { "output" => true } if Jekyll::VERSION.start_with? "2."
       drafts = @reader.read_drafts(collections_dir)
 
-      if collections_config.key?("posts")
-        collections_config["drafts"] = collections_config["posts"]&.dup || {}
-      elsif drafts.any?
+      if (collections_config.key?("posts") && !collections_config.key?("drafts")) || drafts.any?
         collections_config["drafts"] = {}
       end
 

@@ -208,6 +208,7 @@ describe CloudCannonJekyll::Generator do
       drafts = collections["drafts"]
       expect(drafts).not_to be_nil
       expect(drafts["_path"]).to eq("_drafts")
+      expect(drafts["title"]).to be_nil
 
       data = collections["data"]
       expect(data).not_to be_nil
