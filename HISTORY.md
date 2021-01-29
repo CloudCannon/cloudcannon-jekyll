@@ -1,3 +1,8 @@
+# 1.5.7
+
+* Fix pages collection clash with built-in pages
+* Fixed posts collection config data overwriting drafts data
+
 # 1.5.6
 
 * Force generator to run after other lowest priority plugins
