@@ -16,6 +16,13 @@ RSpec.configure do |config|
   SOURCE_DIR = File.expand_path("fixtures", __dir__)
   DEST_DIR = File.expand_path("dest", __dir__)
 
+  def log_schema_error(error)
+    # Expecting here rather than logging means it get output in the test results
+    log = "'#{error["data_pointer"]}' schema mismatch: (data: #{error["data"]})"\
+      " (schema: #{error["schema"]})"
+    expect(log).to be_nil
+  end
+
   def source_dir(*files)
     File.join(SOURCE_DIR, *files)
   end
@@ -24,13 +31,13 @@ RSpec.configure do |config|
     File.join(DEST_DIR, *files)
   end
 
-  CONFIG_DEFAULTS = {
-    "source"      => source_dir,
-    "destination" => dest_dir,
-  }.freeze
+  def make_site(options = {}, fixture = "standard")
+    config_defaults = {
+      "source"      => File.expand_path(fixture, source_dir),
+      "destination" => dest_dir,
+    }.freeze
 
-  def make_site(options = {})
-    site_config = Jekyll.configuration(CONFIG_DEFAULTS.merge(options))
+    site_config = Jekyll.configuration(config_defaults.merge(options))
     Jekyll::Site.new(site_config)
   end
 end

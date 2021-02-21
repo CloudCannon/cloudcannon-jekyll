@@ -1,0 +1,16 @@
+---
+layout: page
+---
+
+{% include post-summary-details.html post=page %}
+
+<div>{{ content }}</div>
+
+<h2>Keep reading</h2>
+<ol class="post-links post-list">
+	{% if page.next %}
+		{% include post-summary.html post=page.next %}
+	{% elsif page.previous %}
+		{% include post-summary.html post=page.previous %}
+	{% endif %}
+</ol>
