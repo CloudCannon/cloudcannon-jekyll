@@ -1,3 +1,10 @@
+# 0.4.0
+
+* Add `collections_dir` to details collection item paths
+* Fix pages collection clash with built-in pages
+* Fixed posts collection config data overwriting drafts data
+* Force generator to run after other lowest priority plugins
+
 # 0.3.4
 
 * Re-add id field for documents

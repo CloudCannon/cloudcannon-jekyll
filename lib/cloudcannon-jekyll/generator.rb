@@ -7,7 +7,11 @@ require_relative "reader"
 module CloudCannonJekyll
   # Generates JSON files containing build config and build output details
   class Generator < Jekyll::Generator
+    # Override the Jekyll::Plugin spaceship to push our plugin to the very end
     priority :lowest
+    def self.<=>(*)
+      1
+    end
 
     def generate(site)
       @site = site
@@ -95,9 +99,7 @@ module CloudCannonJekyll
       collections_config["posts"] = { "output" => true } if Jekyll::VERSION.start_with? "2."
       drafts = @reader.read_drafts(collections_dir)
 
-      if collections_config.key?("posts")
-        collections_config["drafts"] = collections_config["posts"]&.dup || {}
-      elsif drafts.any?
+      if (collections_config.key?("posts") && !collections_config.key?("drafts")) || drafts.any?
         collections_config["drafts"] = {}
       end
 

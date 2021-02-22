@@ -1,0 +1,30 @@
+- title: Pages
+  links:
+    - name: Home
+      link: /
+    - name: About
+      link: /about/
+    - name: Services
+      link: /services/
+    - name: Contact
+      link: /contact/
+    - name: Advice
+      link: /advice/
+- title: Social
+  links:
+    - name: Facebook
+      link: http://facebook.com
+      social_icon: Facebook
+      new_window: true
+    - name: Twitter
+      link: http://twitter.com
+      social_icon: Twitter
+      new_window: true
+    - name: Instagram
+      link: http://instagram.com/
+      social_icon: Instagram
+      new_window: true
+    - name: LinkedIn
+      link: https://linkedin.com
+      social_icon: LinkedIn
+      new_window: true

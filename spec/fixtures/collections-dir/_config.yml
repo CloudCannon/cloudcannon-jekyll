@@ -9,7 +9,10 @@ description: Example site for testing
 
 timezone: Etc/UTC
 
+collections_dir: collections
 collections:
+  pages:
+    output: true
   staff_members:
     output: false
     custom: indeed

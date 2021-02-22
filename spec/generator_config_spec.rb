@@ -5,189 +5,51 @@ require "json_schemer"
 require "pathname"
 
 describe CloudCannonJekyll::Generator do
+  # Tests for the config file
+
+  let(:fixture) { "standard" }
   let(:site_data) { {} }
-  let(:site) { make_site(site_data) }
-  let(:details_raw) { File.read(dest_dir("_cloudcannon/details.json")) }
+  let(:site) { make_site(site_data, fixture) }
   let(:config_raw) { File.read(dest_dir("_cloudcannon/config.json")) }
   let(:config) { JSON.parse(config_raw) }
-  let(:details) { JSON.parse(details_raw) }
   before { site.process }
-
-  def log_schema_error(error)
-    # Expecting here rather than logging means it get output in the test results
-    log = "'#{error["data_pointer"]}' schema mismatch: (data: #{error["data"]})"\
-      " (schema: #{error["schema"]})"
-    expect(log).to be_nil
-  end
-
-  context "creates" do
-    it "a details file" do
-      expect(Pathname.new(dest_dir("_cloudcannon/details.json"))).to exist
-    end
-
-    it "details without data" do
-      expect(details_raw.scan(%r!"data": {"!).length).to eq(0)
-    end
-
-    it "details without unsupported items" do
-      expect(details_raw.scan(%r!UNSUPPORTED!).length).to eq(0)
-    end
-  end
-
-  context "options" do
-    let(:site_data) { { :cloudcannon => { "data" => true } } }
-
-    it "allow details with data" do
-      expect(details_raw.scan(%r!"data": {"!).length).to eq(1)
-    end
-
-    it "allow details with data without unsupported items" do
-      expect(details_raw.scan(%r!UNSUPPORTED!).length).to eq(0)
-    end
-  end
-
-  context "details" do
-    let(:site_data) { { :cloudcannon => { "data" => true } } }
-
-    details_schema = Pathname.new("spec/build-details-schema.json")
-    details_schemer = JSONSchemer.schema(details_schema, :ref_resolver => "net/http")
-
-    it "matches the schema" do
-      details_schemer.validate(details).each { |v| log_schema_error(v) }
-      expect(details_schemer.valid?(details)).to eq(true)
-    end
-
-    it "contains valid time" do
-      expect(details["time"]).to match(%r!\d{4}\-\d\d\-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d!)
-    end
-
-    it "contains gem information" do
-      expect(details["cloudcannon"]["name"]).to eq("cloudcannon-jekyll")
-      expect(details["cloudcannon"]["version"]).to eq(CloudCannonJekyll::VERSION)
-    end
-
-    it "contains generator information" do
-      expect(details["generator"]["name"]).to eq("jekyll")
-      expect(details["generator"]["version"]).to match(%r![2-4]\.\d+\.\d+!)
-      expect(details["generator"].key?("environment")).to eql(true)
-      expect(details["generator"]["metadata"]["markdown"]).to eql("kramdown")
-      expect(details["generator"]["metadata"]["kramdown"]).not_to be_nil
-      expect(details["generator"]["metadata"]["commonmark"]).to be_nil
-    end
-
-    it "contains data" do
-      expect(details["data"].keys.length).to eq(2)
-      expect(details["data"]["company"]).not_to be_nil
-      expect(details["data"]["footer"]).not_to be_nil
-    end
-
-    it "contains collections" do
-      expect(details["collections"]["posts"]).not_to be_nil
-      expect(details["collections"]["staff_members"]).not_to be_nil
-      expect(details["collections"]["drafts"]).not_to be_nil
-      expect(details["collections"]["empty"]).not_to be_nil
-      expect(details["collections"].length).to eq(4)
-
-      first_post = details["collections"]["posts"][0]
-      expect(first_post.key?("content")).to eql(false)
-      expect(first_post.key?("output")).to eql(false)
-      expect(first_post.key?("next")).to eql(false)
-      expect(first_post.key?("previous")).to eql(false)
-      expect(first_post.key?("excerpt")).to eql(false)
-      expect(first_post["id"]).to eq("/business/2016/08/10/business-mergers")
-      expect(first_post["tags"]).to eq(["hello"])
-      expect(first_post["date"]).to(
-        match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
-      )
-
-      if Jekyll::VERSION.start_with? "2."
-        expect(first_post["categories"]).to eq(["business"])
-      else
-        expect(first_post["categories"]).to eq(["Business"])
-      end
-
-      first_staff_member = details["collections"]["staff_members"][0]
-      expect(first_staff_member["path"]).not_to be_nil
-      expect(first_staff_member["name"]).to eql("Jane Doe")
-
-      first_draft = details["collections"]["drafts"][0]
-      expect(first_draft["path"]).to eql("_drafts/incomplete.md")
-      expect(first_draft["title"]).to eql("WIP")
-
-      second_draft = details["collections"]["drafts"][1]
-      expect(second_draft["path"]).to eql("other/_drafts/testing-for-category.md")
-      expect(second_draft["title"]).to eql("Testing for category drafts")
-
-      expect(details["collections"]["drafts"].length).to eql(2)
-    end
-
-    it "contains pages" do
-      expect(details["pages"].length).to eq(8)
-      page_urls = details["pages"].map { |page| page["url"] }.join(",")
-      expect(page_urls).to(
-        eq("/404.html,/about/,/contact-success/,/contact/,/,/robots.txt,/services/,/terms/")
-      )
-    end
-
-    it "contains static files" do
-      expect(details["static-pages"].length).to eq(1)
-      expect(details["static-pages"][0]["path"]).to eq("static-page.html")
-      expect(details["static-pages"][0]["url"]).to eq("/static-page.html")
-    end
-  end
-
-  context "specific data" do
-    let(:site_data) { { :cloudcannon => { "data" => { "company" => true } } } }
-
-    it "contains a single data entry" do
-      expect(details["data"].keys.length).to eq(1)
-      expect(details["data"]["company"]).not_to be_nil
-    end
-  end
-
-  # Tests for the config file
 
   config_schema = Pathname.new("spec/build-configuration-schema.json")
   config_schemer = JSONSchemer.schema(config_schema, :ref_resolver => "net/http")
 
-  context "full config data" do
+  context "config" do
+    it "exists" do
+      expect(Pathname.new(dest_dir("_cloudcannon/config.json"))).to exist
+    end
+
     it "matches the schema" do
       config_schemer.validate(config).each { |v| log_schema_error(v) }
       expect(config_schemer.valid?(config)).to eq(true)
     end
 
-    it "contains valid time" do
-      expect(details["time"]).to match(%r!\d{4}\-\d\d\-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d!)
-    end
-
-    it "contains gem information" do
-      expect(details["cloudcannon"]["name"]).to eq("cloudcannon-jekyll")
-      expect(details["cloudcannon"]["version"]).to eq(CloudCannonJekyll::VERSION)
-    end
-
-    it "has populated source" do
+    it "has source" do
       # Usually this would be output without a trailing slash, but spec_helper.rb
       # does some overwriting which doesn't fully replicate a normal build.
-      expect(config["source"]).to eq("/spec/fixtures")
+      expect(config["source"]).to eq("/spec/fixtures/standard")
     end
 
-    it "has populated timezone" do
+    it "has timezone" do
       expect(config["timezone"]).to eq("Etc/UTC")
     end
 
-    it "has populated include" do
+    it "has include" do
       expect(config["include"].length).not_to eq(0)
     end
 
-    it "has populated exclude" do
+    it "has exclude" do
       expect(config["exclude"].length).not_to eq(0)
     end
 
-    it "has populated base-url" do
+    it "has base-url" do
       expect(config["base-url"]).to eq("basic")
     end
 
-    it "has populated collections" do
+    it "has collections" do
       collections = config["collections"]
 
       posts = collections["posts"]
@@ -208,6 +70,13 @@ describe CloudCannonJekyll::Generator do
       drafts = collections["drafts"]
       expect(drafts).not_to be_nil
       expect(drafts["_path"]).to eq("_drafts")
+      expect(drafts["title"]).to be_nil
+
+      pages = collections["pages"]
+      expect(pages).not_to be_nil
+      expect(pages["_path"]).to eq("_pages")
+      expect(pages["title"]).to be_nil
+      expect(pages["output"]).to eq(true)
 
       data = collections["data"]
       expect(data).not_to be_nil
@@ -224,20 +93,20 @@ describe CloudCannonJekyll::Generator do
       expect(empty).not_to be_nil
       expect(empty["_path"]).to eq("_empty")
 
-      expect(collections.length).to eq(7)
+      expect(collections.length).to eq(8)
     end
 
-    it "has populated comments" do
+    it "has comments" do
       expect(config["comments"]).to eq({
         "heading_image" => "This image should be related to the content",
       })
     end
 
-    it "has populated editor" do
+    it "has editor" do
       expect(config["editor"]).to eq({ "default-path" => "basic" })
     end
 
-    it "has populated source-editor" do
+    it "has source editor" do
       expect(config["source-editor"]).to eq({
         "tab-size"    => 2,
         "show-gutter" => false,
@@ -245,14 +114,14 @@ describe CloudCannonJekyll::Generator do
       })
     end
 
-    it "has populated explore" do
+    it "has explore" do
       expect(config["explore"]["groups"]).to eq([
         { "heading" => "Blogging", "collections" => %w(posts drafts) },
         { "heading" => "Other", "collections" => %w(pages staff_members) },
       ])
     end
 
-    it "has populated paths" do
+    it "has paths" do
       expect(config["paths"]["uploads"]).to eq("uploads")
       expect(config["paths"]["pages"]).to eq("")
 
@@ -279,7 +148,7 @@ describe CloudCannonJekyll::Generator do
       expect(config["paths"].keys.length).to eq(7)
     end
 
-    it "has populated array-structures" do
+    it "has array-structures" do
       expect(config["array-structures"]["gallery"]).to eq({
         "style"  => "select",
         "values" => [
@@ -326,7 +195,7 @@ describe CloudCannonJekyll::Generator do
       expect(config["array-structures"].keys.length).to eq(1)
     end
 
-    it "has populated select-data" do
+    it "has select data" do
       expect(config["select-data"]).to eq({
         "cards_per_rows" => {
           "2" => "Two",
@@ -340,7 +209,7 @@ describe CloudCannonJekyll::Generator do
       })
     end
 
-    it "has populated input-options" do
+    it "has input options" do
       expect(config["input-options"]).to eq({
         "content" => { "image" => true, "bold" => true },
         "my_html" => {
@@ -351,7 +220,7 @@ describe CloudCannonJekyll::Generator do
       })
     end
 
-    it "has populated defaults" do
+    it "has defaults" do
       expect(config["defaults"]).to eq([
         {
           "scope"  => { "path" => "" },
@@ -365,12 +234,28 @@ describe CloudCannonJekyll::Generator do
     end
   end
 
+  context "config with posts collection" do
+    let(:site_data) { { :collections => { "posts" => { "title" => "Blog Posts" } } } }
+
+    it "does not override drafts" do
+      drafts = config["collections"]["drafts"]
+      expect(drafts).not_to be_nil
+      expect(drafts["_path"]).to eq("_drafts")
+      expect(drafts["title"]).to be_nil
+
+      posts = config["collections"]["posts"]
+      expect(posts).not_to be_nil
+      expect(posts["_path"]).to eq("_posts")
+      expect(posts["title"]).to eq("Blog Posts") unless Jekyll::VERSION.start_with? "2."
+    end
+  end
+
   # Tests for when the config file is almost empty
-  context "empty config data" do
+  context "config with almost no content" do
     let(:site_data) do
       {
         :skip_config_files => true,
-        :config            => "spec/fixtures/_config-almost-empty.yml",
+        :config            => "spec/fixtures/standard/_config-almost-empty.yml",
       }
     end
 
@@ -383,7 +268,7 @@ describe CloudCannonJekyll::Generator do
       expect(config).not_to have_key("timezone")
     end
 
-    it "has no base-url" do
+    it "has no base url" do
       if Jekyll::VERSION.start_with?("2.") || (%r!3\.[0-4]\.! =~ Jekyll::VERSION)
         expect(config["base-url"]).to eq("")
       else
@@ -420,15 +305,15 @@ describe CloudCannonJekyll::Generator do
       expect(config["paths"].keys.length).to eq(7)
     end
 
-    it "has no array-structures" do
+    it "has no array structures" do
       expect(config).not_to have_key("array-structures")
     end
 
-    it "has no select-data" do
+    it "has no select data" do
       expect(config).not_to have_key("select-data")
     end
 
-    it "has no input-options" do
+    it "has no input options" do
       expect(config).not_to have_key("input-options")
     end
 
@@ -437,14 +322,14 @@ describe CloudCannonJekyll::Generator do
     end
   end
 
-  context "config data with _select_data key" do
+  context "config with select data" do
     let(:site_data) do
       {
         :_select_data => { "news" => { "first" => "yes", "second" => "no" } },
       }
     end
 
-    it "has select-data from new format" do
+    it "has select data" do
       expect(config["select-data"]).to eq({
         "news" => {
           "first"  => "yes",
@@ -454,7 +339,7 @@ describe CloudCannonJekyll::Generator do
     end
   end
 
-  context "config data with custom collections_dir" do
+  context "config with custom collections dir" do
     let(:site_data) { { :collections_dir => "collections" } }
 
     it "has collections path" do

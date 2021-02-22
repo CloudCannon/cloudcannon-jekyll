@@ -107,17 +107,25 @@ module CloudCannonJekyll
       "{#{out.join(",")}}"
     end
 
+    def self.document_path(input)
+      collections_dir = input.site.config["collections_dir"] || ""
+      if input.collection && !collections_dir.empty?
+        "#{collections_dir}/#{input.relative_path}"
+      else
+        input.relative_path
+      end
+    end
+
     def self.document_to_json(input, depth, max_depth)
       prevent = %w(dir relative_path url collection)
 
       out = [
-        "\"path\": #{JsonifyFilter.to_json(input.relative_path, depth, max_depth)}",
+        "\"path\": #{JsonifyFilter.to_json(JsonifyFilter.document_path(input), depth, max_depth)}",
         "\"url\": #{JsonifyFilter.to_json(input.url, depth, max_depth)}",
       ]
 
-      collection = input.collection
-      unless collection.nil?
-        collection_json = JsonifyFilter.to_json(collection.label, depth, max_depth)
+      unless input.collection.nil?
+        collection_json = JsonifyFilter.to_json(input.collection.label, depth, max_depth)
         out.push("\"collection\": #{collection_json}")
       end
 
