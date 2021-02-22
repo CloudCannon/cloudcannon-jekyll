@@ -1,3 +1,7 @@
+# 1.6.0
+
+* Add `collections_dir` to details collection item paths
+
 # 1.5.7
 
 * Fix pages collection clash with built-in pages
