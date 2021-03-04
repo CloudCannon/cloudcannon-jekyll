@@ -228,7 +228,64 @@ describe CloudCannonJekyll::Generator do
         },
         {
           "scope"  => { "path" => "", "type" => "posts" },
-          "values" => { "layout" => "post" },
+          "values" => {
+            "layout" => "post",
+            "nested1" => {
+              "nested2" => {
+                "nested3" => {
+                  "nested4" => {
+                    "nested5" => {
+                      "nested6" => "MAXIMUM_DEPTH"
+                    },
+                  },
+                },
+              },
+            },
+            "_array_structures" => {
+              "gallery" => {
+                "style"  => "select",
+                "values" => [
+                  {
+                    "label" => "Image",
+                    "image" => "/path/to/source-image.png",
+                    "value" => {
+                      "image"   => "/placeholder.png",
+                      "caption" => nil,
+                      "nested"  => {
+                        "thing" => {
+                          "which" => {
+                            "keeps" => {
+                              "nesting" => {
+                                "beyond" => {
+                                  "what" => {
+                                    "would" => {
+                                      "is" => {
+                                        "likely" => {
+                                          "usually" => "hello",
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                  {
+                    "label" => "External link",
+                    "icon"  => "link",
+                    "value" => {
+                      "url"   => nil,
+                      "title" => nil,
+                    },
+                  },
+                ]
+              }
+            }
+          }
         },
       ])
     end

@@ -99,6 +99,51 @@ describe CloudCannonJekyll::Generator do
       first_collection_page = details["collections"]["pages"][0]
       expect(first_collection_page["title"]).to eq("Page Item")
       expect(first_collection_page["path"]).to eq("_pages/page-item.md")
+      expect(first_collection_page["_array_structures"]).to eq({
+        "gallery" => {
+          "style"  => "select",
+          "values" => [
+            {
+              "label" => "Image",
+              "image" => "/path/to/source-image.png",
+              "value" => {
+                "image"   => "/placeholder.png",
+                "caption" => nil,
+                "nested"  => {
+                  "thing" => {
+                    "which" => {
+                      "keeps" => {
+                        "nesting" => {
+                          "beyond" => {
+                            "what" => {
+                              "would" => {
+                                "is" => {
+                                  "likely" => {
+                                    "usually" => "hello",
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            {
+              "label" => "External link",
+              "icon"  => "link",
+              "value" => {
+                "url"   => nil,
+                "title" => nil,
+              },
+            },
+          ]
+        }
+      })
+
       expect(details["collections"]["pages"].length).to eq(1)
     end
 

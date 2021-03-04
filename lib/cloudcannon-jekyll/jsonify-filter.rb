@@ -63,7 +63,8 @@ module CloudCannonJekyll
         next if prevent.include? key
 
         prevent.push key
-        "#{key.to_json}: #{JsonifyFilter.to_json(value, depth, max_depth)}"
+        next_max_depth = key == "_array_structures" ? 20 : max_depth
+        "#{key.to_json}: #{JsonifyFilter.to_json(value, depth, next_max_depth)}"
       end
 
       out.compact
@@ -146,8 +147,9 @@ module CloudCannonJekyll
 
     def self.hash_to_json(input, depth, max_depth, key_swaps = {})
       out = input.map do |key, value|
+        next_max_depth = key == "_array_structures" ? 20 : max_depth
         string_key = (key_swaps[key] || key).to_s.to_json
-        "#{string_key}: #{JsonifyFilter.to_json(value, depth, max_depth, key_swaps)}"
+        "#{string_key}: #{JsonifyFilter.to_json(value, depth, next_max_depth, key_swaps)}"
       end
 
       "{#{out.join(",")}}"
