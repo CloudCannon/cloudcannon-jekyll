@@ -1,3 +1,7 @@
+# 1.6.1
+
+* Increase max depth for array structures defined outside of global
+
 # 1.6.0
 
 * Add `collections_dir` to details collection item paths
