@@ -2,7 +2,7 @@
 
 A Jekyll plugin to create CloudCannon editor details.
 
-[![Build Status](https://travis-ci.com/CloudCannon/cloudcannon-jekyll.svg?branch=master)](https://travis-ci.com/CloudCannon/cloudcannon-jekyll) [![Gem Version](https://badge.fury.io/rb/cloudcannon-jekyll.svg)](https://badge.fury.io/rb/cloudcannon-jekyll)
+[![Build Status](https://travis-ci.com/CloudCannon/cloudcannon-jekyll.svg?branch=main)](https://travis-ci.com/CloudCannon/cloudcannon-jekyll) [![Gem Version](https://badge.fury.io/rb/cloudcannon-jekyll.svg)](https://badge.fury.io/rb/cloudcannon-jekyll)
 
 ## Usage
 
