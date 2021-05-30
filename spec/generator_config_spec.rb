@@ -114,11 +114,11 @@ describe CloudCannonJekyll::Generator do
       })
     end
 
-    it "has explore" do
-      expect(config["explore"]["groups"]).to eq([
-        { "heading" => "Blogging", "collections" => %w(posts drafts) },
-        { "heading" => "Other", "collections" => %w(pages staff_members) },
-      ])
+    it "has explore groups" do
+      expect(config["collections"]["posts"]["_group"]).to eq("Blogging")
+      expect(config["collections"]["drafts"]["_group"]).to eq("Blogging")
+      expect(config["collections"]["pages"]["_group"]).to eq("Other")
+      expect(config["collections"]["staff_members"]["_group"]).to eq("Other")
     end
 
     it "has paths" do
