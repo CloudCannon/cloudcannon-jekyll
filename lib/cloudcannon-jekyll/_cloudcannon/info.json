@@ -1,0 +1,85 @@
+{
+	"time": {{ site.time | date_to_xmlschema | cc_jsonify }},
+	"cloudcannon": {
+		"name": "cloudcannon-jekyll",
+		"version": {{ gem_version | cc_jsonify }}
+	},
+	"generator": {
+		"name": "jekyll",
+		"version": {{ jekyll.version | cc_jsonify }},
+		"environment": {{ jekyll.env | cc_jsonify }},
+		"metadata": {
+			"markdown": {{ site.markdown | cc_jsonify }},
+			"kramdown": {{ site.kramdown | cc_jsonify }},
+			"commonmark": {{ site.commonmark | cc_jsonify }}
+		}
+	},
+	{% if config.timezone -%}
+		"timezone": {{ config.timezone | cc_jsonify }},
+	{%- endif %}
+	"collections-config": {{ collections_config | cc_jsonify: 'collections' }},
+	"collections": {
+		"drafts": {{ drafts | cc_jsonify }}{% if site.collections.size > 0 %},{% endif %}
+		{%- for collection in site.collections -%}
+			"{{ collection.label | xml_escape }}": {{ collection.docs | cc_jsonify }}
+			{%- unless forloop.last %},{% endunless %}
+		{%- endfor -%}
+	},
+	"pages": {{ site.html_pages | cc_jsonify }},
+	"static-pages": {{ site.static_files | cc_static_files_jsonify }},
+	{% if site.cloudcannon.data.first -%}
+		"data": {
+			{%- assign data_seen = false %}
+			{%- for data in site.data %}
+				{%- assign key = data[0] %}
+				{%- if site.cloudcannon.data[key] %}
+					{%- if data_seen %},{% endif -%}
+					{{ data[0] | cc_jsonify }}: {{ data[1] | cc_jsonify }}
+					{%- assign data_seen = true %}
+				{%- endif %}
+			{%- endfor -%}
+		},
+	{% elsif site.cloudcannon.data -%}
+		"data": {{ site.data | cc_jsonify }},
+	{%- endif %}
+	{% if config.baseurl -%}
+		"base-url": {{ config.baseurl | cc_jsonify }},
+	{%- endif %}
+	{% if config._comments -%}
+		"_comments": {{ config._comments | cc_jsonify }},
+	{%- endif %}
+	{% if config._options -%}
+		"_options": {{ config._options | cc_jsonify }},
+	{%- endif %}
+	{% if config._editor -%}
+		"_editor": {
+			"default_path": {{ config._editor.default_path | cc_jsonify }}
+		},
+	{%- endif %}
+	{% if config._source_editor -%}
+		"_source_editor": {
+			"tab_size": {{ config._source_editor.tab_size | cc_jsonify }},
+			"show_gutter": {{ config._source_editor.show_gutter | cc_jsonify }},
+			"theme": {{ config._source_editor.theme | cc_jsonify }}
+		},
+	{%- endif %}
+	"paths": {
+		"uploads": {{ config.uploads_dir | cc_jsonify }},
+		"data": {{ config.data_dir | cc_jsonify }},
+		"pages": "",
+		"collections": {{ config.collections_dir | cc_jsonify }},
+		"includes": {{ config.includes_dir | cc_jsonify }},
+		"layouts": {{ config.layouts_dir | cc_jsonify }}
+	},
+	{% if config._array_structures -%}
+		"_array_structures": {{ config._array_structures | cc_jsonify: nil, 50 }},
+	{%- endif %}
+	{% assign select_data = config | cc_select_data_jsonify -%}
+	{% if select_data -%}
+		"_select_data": {{ select_data }},
+	{%- endif %}
+	{% if config.defaults -%}
+		"defaults": {{ config.defaults | cc_jsonify }},
+	{%- endif %}
+	"source": {{ config.source | replace: pwd, "" | cc_jsonify }}
+}

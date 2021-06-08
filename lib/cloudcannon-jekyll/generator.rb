@@ -28,14 +28,11 @@ module CloudCannonJekyll
       add_data_config(collections_config)
       add_legacy_explore_groups(collections_config)
 
-      generate_file("config", payload.merge({
-        "pwd"         => Dir.pwd,
-        "config"      => @site.config,
-        "collections" => collections_config,
-      }))
-
-      generate_file("details", payload.merge({
-        "drafts" => drafts,
+      generate_file("info", payload.merge({
+        "pwd"                => Dir.pwd,
+        "config"             => @site.config,
+        "collections_config" => collections_config,
+        "drafts"             => drafts,
       }))
     end
 
@@ -83,13 +80,13 @@ module CloudCannonJekyll
         collections_path = "#{collections_dir}/#{folder}".gsub(%r!\/+!, "/").sub(%r!^\/+!, "")
 
         collections_config["#{folder}/posts"] = posts_config.merge({
-          "_path" => "#{collections_path}/_posts",
+          "path" => "#{collections_path}/_posts",
         })
 
         # Adding the category draft config like this isn't ideal, since you could have drafts
         #  without posts, but it's a decent trade off vs looking for _drafts folders
         collections_config["#{folder}/drafts"] = posts_config.merge({
-          "_path" => "#{collections_path}/_drafts",
+          "path" => "#{collections_path}/_drafts",
         })
 
         path
@@ -113,7 +110,7 @@ module CloudCannonJekyll
     # Add data to collections config if raw data files exist
     def add_data_config(collections_config)
       data_files = @reader.read_data(data_dir)
-      collections_config["data"] = { "_path" => data_dir } if data_files&.keys&.any?
+      collections_config["data"] = { "path" => data_dir } if data_files&.keys&.any?
     end
 
     # Add posts/drafts to collections config
@@ -133,10 +130,10 @@ module CloudCannonJekyll
       drafts
     end
 
-    # Add _path to each collection config
+    # Add path to each collection config
     def add_collection_paths(collections_config)
       collections_config.each do |key, collection|
-        collection["_path"] ||= File.join(collections_dir, "_#{key}").sub(%r!^\/+!, "")
+        collection["path"] ||= File.join(collections_dir, "_#{key}").sub(%r!^\/+!, "")
       end
     end
 
