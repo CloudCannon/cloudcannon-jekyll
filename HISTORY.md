@@ -1,3 +1,8 @@
+# 2.0.0
+
+* Rename a number of top level configuration keys to match source keys
+* Combine `details.json` and `config.json` into `info.json`
+
 # 1.6.1
 
 * Increase max depth for array structures defined outside of global
