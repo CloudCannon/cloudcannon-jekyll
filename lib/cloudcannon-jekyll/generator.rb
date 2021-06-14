@@ -26,7 +26,7 @@ module CloudCannonJekyll
       drafts = add_blogging_config(collections_config)
       add_collection_paths(collections_config)
       add_data_config(collections_config)
-      add_legacy_explore_groups(collections_config)
+      add_legacy_explore_groups
 
       generate_file("info", payload.merge({
         "pwd"                => Dir.pwd,
@@ -95,15 +95,9 @@ module CloudCannonJekyll
     # rubocop:enable Metrics/AbcSize
 
     # Support for the deprecated _explore configuration
-    def add_legacy_explore_groups(collections_config)
-      config_groups = @site.config.dig("_explore", "groups")&.dup || []
-
-      groups = config_groups.each_with_object({}) do |group, memo|
-        group["collections"].each { |collection| memo[collection] = group["heading"] }
-      end
-
-      collections_config.each do |key, collection|
-        collection["_group"] ||= groups[key] if groups[key]
+    def add_legacy_explore_groups
+      unless @site.config.key?("_collection_groups")
+        @site.config["_collection_groups"] = @site.config.dig("_explore", "groups")&.dup
       end
     end
 

@@ -22,7 +22,6 @@ cloudcannon:
     staff_members:
       _sort_key: name
       _singular_name: staff_member
-      _group: Other
 
 defaults:
   - scope:
@@ -115,15 +114,15 @@ _options:
 _editor:
   default_path: basic
 
-_explore: # This is the deprecated way to set cloudcannon.collections.*._group
-  groups:
-    - heading: Blogging
-      collections:
-        - posts
-        - drafts
-    - heading: Other
-      collections:
-        - pages
+_collection_groups:
+  - heading: Blogging
+    collections:
+      - posts
+      - drafts
+  - heading: Other
+    collections:
+      - pages
+      - staff_members
 
 _source_editor:
   tab_size: 2

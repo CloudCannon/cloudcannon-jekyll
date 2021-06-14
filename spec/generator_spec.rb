@@ -347,11 +347,17 @@ describe CloudCannonJekyll::Generator do
       })
     end
 
-    it "has collection config groups" do
-      expect(info["collections-config"]["posts"]["_group"]).to eq("Blogging")
-      expect(info["collections-config"]["drafts"]["_group"]).to eq("Blogging")
-      expect(info["collections-config"]["pages"]["_group"]).to eq("Other")
-      expect(info["collections-config"]["staff_members"]["_group"]).to eq("Other")
+    it "has collection groups" do
+      expect(info["_collection_groups"]).to eq([
+        {
+          "heading"     => "Blogging",
+          "collections" => %w(posts drafts),
+        },
+        {
+          "heading"     => "Other",
+          "collections" => %w(pages staff_members),
+        },
+      ])
     end
 
     it "has paths" do

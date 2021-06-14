@@ -163,7 +163,7 @@ module CloudCannonJekyll
                    baseurl show_dir_listing permalink paginate_path timezone quiet verbose defaults
                    liquid kramdown title url description uploads_dir _comments _options _editor
                    _explore _source_editor _array_structures maruku redcloth rdiscount redcarpet
-                   gems plugins cloudcannon)
+                   gems plugins cloudcannon _collection_groups)
 
       out = input.map do |key, value|
         next unless value.is_a?(Array) || value.is_a?(Hash)
