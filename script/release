@@ -11,10 +11,10 @@ cd $(dirname "$0")/..
 rm -rf cloudcannon-jekyll-*.gem
 gem build -q cloudcannon-jekyll.gemspec
 
-# Ensure we're on the main branch
+# Ensure we're on the legacy branch
 
-(git branch | grep -q '* main') || {
-	echo "Only release from the main branch."
+(git branch | grep -q '* legacy') || {
+	echo "Only release from the legacy branch."
 	exit 1
 }
 
@@ -34,6 +34,6 @@ git fetch -t origin
 # Push tag and upload new gem
 
 git tag "$tag" &&
-	git push origin main &&
+	git push origin legacy &&
 	git push origin "$tag" &&
 	gem push cloudcannon-jekyll-*.gem
