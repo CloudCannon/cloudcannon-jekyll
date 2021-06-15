@@ -15,9 +15,13 @@ collections:
   staff_members:
     output: false
     custom: indeed
-    _sort_key: name
-    _singular_name: staff_member
   empty:
+
+cloudcannon:
+  collections:
+    staff_members:
+      _sort_key: name
+      _singular_name: staff_member
 
 defaults:
   - scope:
@@ -29,6 +33,43 @@ defaults:
       type: "posts"
     values:
       layout: post
+      nested1:
+        nested2:
+          nested3:
+            nested4:
+              nested5:
+                nested6:
+                  nested7:
+                    nested8:
+                      nested9:
+                        nested10:
+                          nested11:
+                            nested12: deep
+      _array_structures:
+        gallery:
+          style: select
+          values:
+            - label: Image
+              image: /path/to/source-image.png
+              value:
+                image: /placeholder.png
+                caption:
+                nested:
+                  thing:
+                    which:
+                      keeps:
+                        nesting:
+                          beyond:
+                            what:
+                              would:
+                                is:
+                                  likely:
+                                    usually: hello
+            - label: External link
+              icon: link
+              value:
+                url:
+                title:
 
 permalink: pretty
 
@@ -73,16 +114,15 @@ _options:
 _editor:
   default_path: basic
 
-_explore:
-  groups:
-    - heading: Blogging
-      collections:
-        - posts
-        - drafts
-    - heading: Other
-      collections:
-        - pages
-        - staff_members
+_collection_groups:
+  - heading: Blogging
+    collections:
+      - posts
+      - drafts
+  - heading: Other
+    collections:
+      - pages
+      - staff_members
 
 _source_editor:
   tab_size: 2

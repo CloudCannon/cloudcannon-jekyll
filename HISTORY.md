@@ -1,3 +1,9 @@
+# 0.5.0
+
+* Rename a number of top level configuration keys to match source keys
+* Combine `details.json` and `config.json` into `info.json`
+* Increase max depth for array structures defined outside of global
+
 # 0.4.0
 
 * Add `collections_dir` to details collection item paths

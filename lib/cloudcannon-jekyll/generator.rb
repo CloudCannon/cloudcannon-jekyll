@@ -17,12 +17,7 @@ module CloudCannonJekyll
       @site = site
       @reader = Reader.new(@site)
 
-      collections_config = @site.config["collections"]&.dup || {}
-
-      # Workaround for empty collection configurations
-      collections_config.each_key do |key|
-        collections_config[key] ||= { "output" => false }
-      end
+      collections_config = process_collections_config
 
       payload = @site.site_payload.merge({
         "gem_version" => CloudCannonJekyll::VERSION,
@@ -31,16 +26,27 @@ module CloudCannonJekyll
       drafts = add_blogging_config(collections_config)
       add_collection_paths(collections_config)
       add_data_config(collections_config)
+      add_legacy_explore_groups
 
-      generate_file("config", payload.merge({
-        "pwd"         => Dir.pwd,
-        "config"      => @site.config,
-        "collections" => collections_config,
+      generate_file("info", payload.merge({
+        "pwd"                => Dir.pwd,
+        "config"             => @site.config,
+        "collections_config" => collections_config,
+        "drafts"             => drafts,
       }))
+    end
 
-      generate_file("details", payload.merge({
-        "drafts" => drafts,
-      }))
+    def process_collections_config
+      collections = @site.config["collections"]&.dup || {}
+      cc_collections = @site.config.dig("cloudcannon", "collections")&.dup || {}
+
+      collections.each_key do |key|
+        # Workaround for empty collection configurations
+        defaults = collections[key] || { "output" => false }
+        cc_collections[key] = (cc_collections[key] || {}).merge(defaults)
+      end
+
+      cc_collections
     end
 
     def collections_dir
@@ -74,13 +80,13 @@ module CloudCannonJekyll
         collections_path = "#{collections_dir}/#{folder}".gsub(%r!\/+!, "/").sub(%r!^\/+!, "")
 
         collections_config["#{folder}/posts"] = posts_config.merge({
-          "_path" => "#{collections_path}/_posts",
+          "path" => "#{collections_path}/_posts",
         })
 
         # Adding the category draft config like this isn't ideal, since you could have drafts
         #  without posts, but it's a decent trade off vs looking for _drafts folders
         collections_config["#{folder}/drafts"] = posts_config.merge({
-          "_path" => "#{collections_path}/_drafts",
+          "path" => "#{collections_path}/_drafts",
         })
 
         path
@@ -88,10 +94,17 @@ module CloudCannonJekyll
     end
     # rubocop:enable Metrics/AbcSize
 
+    # Support for the deprecated _explore configuration
+    def add_legacy_explore_groups
+      unless @site.config.key?("_collection_groups")
+        @site.config["_collection_groups"] = @site.config.dig("_explore", "groups")&.dup
+      end
+    end
+
     # Add data to collections config if raw data files exist
     def add_data_config(collections_config)
       data_files = @reader.read_data(data_dir)
-      collections_config["data"] = { "_path" => data_dir } if data_files&.keys&.any?
+      collections_config["data"] = { "path" => data_dir } if data_files&.keys&.any?
     end
 
     # Add posts/drafts to collections config
@@ -99,7 +112,7 @@ module CloudCannonJekyll
       collections_config["posts"] = { "output" => true } if Jekyll::VERSION.start_with? "2."
       drafts = @reader.read_drafts(collections_dir)
 
-      if (collections_config.key?("posts") && !collections_config.key?("drafts")) || drafts.any?
+      if drafts.any? || (collections_config.key?("posts") && !collections_config.key?("drafts"))
         collections_config["drafts"] = {}
       end
 
@@ -111,12 +124,10 @@ module CloudCannonJekyll
       drafts
     end
 
-    # Add _path to each collection config
+    # Add path to each collection config
     def add_collection_paths(collections_config)
       collections_config.each do |key, collection|
-        next if collection.key?("_path")
-
-        collection["_path"] = File.join(collections_dir, "_#{key}").sub(%r!^\/+!, "")
+        collection["path"] ||= File.join(collections_dir, "_#{key}").sub(%r!^\/+!, "")
       end
     end
 
