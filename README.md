@@ -4,6 +4,10 @@ A Jekyll plugin to create CloudCannon editor details.
 
 [![Build Status](https://travis-ci.com/CloudCannon/cloudcannon-jekyll.svg?branch=main)](https://travis-ci.com/CloudCannon/cloudcannon-jekyll) [![Gem Version](https://badge.fury.io/rb/cloudcannon-jekyll.svg)](https://badge.fury.io/rb/cloudcannon-jekyll)
 
+## Note
+This gem is installed as part of the build process on CloudCannon, and should not be added
+to any Jekyll sites manually.
+
 ## Usage
 
 1. Add `gem 'cloudcannon-jekyll'` to your site's `Gemfile`
