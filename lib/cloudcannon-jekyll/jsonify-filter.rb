@@ -60,7 +60,7 @@ module CloudCannonJekyll
       prevent += %w(content output next previous excerpt)
 
       out = data.map do |key, value|
-        next if prevent.include? key
+        next if prevent.include?(key) || key.nil?
 
         prevent.push key
         next_max_depth = key == "_array_structures" ? 20 : max_depth
@@ -167,7 +167,7 @@ module CloudCannonJekyll
 
       out = input.map do |key, value|
         next unless value.is_a?(Array) || value.is_a?(Hash)
-        next if prevent.include? key
+        next if prevent.include?(key) || key.nil?
 
         prevent.push key
         "#{key.to_s.to_json}: #{JsonifyFilter.to_json(value, depth)}"
