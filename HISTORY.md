@@ -1,3 +1,7 @@
+# 2.0.1
+
+* Fix potential for null keys in cc_jsonify filter
+
 # 2.0.0
 
 * Rename a number of top level configuration keys to match source keys
