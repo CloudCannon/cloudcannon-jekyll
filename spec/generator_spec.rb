@@ -319,8 +319,8 @@ describe CloudCannonJekyll::Generator do
       expect(staff_members).not_to be_nil
       expect(staff_members["output"]).to eq(false)
       expect(staff_members["path"]).to eq("_staff_members")
-      expect(staff_members["_sort-key"]).to eq("name")
-      expect(staff_members["_singular-name"]).to eq("staff_member")
+      expect(staff_members["_sort_key"]).to eq("name")
+      expect(staff_members["_singular_name"]).to eq("staff_member")
 
       empty = collections["empty"]
       expect(empty).not_to be_nil
@@ -468,7 +468,15 @@ describe CloudCannonJekyll::Generator do
               "nested2" => {
                 "nested3" => {
                   "nested4" => {
-                    "nested5" => { "nested6" => "MAXIMUM_DEPTH" },
+                    "nested5" => {
+                      "nested6" => {
+                        "nested7" => {
+                          "nested8" => {
+                            "nested9" => { "nested10" => "MAXIMUM_DEPTH" },
+                          },
+                        },
+                      },
+                    },
                   },
                 },
               },

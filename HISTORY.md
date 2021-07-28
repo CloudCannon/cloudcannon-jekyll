@@ -1,3 +1,9 @@
+# 2.0.2
+
+* Add `_enabled_editors` to global scope
+* Increase max jsonify depth
+* Remove unused key swaps
+
 # 2.0.1
 
 * Fix potential for null keys in cc_jsonify filter

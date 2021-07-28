@@ -7,19 +7,6 @@ module CloudCannonJekyll
   module JsonifyFilter
     STATIC_EXTENSIONS = [".html", ".htm"].freeze
 
-    CC_JSONIFY_KEY_SWAPS = {
-      "collections" => {
-        "_sort_key"      => "_sort-key",
-        "_subtext_key"   => "_subtext-key",
-        "_image_key"     => "_image-key",
-        "_image_size"    => "_image-size",
-        "_singular_name" => "_singular-name",
-        "_singular_key"  => "_singular-key",
-        "_disable_add"   => "_disable-add",
-        "_add_options"   => "_add-options",
-      },
-    }.freeze
-
     @simple_types = [
       String,
       Numeric,
@@ -137,19 +124,19 @@ module CloudCannonJekyll
       "{#{out.join(",")}}"
     end
 
-    def self.array_to_json(input, depth, max_depth, key_swaps = {})
+    def self.array_to_json(input, depth, max_depth)
       array = input.map do |value|
-        JsonifyFilter.to_json(value, depth, max_depth, key_swaps)
+        JsonifyFilter.to_json(value, depth, max_depth)
       end
 
       "[#{array.join(",")}]"
     end
 
-    def self.hash_to_json(input, depth, max_depth, key_swaps = {})
+    def self.hash_to_json(input, depth, max_depth)
       out = input.map do |key, value|
         next_max_depth = key == "_array_structures" ? 20 : max_depth
-        string_key = (key_swaps[key] || key).to_s.to_json
-        "#{string_key}: #{JsonifyFilter.to_json(value, depth, next_max_depth, key_swaps)}"
+        string_key = key.to_s.to_json
+        "#{string_key}: #{JsonifyFilter.to_json(value, depth, next_max_depth)}"
       end
 
       "{#{out.join(",")}}"
@@ -163,7 +150,7 @@ module CloudCannonJekyll
                    baseurl show_dir_listing permalink paginate_path timezone quiet verbose defaults
                    liquid kramdown title url description uploads_dir _comments _options _editor
                    _explore _source_editor _array_structures maruku redcloth rdiscount redcarpet
-                   gems plugins cloudcannon _collection_groups)
+                   gems plugins cloudcannon _collection_groups _enabled_editors)
 
       out = input.map do |key, value|
         next unless value.is_a?(Array) || value.is_a?(Hash)
@@ -178,7 +165,7 @@ module CloudCannonJekyll
       "{#{out.join(",")}}" if out.any?
     end
 
-    def self.to_json(input, depth, max_depth = 9, key_swaps = {})
+    def self.to_json(input, depth, max_depth = 12)
       depth += 1
 
       if depth > max_depth || (depth > 3 && JsonifyFilter.document_type?(input))
@@ -194,9 +181,9 @@ module CloudCannonJekyll
       elsif input.is_a?(Jekyll::Document)
         JsonifyFilter.document_to_json(input, depth, max_depth)
       elsif input.is_a?(Array)
-        JsonifyFilter.array_to_json(input, depth, max_depth, key_swaps)
+        JsonifyFilter.array_to_json(input, depth, max_depth)
       elsif input.is_a?(Hash)
-        JsonifyFilter.hash_to_json(input, depth, max_depth, key_swaps)
+        JsonifyFilter.hash_to_json(input, depth, max_depth)
       else
         input.class.to_s.prepend("UNSUPPORTED:").to_json
       end
@@ -220,12 +207,8 @@ module CloudCannonJekyll
       end
     end
 
-    def cc_jsonify(input, key_swaps_key = nil, max_depth = 8)
-      if CC_JSONIFY_KEY_SWAPS.key? key_swaps_key
-        JsonifyFilter.to_json(input, 0, max_depth, CC_JSONIFY_KEY_SWAPS[key_swaps_key])
-      else
-        JsonifyFilter.to_json(input, 0, max_depth)
-      end
+    def cc_jsonify(input, max_depth = 12)
+      JsonifyFilter.to_json(input, 0, max_depth)
     end
   end
 end

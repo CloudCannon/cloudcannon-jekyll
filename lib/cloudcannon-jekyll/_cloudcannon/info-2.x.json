@@ -17,7 +17,7 @@
 	{% if config.timezone %}
 		"timezone": {{ config.timezone | cc_jsonify }},
 	{% endif %}
-	"collections-config": {{ collections_config | cc_jsonify: 'collections' }},
+	"collections-config": {{ collections_config | cc_jsonify }},
 	"collections": {
 		"drafts": {{ drafts | cc_jsonify }},
 		"posts": {{ site.posts | reverse | cc_jsonify }}{% if site.collections.size > 0 %},{% endif %}
@@ -35,6 +35,9 @@
 	{% endif %}
 	{% if config._comments %}
 		"_comments": {{ config._comments | cc_jsonify }},
+	{% endif %}
+	{% if config._enabled_editors %}
+		"_enabled_editors": {{ config._enabled_editors | cc_jsonify }},
 	{% endif %}
 	{% if config._options %}
 		"_options": {{ config._options | cc_jsonify }},
@@ -63,7 +66,7 @@
 		"layouts": {{ config.layouts_dir | cc_jsonify }}
 	},
 	{% if config._array_structures %}
-		"_array_structures": {{ config._array_structures | cc_jsonify: nil, 50 }},
+		"_array_structures": {{ config._array_structures | cc_jsonify: 50 }},
 	{% endif %}
 	{% assign select_data = config | cc_select_data_jsonify %}
 	{% if select_data %}
