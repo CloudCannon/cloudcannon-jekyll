@@ -39,6 +39,9 @@
 	{% if config._enabled_editors %}
 		"_enabled_editors": {{ config._enabled_editors | cc_jsonify }},
 	{% endif %}
+	{% if config._instance_values %}
+		"_instance_values": {{ config._instance_values | cc_jsonify }},
+	{% endif %}
 	{% if config._options %}
 		"_options": {{ config._options | cc_jsonify }},
 	{% endif %}
