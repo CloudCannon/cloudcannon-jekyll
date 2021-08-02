@@ -1,3 +1,7 @@
+# 2.1.0
+
+* Add `_instance_values` to global scope
+
 # 2.0.2
 
 * Add `_enabled_editors` to global scope
