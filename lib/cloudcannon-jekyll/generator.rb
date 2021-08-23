@@ -18,6 +18,7 @@ module CloudCannonJekyll
       @reader = Reader.new(@site)
 
       collections_config = process_collections_config
+      data = process_data
 
       payload = @site.site_payload.merge({
         "gem_version" => CloudCannonJekyll::VERSION,
@@ -33,6 +34,7 @@ module CloudCannonJekyll
         "config"             => @site.config,
         "collections_config" => collections_config,
         "drafts"             => drafts,
+        "data"               => data,
       }))
     end
 
@@ -53,6 +55,20 @@ module CloudCannonJekyll
       return "" if Jekyll::VERSION.start_with? "2."
 
       @site.config["collections_dir"] || ""
+    end
+
+    def process_data
+      cc_data = @site.config.dig("cloudcannon", "data")
+      data = if cc_data == true
+               @site.data&.dup
+             elsif cc_data&.is_a?(Hash)
+               @site.data&.select { |key, _| cc_data.key?(key) }
+             end
+
+      data ||= {}
+      data["categories"] ||= @site.categories.keys
+      data["tags"] ||= @site.tags.keys
+      data
     end
 
     def data_dir

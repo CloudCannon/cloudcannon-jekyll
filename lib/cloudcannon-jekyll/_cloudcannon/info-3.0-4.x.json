@@ -25,10 +25,7 @@
 	},
 	"pages": {{ site.html_pages | cc_jsonify }},
 	"static-pages": {{ site.static_files | cc_static_files_jsonify }},
-	{% if site.cloudcannon.data.first %}{% assign data_seen = false %}
-	"data": {
-		{% for data in site.data %}{% assign key = data[0] %}{% if site.cloudcannon.data[key] %}{% if data_seen %},{% endif %}{{ data[0] | cc_jsonify }}: {{ data[1] | cc_jsonify }}{% assign data_seen = true %}{% endif %}{% endfor %}},
-	{% elsif site.cloudcannon.data %}"data": {{ site.data | cc_jsonify }},{% endif %}
+	"data": {{ data | cc_jsonify }},
 	{% if config.baseurl %}
 		"base-url": {{ config.baseurl | cc_jsonify }},
 	{% endif %}

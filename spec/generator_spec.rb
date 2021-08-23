@@ -17,13 +17,23 @@ describe CloudCannonJekyll::Generator do
   schema = Pathname.new("spec/build-info-schema.json")
   schemer = JSONSchemer.schema(schema, :ref_resolver => "net/http")
 
+  # Jekyll 2 seems to lowercase categories
+  expected_categories = if Jekyll::VERSION.start_with? "2."
+                          %w(business property other)
+                        else
+                          %w(Business Property other)
+                        end
+
   context "info" do
     it "exists" do
       expect(Pathname.new(dest_dir("_cloudcannon/info.json"))).to exist
     end
 
     it "has no data" do
-      expect(info["data"]).to be_nil
+      expect(info["data"]).to eq({
+        "categories" => expected_categories,
+        "tags"       => %w(hello hi),
+      })
     end
 
     it "has no unsupported items" do
@@ -190,7 +200,9 @@ describe CloudCannonJekyll::Generator do
 
     it "has data" do
       expect(info["data"]).to eq({
-        "company" => {
+        "categories" => expected_categories,
+        "tags"       => %w(hello hi),
+        "company"    => {
           "title"                 => "Example",
           "description"           => "Testing things",
           "contact_email_address" => "contact@example.com",
@@ -198,7 +210,7 @@ describe CloudCannonJekyll::Generator do
           "address"               => "123 Example Street, Gooseburb, 9876, Ducktown, New Zealand",
           "postal_address"        => "PO Box 123, Ducktown, New Zealand",
         },
-        "footer"  => [
+        "footer"     => [
           {
             "title" => "Pages",
             "links" => [
@@ -260,7 +272,7 @@ describe CloudCannonJekyll::Generator do
 
       expect(info["data"]["company"]).not_to be_nil
       expect(info["data"]["footer"]).not_to be_nil
-      expect(info["data"].keys.length).to eq(2)
+      expect(info["data"].keys.length).to eq(4)
     end
 
     it "matches the schema" do
@@ -642,8 +654,10 @@ describe CloudCannonJekyll::Generator do
     let(:site_data) { { :cloudcannon => { "data" => { "company" => true } } } }
 
     it "has single data" do
+      expect(info["data"]["categories"]).to eq(expected_categories)
+      expect(info["data"]["tags"]).to eq(%w(hello hi))
       expect(info["data"]["company"]).not_to be_nil
-      expect(info["data"].keys.length).to eq(1)
+      expect(info["data"].keys.length).to eq(3)
     end
   end
 end
