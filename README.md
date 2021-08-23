@@ -26,6 +26,13 @@ plugins:
 4. Build new gem with `gem build cloudcannon-jekyll.gemspec`
 5. Push new version to rubygems.org with `gem push cloudcannon-jekyll-{{ VERSION HERE }}.gem`
 
+OR:
+
+1. Increase version in lib/cloudcannon-jekyll/version.rb
+2. Update HISTORY.md
+3. Run `./scripts/release`
+3. Create a release in GitHub
+
 
 ## Testing
 

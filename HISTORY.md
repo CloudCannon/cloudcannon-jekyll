@@ -1,3 +1,8 @@
+# 2.2.0
+
+* Move data logic out of template
+* Auto-populate categories and tags in data
+
 # 2.1.0
 
 * Add `_instance_values` to global scope
