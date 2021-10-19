@@ -10,8 +10,6 @@ description: Example site for testing
 timezone: Etc/UTC
 
 collections:
-  pages:
-    output: true
   staff_members:
     output: false
     custom: indeed
@@ -19,6 +17,7 @@ collections:
 
 cloudcannon:
   collections:
+    empty:
     staff_members:
       _sort_key: name
       _singular_name: staff_member

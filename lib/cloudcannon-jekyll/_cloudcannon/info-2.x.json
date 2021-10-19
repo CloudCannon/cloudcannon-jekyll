@@ -19,13 +19,9 @@
 	{% endif %}
 	"collections-config": {{ collections_config | cc_jsonify }},
 	"collections": {
-		"drafts": {{ drafts | cc_jsonify }},
-		"posts": {{ site.posts | reverse | cc_jsonify }}{% if site.collections.size > 0 %},{% endif %}
-		{% for collection in site.collections %}"{{ collection[0] | xml_escape }}": {{ collection[1].docs | cc_jsonify }}{% unless forloop.last %},{% endunless %}
+		{% for collection in collections %}"{{ collection[0] | xml_escape }}": {{ collection[1] | cc_jsonify }}{% unless forloop.last %},{% endunless %}
 		{% endfor %}
 	},
-	"pages": {{ site.html_pages | cc_jsonify }},
-	"static-pages": {{ site.static_files | cc_static_files_jsonify }},
 	"data": {{ data | cc_jsonify }},
 	{% if config.baseurl %}
 		"base-url": {{ config.baseurl | cc_jsonify }},
@@ -58,11 +54,10 @@
 		},
 	{% endif %}
 	"paths": {
+		"static": "",
 		"uploads": {{ config.uploads_dir | cc_jsonify }},
 		"data": {{ config.data_dir | cc_jsonify }},
-		"pages": "",
 		"collections": {{ config.collections_dir | cc_jsonify }},
-		"includes": {{ config.includes_dir | cc_jsonify }},
 		"layouts": {{ config.layouts_dir | cc_jsonify }}
 	},
 	{% if config._array_structures %}

@@ -17,12 +17,10 @@ describe CloudCannonJekyll::Generator do
   schema = Pathname.new("spec/build-info-schema.json")
   schemer = JSONSchemer.schema(schema, :ref_resolver => "net/http")
 
+  expected_categories = %w(Business Property other)
+
   # Jekyll 2 seems to lowercase categories
-  expected_categories = if Jekyll::VERSION.start_with? "2."
-                          %w(business property other)
-                        else
-                          %w(Business Property other)
-                        end
+  expected_categories = %w(business property other) if Jekyll::VERSION.start_with? "2."
 
   context "info" do
     it "exists" do
@@ -59,110 +57,70 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "has collections" do
-      expect(info["collections"]["posts"]).not_to be_nil
-      expect(info["collections"]["staff_members"]).not_to be_nil
-      expect(info["collections"]["drafts"]).not_to be_nil
-      expect(info["collections"]["empty"]).not_to be_nil
-      expect(info["collections"]["pages"]).not_to be_nil
-      expect(info["collections"].length).to eq(5)
+      expected_keys = %w(staff_members posts empty pages drafts other/posts other/drafts)
+      expect(info["collections"].keys.sort).to eq(expected_keys.sort)
 
-      first_post = info["collections"]["posts"][0]
-      expect(first_post.key?("content")).to eq(false)
-      expect(first_post.key?("output")).to eq(false)
-      expect(first_post.key?("next")).to eq(false)
-      expect(first_post.key?("previous")).to eq(false)
-      expect(first_post.key?("excerpt")).to eq(false)
-      expect(first_post["id"]).to eq("/business/2016/08/10/business-mergers")
-      expect(first_post["url"]).to eq("/business/2016/08/10/business-mergers/")
-      expect(first_post["path"]).to eq("_posts/2016-08-10-business-mergers.md")
-      expect(first_post["tags"]).to eq(["hello"])
-      expect(first_post["date"]).to(
-        match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
-      )
+      post = info["collections"]["posts"][0]
+      expect(post.key?("content")).to eq(false)
+      expect(post.key?("output")).to eq(false)
+      expect(post.key?("next")).to eq(false)
+      expect(post.key?("previous")).to eq(false)
+      expect(post.key?("excerpt")).to eq(false)
+      expect(post["id"]).to eq("/business/2016/08/10/business-mergers")
+      expect(post["url"]).to eq("/business/2016/08/10/business-mergers/")
+      expect(post["path"]).to eq("_posts/2016-08-10-business-mergers.md")
+      expect(post["tags"]).to eq(["hello"])
+      expect(post["date"]).to match(%r!\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}!)
+      # expect(post["collection"]).to eq("posts") # TODO
+
+      expect(info["collections"]["posts"].length).to eq(2)
+      expect(info["collections"]["other/posts"].length).to eq(1)
 
       if Jekyll::VERSION.start_with? "2."
-        expect(first_post["categories"]).to eq(["business"])
+        expect(post["categories"]).to eq(["business"])
       else
-        expect(first_post["categories"]).to eq(["Business"])
+        expect(post["categories"]).to eq(["Business"])
       end
 
-      first_staff_member = info["collections"]["staff_members"][0]
-      expect(first_staff_member["path"]).to eq("_staff_members/jane-doe.md")
-      expect(first_staff_member["name"]).to eq("Jane Doe")
+      staff_member = info["collections"]["staff_members"][0]
+      expect(staff_member["path"]).to eq("_staff_members/jane-doe.md")
+      # expect(staff_member["collection"]).to eq("staff_members") # TODO
+      expect(staff_member["name"]).to eq("Jane Doe")
 
-      first_draft = info["collections"]["drafts"][0]
-      expect(first_draft["path"]).to eq("_drafts/incomplete.md")
-      expect(first_draft["title"]).to eq("WIP")
+      draft = info["collections"]["drafts"][0]
+      expect(draft["path"]).to eq("_drafts/incomplete.md")
+      # expect(draft["collection"]).to eq("drafts") # TODO
+      expect(draft["title"]).to eq("WIP")
 
-      second_draft = info["collections"]["drafts"][1]
-      expect(second_draft["path"]).to eq("other/_drafts/testing-for-category.md")
-      expect(second_draft["title"]).to eq("Testing for category drafts")
+      other_draft = info["collections"]["other/drafts"][0]
+      expect(other_draft["path"]).to eq("other/_drafts/testing-for-category.md")
+      # expect(other_draft["collection"]).to eq("other/drafts") # TODO
+      expect(other_draft["title"]).to eq("Testing for category drafts")
 
-      expect(info["collections"]["drafts"].length).to eq(2)
+      expect(info["collections"]["drafts"].length).to eq(1)
+      expect(info["collections"]["other/drafts"].length).to eq(1)
 
-      first_collection_page = info["collections"]["pages"][0]
-      expect(first_collection_page["title"]).to eq("Page Item")
-      expect(first_collection_page["path"]).to eq("_pages/page-item.md")
-      expect(first_collection_page["_array_structures"]).to eq({
-        "gallery" => {
-          "style"  => "select",
-          "values" => [
-            {
-              "label" => "Image",
-              "image" => "/path/to/source-image.png",
-              "value" => {
-                "image"   => "/placeholder.png",
-                "caption" => nil,
-                "nested"  => {
-                  "thing" => {
-                    "which" => {
-                      "keeps" => {
-                        "nesting" => {
-                          "beyond" => {
-                            "what" => {
-                              "would" => {
-                                "is" => {
-                                  "likely" => {
-                                    "usually" => "hello",
-                                  },
-                                },
-                              },
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            {
-              "label" => "External link",
-              "icon"  => "link",
-              "value" => {
-                "url"   => nil,
-                "title" => nil,
-              },
-            },
-          ],
-        },
+      expect(info["collections"]["pages"][0]).to eq({
+        "name"=>"404.html",
+        "path" => "404.html",
+        "url" => "/404.html",
+        "layout" => "page",
+        "title" => "Not Found",
+        "call_to_action" => "Contact",
+        "background_image_path" => nil,
+        "large_header" => false,
+        "show_in_navigation" => false,
+        "permalink" => "/404.html",
+        "sitemap" => false,
       })
 
-      expect(info["collections"]["pages"].length).to eq(1)
+      expect(info["collections"]["pages"].length).to eq(8)
     end
 
     it "has pages" do
-      page_urls = info["pages"].map { |page| page["url"] }.join(",")
-      expect(page_urls).to(
-        eq("/404.html,/about/,/contact-success/,/contact/,/,/services/,/terms/")
-      )
-      expect(info["pages"].length).to eq(7)
-    end
-
-    it "has static files" do
-      expect(info["static-pages"].length).to eq(1)
-      expect(info["static-pages"][0]["path"]).to eq("static-page.html")
-      expect(info["static-pages"][0]["url"]).to eq("/static-page.html")
+      urls = "/404.html,/about/,/contact-success/,/contact/,/,/services/,/terms/,/static-page.html"
+      page_urls = info["collections"]["pages"].map { |page| page["url"] }.join(",")
+      expect(page_urls).to eq(urls)
     end
   end
 
@@ -172,25 +130,29 @@ describe CloudCannonJekyll::Generator do
     it "has collections" do
       # collections_dir was introduced in version 3.5
       unless Jekyll::VERSION.start_with?("2.") || Jekyll::VERSION.match?(%r!3\.[0-4]\.!)
-        first_post = info["collections"]["posts"][0]
-        expect(first_post["path"]).to eq("collections/_posts/2016-08-10-business-mergers.md")
+        post = info["collections"]["posts"][0]
+        expect(post["path"]).to eq("collections/_posts/2016-08-10-business-mergers.md")
 
-        first_staff_member = info["collections"]["staff_members"][0]
-        expect(first_staff_member["path"]).to eq("collections/_staff_members/jane-doe.md")
+        other_post = info["collections"]["other/posts"][0]
+        expect(other_post["path"]).to eq("collections/other/_posts/2020-08-10-category-test.md")
 
-        first_draft = info["collections"]["drafts"][0]
-        expect(first_draft["path"]).to eq("collections/_drafts/incomplete.md")
+        staff_member = info["collections"]["staff_members"][0]
+        expect(staff_member["path"]).to eq("collections/_staff_members/jane-doe.md")
+
+        draft = info["collections"]["drafts"][0]
+        expect(draft["path"]).to eq("collections/_drafts/incomplete.md")
+        expect(info["collections"]["drafts"].length).to eq(1)
 
         # This doesn't seem to be supported when using a collections_dir, perhaps it should be?
-        # second_draft = info["collections"]["drafts"][1]
-        # expect(second_draft["path"]).to eq("collections/other/_drafts/testing-for-category.md")
-        # expect(info["collections"]["drafts"].length).to eq(2)
+        # other_draft = info["collections"]["other/drafts"][1]
+        # expect(other_draft["path"]).to eq("collections/other/_drafts/testing-for-category.md")
+        # expect(info["collections"]["other/drafts"].length).to eq(1)
 
-        first_collection_page = info["collections"]["pages"][0]
-        expect(first_collection_page["path"]).to eq("collections/_pages/page-item.md")
+        page = info["collections"]["pages"][0]
+        expect(page["path"]).to eq("collections/_pages/page-item.md")
         expect(info["collections"]["pages"].length).to eq(1)
 
-        expect(info["collections"].length).to eq(5)
+        expect(info["collections"].length).to eq(7)
       end
     end
   end
@@ -295,50 +257,50 @@ describe CloudCannonJekyll::Generator do
     end
 
     it "has collections-config" do
-      collections = info["collections-config"]
+      collections_config = info["collections-config"]
 
-      posts = collections["posts"]
+      posts = collections_config["posts"]
       expect(posts).not_to be_nil
       expect(posts["output"]).to eq(true)
       expect(posts["path"]).to eq("_posts")
 
-      category_other_posts = collections["other/posts"]
+      category_other_posts = collections_config["other/posts"]
       expect(category_other_posts).not_to be_nil
       expect(category_other_posts["output"]).to eq(true)
       expect(category_other_posts["path"]).to eq("other/_posts")
 
-      category_other_drafts = collections["other/drafts"]
+      category_other_drafts = collections_config["other/drafts"]
       expect(category_other_drafts).not_to be_nil
       expect(category_other_drafts["output"]).to eq(true)
       expect(category_other_drafts["path"]).to eq("other/_drafts")
 
-      drafts = collections["drafts"]
+      drafts = collections_config["drafts"]
       expect(drafts).not_to be_nil
       expect(drafts["path"]).to eq("_drafts")
       expect(drafts["title"]).to be_nil
 
-      pages = collections["pages"]
+      pages = collections_config["pages"]
       expect(pages).not_to be_nil
-      expect(pages["path"]).to eq("_pages")
-      expect(pages["title"]).to be_nil
+      expect(pages["path"]).to eq("")
+      expect(pages["filter"]).to eq("strict")
       expect(pages["output"]).to eq(true)
 
-      data = collections["data"]
+      data = collections_config["data"]
       expect(data).not_to be_nil
       expect(data["path"]).to eq("_data")
 
-      staff_members = collections["staff_members"]
+      staff_members = collections_config["staff_members"]
       expect(staff_members).not_to be_nil
       expect(staff_members["output"]).to eq(false)
       expect(staff_members["path"]).to eq("_staff_members")
       expect(staff_members["_sort_key"]).to eq("name")
       expect(staff_members["_singular_name"]).to eq("staff_member")
 
-      empty = collections["empty"]
+      empty = collections_config["empty"]
       expect(empty).not_to be_nil
       expect(empty["path"]).to eq("_empty")
 
-      expect(collections.length).to eq(8)
+      expect(collections_config.length).to eq(8)
     end
 
     it "has comments" do
@@ -374,26 +336,23 @@ describe CloudCannonJekyll::Generator do
 
     it "has paths" do
       expect(info["paths"]["uploads"]).to eq("uploads")
-      expect(info["paths"]["pages"]).to eq("")
+      expect(info["paths"]["static"]).to eq("")
 
       if Jekyll::VERSION.start_with? "2."
         expect(info["paths"]["data"]).to be_nil
         expect(info["paths"]["collections"]).to be_nil
-        expect(info["paths"]["includes"]).to be_nil
         expect(info["paths"]["layouts"]).to be_nil
       elsif Jekyll::VERSION.match? %r!3\.[0-5]\.!
         expect(info["paths"]["data"]).to eq("_data")
         expect(info["paths"]["collections"]).to be_nil
-        expect(info["paths"]["includes"]).to eq("_includes")
         expect(info["paths"]["layouts"]).to eq("_layouts")
       else
         expect(info["paths"]["data"]).to eq("_data")
         expect(info["paths"]["collections"]).to eq("")
-        expect(info["paths"]["includes"]).to eq("_includes")
         expect(info["paths"]["layouts"]).to eq("_layouts")
       end
 
-      expect(info["paths"].keys.length).to eq(6)
+      expect(info["paths"].keys.length).to eq(5)
     end
 
     it "has array structures" do
@@ -583,12 +542,9 @@ describe CloudCannonJekyll::Generator do
       end
     end
 
-    it "has no non-default collections" do
-      expected_collections = %w(posts drafts data other/posts other/drafts)
-      expected_collections.each do |collection|
-        expect(info["collections-config"][collection]).not_to be_nil
-      end
-      expect(info["collections-config"].length).to eq(expected_collections.length)
+    it "has no extra collections" do
+      expected_collections = %w(posts pages drafts other/posts other/drafts data)
+      expect(info["collections-config"].keys.sort).to eq(expected_collections.sort)
     end
 
     it "has no comments" do
@@ -605,7 +561,7 @@ describe CloudCannonJekyll::Generator do
 
     it "has no uploads path" do
       expect(info["paths"]["uploads"]).to be_nil
-      expect(info["paths"].keys.length).to eq(6)
+      expect(info["paths"].keys.length).to eq(5)
     end
 
     it "has no array structures" do

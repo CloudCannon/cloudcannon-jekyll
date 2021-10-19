@@ -13,51 +13,82 @@ module CloudCannonJekyll
       1
     end
 
+    # rubocop:disable Metrics/MethodLength
     def generate(site)
+      log "⭐️ Starting #{"cloudcannon-jekyll".blue}"
+
       @site = site
       @reader = Reader.new(@site)
 
-      collections_config = process_collections_config
-      data = process_data
-
-      payload = @site.site_payload.merge({
-        "gem_version" => CloudCannonJekyll::VERSION,
-      })
-
+      migrate_legacy_config
+      pages = generate_pages
+      collections_config = generate_collections_config(pages)
       drafts = add_blogging_config(collections_config)
       add_collection_paths(collections_config)
-      add_data_config(collections_config)
-      add_legacy_explore_groups
 
-      generate_file("info", payload.merge({
+      collections = generate_collections(collections_config, pages, drafts)
+      remove_empty_collection_config(collections_config, collections)
+
+      add_data_config(collections_config)
+      data = generate_data
+
+      generate_file("info", @site.site_payload.merge({
         "pwd"                => Dir.pwd,
+        "version"            => "0.0.2",
+        "gem_version"        => CloudCannonJekyll::VERSION,
         "config"             => @site.config,
         "collections_config" => collections_config,
-        "drafts"             => drafts,
+        "collections"        => collections,
         "data"               => data,
       }))
     end
+    # rubocop:enable Metrics/MethodLength
 
-    def process_collections_config
+    def generate_collections_config(pages)
       collections = @site.config["collections"]&.dup || {}
-      cc_collections = @site.config.dig("cloudcannon", "collections")&.dup || {}
+      collections_config = @site.config.dig("cloudcannon", "collections")&.dup || {}
 
       collections.each_key do |key|
         # Workaround for empty collection configurations
         defaults = collections[key] || { "output" => false }
-        cc_collections[key] = (cc_collections[key] || {}).merge(defaults)
+        collections_config[key] = (collections_config[key] || {}).merge(defaults)
       end
 
-      cc_collections
+      unless pages.empty?
+        collections_config["pages"] ||= {
+          "output" => true,
+          "filter" => "strict",
+          "path"   => "",
+        }
+      end
+
+      collections_config
     end
 
-    def collections_dir
-      return "" if Jekyll::VERSION.start_with? "2."
+    # rubocop:disable Metrics/CyclomaticComplexity
+    def generate_collections(collections_config, pages, drafts)
+      split_posts = group_by_category_folder(all_posts, "posts")
+      split_drafts = group_by_category_folder(drafts, "drafts")
 
-      @site.config["collections_dir"] || ""
+      collections = {}
+      collections_config.each_key do |key|
+        collections[key] = if key == "posts" || key.end_with?("/posts")
+                             split_posts[key]
+                           elsif key == "drafts" || key.end_with?("/drafts")
+                             split_drafts[key]
+                           else
+                             @site.collections[key]&.docs
+                           end
+
+        collections[key] ||= []
+      end
+
+      collections["pages"] = pages if collections["pages"].empty? && !pages.empty?
+      collections
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
 
-    def process_data
+    def generate_data
       cc_data = @site.config.dig("cloudcannon", "data")
       data = if cc_data == true
                @site.data&.dup
@@ -68,20 +99,57 @@ module CloudCannonJekyll
       data ||= {}
       data["categories"] ||= @site.categories.keys
       data["tags"] ||= @site.tags.keys
+
+      data.each_key do |key|
+        log "💾 Processed #{key.bold} data set"
+      end
+
       data
+    end
+
+    def generate_pages
+      html_pages = @site.pages.select do |page|
+        page.html? || page.url.end_with?("/")
+      end
+
+      static_pages = @site.static_files.select do |static_page|
+        JsonifyFilter::STATIC_EXTENSIONS.include?(static_page.extname)
+      end
+
+      html_pages + static_pages
+    end
+
+    def collections_dir
+      return "" if Jekyll::VERSION.start_with? "2."
+
+      @site.config["collections_dir"] || ""
     end
 
     def data_dir
       @site.config["data_dir"] || "_data"
     end
 
-    # rubocop:disable Metrics/AbcSize
-    def add_category_folder_config(collections_config, posts_config = {})
+    def all_posts
       posts = @site.posts || @site.collections["posts"]
-      docs = posts.class.method_defined?(:docs) ? posts.docs : posts
+      posts.class.method_defined?(:docs) ? posts.docs : posts
+    end
+
+    def group_by_category_folder(collection, key)
+      split_path = "/_#{key}/"
+      collection.group_by do |doc|
+        parts = doc.relative_path.split(split_path)
+        if parts.length > 1
+          "#{parts.first}/#{key}".sub(%r!^\/+!, "")
+        else
+          key
+        end
+      end
+    end
+
+    def add_category_folder_config(collections_config, posts_config = {})
       seen = {}
 
-      docs.map do |post|
+      all_posts.map do |post|
         parts = post.relative_path.split("/_posts/")
         path = parts.first
 
@@ -108,7 +176,23 @@ module CloudCannonJekyll
         path
       end
     end
-    # rubocop:enable Metrics/AbcSize
+
+    def remove_empty_collection_config(collections_config, collections)
+      cc_collections = @site.config.dig("cloudcannon", "collections") || {}
+
+      collections_config.each_key do |key|
+        if collections[key].empty? && !cc_collections.key?(key)
+          log "📂 #{"Ignored".yellow} #{key.bold} collection with no files or configuration"
+          collections_config.delete(key)
+        else
+          log "📁 Processed #{key.bold} collection with #{collections[key]&.length || 0} files"
+        end
+      end
+    end
+
+    def migrate_legacy_config
+      add_legacy_explore_groups
+    end
 
     # Support for the deprecated _explore configuration
     def add_legacy_explore_groups
@@ -153,6 +237,11 @@ module CloudCannonJekyll
       File.open(dest, "w") { |file| file.write(file_content(filename, data)) }
       @site.keep_files ||= []
       @site.keep_files << path(filename)
+      log "🏁 Generated #{path(filename).bold} #{"successfully".green}"
+    end
+
+    def log(str)
+      Jekyll.logger.info("CloudCannon:", str)
     end
 
     def version_path_suffix
