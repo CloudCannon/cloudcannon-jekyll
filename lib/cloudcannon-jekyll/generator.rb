@@ -182,7 +182,7 @@ module CloudCannonJekyll
 
       collections_config.each_key do |key|
         if collections[key].empty? && !cc_collections.key?(key)
-          log "📂 #{"Ignored".yellow} #{key.bold} collection with no files or configuration"
+          log "📂 #{"Ignored".yellow} #{key.bold} collection"
           collections_config.delete(key)
         else
           log "📁 Processed #{key.bold} collection with #{collections[key]&.length || 0} files"
