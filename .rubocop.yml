@@ -1,8 +1,3 @@
-require: rubocop-jekyll
-
-inherit_gem:
-  rubocop-jekyll: .rubocop.yml
-
 AllCops:
   TargetRubyVersion: 2.4
   Include:
@@ -21,19 +16,17 @@ AllCops:
     - vendor/**/*
     - gemfiles/**/*
 
-Naming/MemoizedInstanceVariableName:
-  Exclude:
-    - lib/cloudcannon-jekyll/page-without-a-file.rb
-
 Metrics/CyclomaticComplexity:
-  Exclude:
-    - lib/cloudcannon-jekyll/jsonify-filter.rb # TODO remove this and fix warnings
-    - lib/cloudcannon-jekyll/readers/old-data-reader.rb # TODO remove this and fix warnings
+  Enabled: false
 
 Metrics/PerceivedComplexity:
-  Exclude:
-    - lib/cloudcannon-jekyll/jsonify-filter.rb # TODO remove this and fix warnings
+  Enabled: false
 
 Metrics/AbcSize:
-  Exclude:
-    - lib/cloudcannon-jekyll/jsonify-filter.rb # TODO remove this and fix warnings
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false

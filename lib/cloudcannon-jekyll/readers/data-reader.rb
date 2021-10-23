@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-unless Jekyll::VERSION.start_with? "2."
-  require "jekyll"
+unless Jekyll::VERSION.start_with? '2.'
+  require 'jekyll'
 
   module CloudCannonJekyll
     # Reads data files and creates a collections-style hash representation
@@ -12,7 +12,7 @@ unless Jekyll::VERSION.start_with? "2."
       # Returns a hash with the path to the data file.
       def read_data_file(path)
         {
-          "path" => path,
+          'path' => path
         }
       end
     end

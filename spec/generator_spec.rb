@@ -443,7 +443,13 @@ describe CloudCannonJekyll::Generator do
                       "nested6" => {
                         "nested7" => {
                           "nested8" => {
-                            "nested9" => { "nested10" => "MAXIMUM_DEPTH" },
+                            "nested9" => {
+                              "nested10" => {
+                                "nested11" => {
+                                  "nested12" => "deep"
+                                },
+                              },
+                            },
                           },
                         },
                       },

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-if Jekyll::VERSION.start_with? "2."
-  require "jekyll"
+if Jekyll::VERSION.start_with? '2.'
+  require 'jekyll'
 
   module CloudCannonJekyll
     # Reads data files and creates a collections-style hash representation
@@ -25,14 +25,16 @@ if Jekyll::VERSION.start_with? "2."
         return unless File.directory?(dir) && (!@safe || !File.symlink?(dir))
 
         entries = Dir.chdir(dir) do
-          Dir["*.{yaml,yml,json,csv}"] + Dir["*"].select { |fn| File.directory?(fn) }
+          Dir['*.{yaml,yml,json,csv}'] + Dir['*'].select do |fn|
+            File.directory?(fn)
+          end
         end
 
         entries.each do |entry|
           path = Jekyll.sanitized_path(dir, entry)
           next if File.symlink?(path) && @safe
 
-          key = sanitize_filename(File.basename(entry, ".*"))
+          key = sanitize_filename(File.basename(entry, '.*'))
           if File.directory?(path)
             read_data_to(path, data[key] = {})
           else
@@ -43,14 +45,14 @@ if Jekyll::VERSION.start_with? "2."
 
       def read_data_file(path)
         {
-          "path" => path,
+          'path' => path
         }
       end
 
       def sanitize_filename(name)
-        name.gsub!(%r![^\w\s_-]+!, "")
-        name.gsub!(%r!(^|\b\s)\s+($|\s?\b)!, '\\1\\2')
-        name.gsub(%r!\s+!, "_")
+        name.gsub!(/[^\w\s_-]+/, '')
+        name.gsub!(/(^|\b\s)\s+($|\s?\b)/, '\\1\\2')
+        name.gsub(/\s+/, '_')
       end
     end
   end
