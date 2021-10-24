@@ -2,7 +2,6 @@
 
 require 'jekyll'
 require 'fileutils'
-require_relative 'reader'
 require_relative 'logger'
 require_relative 'generators/info'
 
@@ -45,7 +44,6 @@ module CloudCannonJekyll
     end
 
     def file_content(data)
-      # data.to_json
       JSON.pretty_generate(data)
     end
   end

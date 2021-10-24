@@ -30,3 +30,6 @@ Metrics/MethodLength:
 
 Metrics/ClassLength:
   Enabled: false
+
+Layout/LineLength:
+  Max: 100

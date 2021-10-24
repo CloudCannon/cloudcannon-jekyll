@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'jekyll'
-require_relative 'readers/old-data-reader'
-require_relative 'readers/data-reader'
+require_relative 'old-data-reader'
+require_relative 'data-reader'
 
 module CloudCannonJekyll
   # Wraps read functions into one class
