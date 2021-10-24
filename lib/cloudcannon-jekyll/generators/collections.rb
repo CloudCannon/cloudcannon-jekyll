@@ -6,6 +6,8 @@ require_relative '../logger'
 require_relative 'paths'
 
 module CloudCannonJekyll
+  STATIC_EXTENSIONS = ['.html', '.htm'].freeze
+
   # Helper functions for generating collection configuration and summaries
   class Collections
     def initialize(site)
@@ -19,20 +21,15 @@ module CloudCannonJekyll
     end
 
     def generate_collections_config
-      collections = @config['collections']&.dup || {}
-      collections_config = @config.dig('cloudcannon', 'collections')&.dup
-      collections_config ||= {}
+      collections = @config['collections']
+      collections_config = @config.dig('cloudcannon', 'collections')&.dup || {}
 
-      collections.each_key do |key|
-        # Workaround for empty collection configurations
-        defaults = collections[key] || { output: false }
-        collections_config[key] ||= {}
-        collections_config[key] = collections_config[key].merge(defaults)
-
-        # Ensure path for each collection config
-        default_path = File.join(@collections_dir, "_#{key}")
-        collections_config[key]['path'] ||= default_path
-        collections_config[key]['path'] = collections_config[key]['path'].gsub(%r{^/+}, '')
+      # Ensure path for each collection config
+      collections&.each_key do |key|
+        base = collections[key] || { 'output' => false }
+        collections_config[key] = (collections_config[key] || {}).merge(base)
+        collections_config[key]['path'] ||= File.join(@collections_dir, "_#{key}")
+        collections_config[key]['path'].gsub!(%r{^/+}, '')
       end
 
       collections_config['pages'] ||= {
@@ -61,12 +58,7 @@ module CloudCannonJekyll
         next unless posts_path
 
         collections_config[key] ||= {}
-        collections_config[key] = collections_config[key].merge(
-          {
-            'path' => posts_path,
-            'output' => true
-          }
-        )
+        collections_config[key].merge!({ 'path' => posts_path, 'output' => true })
       end
 
       @split_drafts.each_key do |key|
@@ -74,12 +66,7 @@ module CloudCannonJekyll
         next unless drafts_path
 
         collections_config[key] ||= {}
-        collections_config[key] = collections_config[key].merge(
-          {
-            'path' => drafts_path,
-            'output' => !!@site.show_drafts
-          }
-        )
+        collections_config[key].merge!({ 'path' => drafts_path, 'output' => !!@site.show_drafts })
       end
 
       collections_config
@@ -114,7 +101,7 @@ module CloudCannonJekyll
       end
 
       if collections['pages'].empty?
-        collections['pages'] = generate_pages.map do |doc|
+        collections['pages'] = all_pages.map do |doc|
           document_to_json(doc, 'pages')
         end
       end
@@ -122,8 +109,30 @@ module CloudCannonJekyll
       collections
     end
 
+    def remove_empty_collection_config(collections_config, collections)
+      cc_collections = @config.dig('cloudcannon', 'collections') || {}
+
+      collections_config.each_key do |key|
+        should_delete = if key == 'data'
+                          !data_files?
+                        else
+                          collections[key].empty? && !cc_collections.key?(key)
+                        end
+
+        if should_delete
+          Logger.info "📂 #{'Ignored'.yellow} #{key.bold} collection"
+          collections_config.delete(key)
+        else
+          count = collections[key]&.length || 0
+          Logger.info "📁 Processed #{key.bold} collection with #{count} files"
+        end
+      end
+    end
+
     def document_to_json(doc, collection)
-      base = doc.data.merge(
+      defaults = @site.frontmatter_defaults.all(doc.relative_path, doc.type)
+
+      base = defaults.merge(doc.data).merge(
         {
           'path' => document_path(doc),
           'url' => doc.url,
@@ -155,16 +164,20 @@ module CloudCannonJekyll
       end
     end
 
-    def generate_pages
+    def all_pages
       html_pages = @site.pages.select do |page|
         page.html? || page.url.end_with?('/')
       end
 
       static_pages = @site.static_files.select do |static_page|
-        JsonifyFilter::STATIC_EXTENSIONS.include?(static_page.extname)
+        STATIC_EXTENSIONS.include?(static_page.extname)
       end
 
       html_pages + static_pages
+    end
+
+    def data_files?
+      @reader.read_data(@data_dir)&.keys&.any?
     end
 
     def group_by_category_folder(collection, key)
@@ -177,30 +190,6 @@ module CloudCannonJekyll
           key
         end
       end
-    end
-
-    def remove_empty_collection_config(collections_config, collections)
-      cc_collections = @config.dig('cloudcannon', 'collections') || {}
-
-      collections_config.each_key do |key|
-        should_delete = if key == 'data'
-                          !data_files?
-                        else
-                          collections[key].empty? && !cc_collections.key?(key)
-                        end
-
-        if should_delete
-          Logger.info "📂 #{'Ignored'.yellow} #{key.bold} collection"
-          collections_config.delete(key)
-        else
-          count = collections[key]&.length || 0
-          Logger.info "📁 Processed #{key.bold} collection with #{count} files"
-        end
-      end
-    end
-
-    def data_files?
-      @reader.read_data(@data_dir)&.keys&.any?
     end
   end
 end

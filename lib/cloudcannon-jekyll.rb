@@ -3,10 +3,7 @@
 require 'jekyll'
 require_relative 'cloudcannon-jekyll/generator'
 require_relative 'cloudcannon-jekyll/configuration'
-require_relative 'cloudcannon-jekyll/jsonify-filter'
 require_relative 'cloudcannon-jekyll/version'
-
-Liquid::Template.register_filter(CloudCannonJekyll::JsonifyFilter)
 
 if Jekyll::VERSION.start_with? '2.'
   module Jekyll

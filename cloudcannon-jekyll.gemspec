@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   all_files          = `git ls-files -z`.split("\x0")
-  spec.files         = all_files.reject { |f| f.match(%r!^(test|spec|features)/!) }
+  spec.files         = all_files.reject { |f| f.match(%r{^(test|spec|features)/}) }
 
   spec.required_ruby_version = '>= 2.4.0'
 

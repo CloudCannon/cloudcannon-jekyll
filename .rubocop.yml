@@ -3,7 +3,6 @@ AllCops:
   Include:
     - lib/**/*.rb
     - spec/*.rb
-
   Exclude:
     - .gitignore
     - .rspec
@@ -16,21 +15,28 @@ AllCops:
     - script/**/*
     - vendor/**/*
     - gemfiles/**/*
-
 Metrics/CyclomaticComplexity:
   Enabled: false
-
 Metrics/PerceivedComplexity:
   Enabled: false
-
 Metrics/AbcSize:
   Enabled: false
-
 Metrics/MethodLength:
   Enabled: false
-
 Metrics/ClassLength:
   Enabled: false
-
 Layout/LineLength:
   Max: 100
+Naming/FileName:
+  Enabled: false
+Style/DoubleNegation:
+  Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - !ruby/regexp /^spec/
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true

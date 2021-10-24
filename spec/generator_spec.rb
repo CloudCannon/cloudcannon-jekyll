@@ -28,10 +28,12 @@ describe CloudCannonJekyll::Generator do
     end
 
     it 'has no data' do
-      expect(info['data']).to eq({
-                                   'categories' => expected_categories,
-                                   'tags' => %w[hello hi]
-                                 })
+      expected = {
+        'categories' => expected_categories,
+        'tags' => %w[hello hi]
+      }
+
+      expect(info['data']).to eq(expected)
     end
 
     it 'has no unsupported items' do
@@ -70,7 +72,7 @@ describe CloudCannonJekyll::Generator do
       expect(post['path']).to eq('_posts/2016-08-10-business-mergers.md')
       expect(post['tags']).to eq(['hello'])
       expect(post['date']).to match(/\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}/)
-      # expect(post["collection"]).to eq("posts") # TODO
+      expect(post['collection']).to eq('posts')
 
       expect(info['collections']['posts'].length).to eq(2)
       expect(info['collections']['other/posts'].length).to eq(1)
@@ -83,35 +85,36 @@ describe CloudCannonJekyll::Generator do
 
       staff_member = info['collections']['staff_members'][0]
       expect(staff_member['path']).to eq('_staff_members/jane-doe.md')
-      # expect(staff_member["collection"]).to eq("staff_members") # TODO
+      expect(staff_member['collection']).to eq('staff_members')
       expect(staff_member['name']).to eq('Jane Doe')
 
       draft = info['collections']['drafts'][0]
       expect(draft['path']).to eq('_drafts/incomplete.md')
-      # expect(draft["collection"]).to eq("drafts") # TODO
+      expect(draft['collection']).to eq('drafts')
       expect(draft['title']).to eq('WIP')
 
       other_draft = info['collections']['other/drafts'][0]
       expect(other_draft['path']).to eq('other/_drafts/testing-for-category.md')
-      # expect(other_draft["collection"]).to eq("other/drafts") # TODO
+      expect(other_draft['collection']).to eq('other/drafts')
       expect(other_draft['title']).to eq('Testing for category drafts')
 
       expect(info['collections']['drafts'].length).to eq(1)
       expect(info['collections']['other/drafts'].length).to eq(1)
 
-      expect(info['collections']['pages'][0]).to eq({
-                                                      'path' => '404.html',
-                                                      'url' => '/404.html',
-                                                      'layout' => 'page',
-                                                      'title' => 'Not Found',
-                                                      'call_to_action' => 'Contact',
-                                                      'collection' => 'pages',
-                                                      'background_image_path' => nil,
-                                                      'large_header' => false,
-                                                      'show_in_navigation' => false,
-                                                      'permalink' => '/404.html',
-                                                      'sitemap' => false
-                                                    })
+      expected_page = {
+        'path' => '404.html',
+        'url' => '/404.html',
+        'layout' => 'page',
+        'title' => 'Not Found',
+        'call_to_action' => 'Contact',
+        'collection' => 'pages',
+        'background_image_path' => nil,
+        'large_header' => false,
+        'show_in_navigation' => false,
+        'permalink' => '/404.html',
+        'sitemap' => false
+      }
+      expect(info['collections']['pages'][0]).to eq(expected_page)
 
       expect(info['collections']['pages'].length).to eq(8)
     end
@@ -160,77 +163,77 @@ describe CloudCannonJekyll::Generator do
     let(:site_data) { { cloudcannon: { 'data' => true } } }
 
     it 'has data' do
-      expect(info['data']).to eq({
-                                   'categories' => expected_categories,
-                                   'tags' => %w[hello hi],
-                                   'company' => {
-                                     'title' => 'Example',
-                                     'description' => 'Testing things',
-                                     'contact_email_address' => 'contact@example.com',
-                                     'contact_phone_number' => '(03) 123 4567',
-                                     'address' => '123 Example Street, Gooseburb, 9876, Ducktown, New Zealand',
-                                     'postal_address' => 'PO Box 123, Ducktown, New Zealand'
-                                   },
-                                   'footer' => [
-                                     {
-                                       'title' => 'Pages',
-                                       'links' => [
-                                         {
-                                           'name' => 'Home',
-                                           'link' => '/'
-                                         },
-                                         {
-                                           'name' => 'About',
-                                           'link' => '/about/'
-                                         },
-                                         {
-                                           'name' => 'Services',
-                                           'link' => '/services/'
-                                         },
-                                         {
-                                           'name' => 'Contact',
-                                           'link' => '/contact/'
-                                         },
-                                         {
-                                           'name' => 'Advice',
-                                           'link' => '/advice/'
-                                         }
-                                       ]
-                                     },
-                                     {
-                                       'title' => 'Social',
-                                       'links' => [
-                                         {
-                                           'name' => 'Facebook',
-                                           'link' => 'http://facebook.com',
-                                           'social_icon' => 'Facebook',
-                                           'new_window' => true
-                                         },
-                                         {
-                                           'name' => 'Twitter',
-                                           'link' => 'http://twitter.com',
-                                           'social_icon' => 'Twitter',
-                                           'new_window' => true
-                                         },
-                                         {
-                                           'name' => 'Instagram',
-                                           'link' => 'http://instagram.com/',
-                                           'social_icon' => 'Instagram',
-                                           'new_window' => true
-                                         },
-                                         {
-                                           'name' => 'LinkedIn',
-                                           'link' => 'https://linkedin.com',
-                                           'social_icon' => 'LinkedIn',
-                                           'new_window' => true
-                                         }
-                                       ]
-                                     }
-                                   ]
-                                 })
+      expected = {
+        'categories' => expected_categories,
+        'tags' => %w[hello hi],
+        'company' => {
+          'title' => 'Example',
+          'description' => 'Testing things',
+          'contact_email_address' => 'contact@example.com',
+          'contact_phone_number' => '(03) 123 4567',
+          'address' => '123 Example Street, Gooseburb, 9876, Ducktown, New Zealand',
+          'postal_address' => 'PO Box 123, Ducktown, New Zealand'
+        },
+        'footer' => [
+          {
+            'title' => 'Pages',
+            'links' => [
+              {
+                'name' => 'Home',
+                'link' => '/'
+              },
+              {
+                'name' => 'About',
+                'link' => '/about/'
+              },
+              {
+                'name' => 'Services',
+                'link' => '/services/'
+              },
+              {
+                'name' => 'Contact',
+                'link' => '/contact/'
+              },
+              {
+                'name' => 'Advice',
+                'link' => '/advice/'
+              }
+            ]
+          },
+          {
+            'title' => 'Social',
+            'links' => [
+              {
+                'name' => 'Facebook',
+                'link' => 'http://facebook.com',
+                'social_icon' => 'Facebook',
+                'new_window' => true
+              },
+              {
+                'name' => 'Twitter',
+                'link' => 'http://twitter.com',
+                'social_icon' => 'Twitter',
+                'new_window' => true
+              },
+              {
+                'name' => 'Instagram',
+                'link' => 'http://instagram.com/',
+                'social_icon' => 'Instagram',
+                'new_window' => true
+              },
+              {
+                'name' => 'LinkedIn',
+                'link' => 'https://linkedin.com',
+                'social_icon' => 'LinkedIn',
+                'new_window' => true
+              }
+            ]
+          }
+        ]
+      }
 
+      expect(info['data']).to eq(expected)
       expect(info_raw.scan(/UNSUPPORTED/).length).to eq(0)
-
       expect(info['data']['company']).not_to be_nil
       expect(info['data']['footer']).not_to be_nil
       expect(info['data'].keys.length).to eq(4)
@@ -303,9 +306,11 @@ describe CloudCannonJekyll::Generator do
     end
 
     it 'has comments' do
-      expect(info['_comments']).to eq({
-                                        'heading_image' => 'This image should be related to the content'
-                                      })
+      expected = {
+        'heading_image' => 'This image should be related to the content'
+      }
+
+      expect(info['_comments']).to eq(expected)
     end
 
     it 'has editor' do
@@ -313,24 +318,28 @@ describe CloudCannonJekyll::Generator do
     end
 
     it 'has source editor' do
-      expect(info['_source_editor']).to eq({
-                                             'tab_size' => 2,
-                                             'show_gutter' => false,
-                                             'theme' => 'dawn'
-                                           })
+      expected = {
+        'tab_size' => 2,
+        'show_gutter' => false,
+        'theme' => 'dawn'
+      }
+
+      expect(info['_source_editor']).to eq(expected)
     end
 
     it 'has collection groups' do
-      expect(info['_collection_groups']).to eq([
-                                                 {
-                                                   'heading' => 'Blogging',
-                                                   'collections' => %w[posts drafts]
-                                                 },
-                                                 {
-                                                   'heading' => 'Other',
-                                                   'collections' => %w[pages staff_members]
-                                                 }
-                                               ])
+      expected = [
+        {
+          'heading' => 'Blogging',
+          'collections' => %w[posts drafts]
+        },
+        {
+          'heading' => 'Other',
+          'collections' => %w[pages staff_members]
+        }
+      ]
+
+      expect(info['_collection_groups']).to eq(expected)
     end
 
     it 'has paths' do
@@ -355,153 +364,160 @@ describe CloudCannonJekyll::Generator do
     end
 
     it 'has array structures' do
-      expect(info['_array_structures']['gallery']).to eq({
-                                                           'style' => 'select',
-                                                           'values' => [
-                                                             {
-                                                               'label' => 'Image',
-                                                               'image' => '/path/to/source-image.png',
-                                                               'value' => {
-                                                                 'image' => '/placeholder.png',
-                                                                 'caption' => nil,
-                                                                 'nested' => {
-                                                                   'thing' => {
-                                                                     'which' => {
-                                                                       'keeps' => {
-                                                                         'nesting' => {
-                                                                           'beyond' => {
-                                                                             'what' => {
-                                                                               'would' => {
-                                                                                 'is' => {
-                                                                                   'likely' => { 'usually' => 'hello' }
-                                                                                 }
-                                                                               }
-                                                                             }
-                                                                           }
-                                                                         }
-                                                                       }
-                                                                     }
-                                                                   }
-                                                                 }
-                                                               }
-                                                             },
-                                                             {
-                                                               'label' => 'External link',
-                                                               'icon' => 'link',
-                                                               'value' => {
-                                                                 'url' => nil,
-                                                                 'title' => nil
-                                                               }
-                                                             }
-                                                           ]
-                                                         })
+      expected = {
+        'style' => 'select',
+        'values' => [
+          {
+            'label' => 'Image',
+            'image' => '/path/to/source-image.png',
+            'value' => {
+              'image' => '/placeholder.png',
+              'caption' => nil,
+              'nested' => {
+                'thing' => {
+                  'which' => {
+                    'keeps' => {
+                      'nesting' => {
+                        'beyond' => {
+                          'what' => {
+                            'would' => {
+                              'is' => {
+                                'likely' => { 'usually' => 'hello' }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            'label' => 'External link',
+            'icon' => 'link',
+            'value' => {
+              'url' => nil,
+              'title' => nil
+            }
+          }
+        ]
+      }
 
+      expect(info['_array_structures']['gallery']).to eq(expected)
       expect(info['_array_structures'].keys.length).to eq(1)
     end
 
     it 'has select data' do
-      expect(info['_select_data']).to eq({
-                                           'cards_per_rows' => {
-                                             '2' => 'Two',
-                                             '3' => 'Three',
-                                             '4' => 'Four',
-                                             '6' => 'Six'
-                                           },
-                                           'categories' => %w[forever strings],
-                                           'things' => %w[hello there],
-                                           'staff' => %w[jim bob]
-                                         })
+      expected = {
+        'cards_per_rows' => {
+          '2' => 'Two',
+          '3' => 'Three',
+          '4' => 'Four',
+          '6' => 'Six'
+        },
+        'categories' => %w[forever strings],
+        'things' => %w[hello there],
+        'staff' => %w[jim bob]
+      }
+
+      expect(info['_select_data']).to eq(expected)
     end
 
     it 'has _options' do
-      expect(info['_options']).to eq({
-                                       'content' => { 'image' => true, 'bold' => true },
-                                       'my_html' => {
-                                         'italic' => true,
-                                         'bold' => true,
-                                         'styles' => 'hello.css'
-                                       }
-                                     })
+      expected = {
+        'content' => { 'image' => true, 'bold' => true },
+        'my_html' => {
+          'italic' => true,
+          'bold' => true,
+          'styles' => 'hello.css'
+        }
+      }
+
+      expect(info['_options']).to eq(expected)
     end
 
     it 'has defaults' do
-      expect(info['defaults']).to eq([
-                                       {
-                                         'scope' => { 'path' => '' },
-                                         'values' => { 'layout' => 'page' }
-                                       },
-                                       {
-                                         'scope' => { 'path' => '', 'type' => 'posts' },
-                                         'values' => {
-                                           'layout' => 'post',
-                                           'nested1' => {
-                                             'nested2' => {
-                                               'nested3' => {
-                                                 'nested4' => {
-                                                   'nested5' => {
-                                                     'nested6' => {
-                                                       'nested7' => {
-                                                         'nested8' => {
-                                                           'nested9' => {
-                                                             'nested10' => {
-                                                               'nested11' => {
-                                                                 'nested12' => 'deep'
-                                                               }
-                                                             }
-                                                           }
-                                                         }
-                                                       }
-                                                     }
-                                                   }
-                                                 }
-                                               }
-                                             }
-                                           },
-                                           '_array_structures' => {
-                                             'gallery' => {
-                                               'style' => 'select',
-                                               'values' => [
-                                                 {
-                                                   'label' => 'Image',
-                                                   'image' => '/path/to/source-image.png',
-                                                   'value' => {
-                                                     'image' => '/placeholder.png',
-                                                     'caption' => nil,
-                                                     'nested' => {
-                                                       'thing' => {
-                                                         'which' => {
-                                                           'keeps' => {
-                                                             'nesting' => {
-                                                               'beyond' => {
-                                                                 'what' => {
-                                                                   'would' => {
-                                                                     'is' => {
-                                                                       'likely' => { 'usually' => 'hello' }
-                                                                     }
-                                                                   }
-                                                                 }
-                                                               }
-                                                             }
-                                                           }
-                                                         }
-                                                       }
-                                                     }
-                                                   }
-                                                 },
-                                                 {
-                                                   'label' => 'External link',
-                                                   'icon' => 'link',
-                                                   'value' => {
-                                                     'url' => nil,
-                                                     'title' => nil
-                                                   }
-                                                 }
-                                               ]
-                                             }
-                                           }
-                                         }
-                                       }
-                                     ])
+      expected = [
+        {
+          'scope' => { 'path' => '' },
+          'values' => { 'layout' => 'page' }
+        },
+        {
+          'scope' => { 'path' => '', 'type' => 'posts' },
+          'values' => {
+            'layout' => 'post',
+            'nested1' => {
+              'nested2' => {
+                'nested3' => {
+                  'nested4' => {
+                    'nested5' => {
+                      'nested6' => {
+                        'nested7' => {
+                          'nested8' => {
+                            'nested9' => {
+                              'nested10' => {
+                                'nested11' => {
+                                  'nested12' => 'deep'
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            '_array_structures' => {
+              'gallery' => {
+                'style' => 'select',
+                'values' => [
+                  {
+                    'label' => 'Image',
+                    'image' => '/path/to/source-image.png',
+                    'value' => {
+                      'image' => '/placeholder.png',
+                      'caption' => nil,
+                      'nested' => {
+                        'thing' => {
+                          'which' => {
+                            'keeps' => {
+                              'nesting' => {
+                                'beyond' => {
+                                  'what' => {
+                                    'would' => {
+                                      'is' => {
+                                        'likely' => { 'usually' => 'hello' }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    'label' => 'External link',
+                    'icon' => 'link',
+                    'value' => {
+                      'url' => nil,
+                      'title' => nil
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+
+      expect(info['defaults']).to eq(expected)
     end
   end
 
@@ -594,12 +610,14 @@ describe CloudCannonJekyll::Generator do
     end
 
     it 'has specified select data' do
-      expect(info['_select_data']).to eq({
-                                           'news' => {
-                                             'first' => 'yes',
-                                             'second' => 'no'
-                                           }
-                                         })
+      expected = {
+        'news' => {
+          'first' => 'yes',
+          'second' => 'no'
+        }
+      }
+
+      expect(info['_select_data']).to eq(expected)
     end
   end
 
