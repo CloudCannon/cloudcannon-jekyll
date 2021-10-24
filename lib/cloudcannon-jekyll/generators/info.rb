@@ -94,8 +94,7 @@ module CloudCannonJekyll
     def add_legacy_explore_groups
       return if @config.key?('_collection_groups')
 
-      collection_groups = @config.dig('_explore', 'groups')&.dup
-      @config['_collection_groups'] = collection_groups
+      @config['_collection_groups'] = @config.dig('_explore', 'groups')&.dup
     end
 
     def add_legacy_select_data

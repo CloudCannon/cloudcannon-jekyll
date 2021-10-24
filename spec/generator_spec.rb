@@ -65,7 +65,6 @@ describe CloudCannonJekyll::Generator do
       expect(post.key?('output')).to eq(false)
       expect(post.key?('next')).to eq(false)
       expect(post.key?('previous')).to eq(false)
-      expect(post.key?('excerpt')).to eq(false)
       expect(post['id']).to eq('/business/2016/08/10/business-mergers')
       expect(post['url']).to eq('/business/2016/08/10/business-mergers/')
       expect(post['path']).to eq('_posts/2016-08-10-business-mergers.md')
@@ -101,12 +100,12 @@ describe CloudCannonJekyll::Generator do
       expect(info['collections']['other/drafts'].length).to eq(1)
 
       expect(info['collections']['pages'][0]).to eq({
-                                                      'name' => '404.html',
                                                       'path' => '404.html',
                                                       'url' => '/404.html',
                                                       'layout' => 'page',
                                                       'title' => 'Not Found',
                                                       'call_to_action' => 'Contact',
+                                                      'collection' => 'pages',
                                                       'background_image_path' => nil,
                                                       'large_header' => false,
                                                       'show_in_navigation' => false,
@@ -271,7 +270,7 @@ describe CloudCannonJekyll::Generator do
 
       category_other_drafts = collections_config['other/drafts']
       expect(category_other_drafts).not_to be_nil
-      expect(category_other_drafts['output']).to eq(true)
+      expect(category_other_drafts['output']).to eq(false)
       expect(category_other_drafts['path']).to eq('other/_drafts')
 
       drafts = collections_config['drafts']
@@ -342,7 +341,7 @@ describe CloudCannonJekyll::Generator do
         expect(info['paths']['data']).to be_nil
         expect(info['paths']['collections']).to be_nil
         expect(info['paths']['layouts']).to be_nil
-      elsif Jekyll::VERSION.match? /3\.[0-5]\./
+      elsif Jekyll::VERSION.match?(/3\.[0-5]\./)
         expect(info['paths']['data']).to eq('_data')
         expect(info['paths']['collections']).to be_nil
         expect(info['paths']['layouts']).to eq('_layouts')
@@ -575,7 +574,7 @@ describe CloudCannonJekyll::Generator do
     end
 
     it 'has no select data' do
-      expect(info).not_to have_key('_select_data')
+      expect(info['_select_data']).to eq({})
     end
 
     it 'has no options' do

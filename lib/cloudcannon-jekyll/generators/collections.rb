@@ -53,21 +53,33 @@ module CloudCannonJekyll
 
       collections_config['drafts'] ||= {
         'path' => File.join(@collections_dir, '_drafts'),
-        'output' => @config['drafts']
+        'output' => !!@site.show_drafts
       }
 
       @split_posts.each_key do |key|
         posts_path = @split_posts[key]&.first&.relative_path&.sub(%r{(^|/)_posts.*}, '\1_posts')
         next unless posts_path
 
-        collections_config[key] = collections_config['posts'].merge('path' => posts_path)
+        collections_config[key] ||= {}
+        collections_config[key] = collections_config[key].merge(
+          {
+            'path' => posts_path,
+            'output' => true
+          }
+        )
       end
 
       @split_drafts.each_key do |key|
         drafts_path = @split_drafts[key]&.first&.relative_path&.sub(%r{(^|/)_drafts.*}, '\1_drafts')
         next unless drafts_path
 
-        collections_config[key] = collections_config['posts'].merge('path' => drafts_path)
+        collections_config[key] ||= {}
+        collections_config[key] = collections_config[key].merge(
+          {
+            'path' => drafts_path,
+            'output' => !!@site.show_drafts
+          }
+        )
       end
 
       collections_config
@@ -85,6 +97,8 @@ module CloudCannonJekyll
       collections = {}
 
       collections_config.each_key do |key|
+        next if key == 'data'
+
         collections[key] = if key == 'posts' || key.end_with?('/posts')
                              @split_posts[key]
                            elsif key == 'drafts' || key.end_with?('/drafts')
