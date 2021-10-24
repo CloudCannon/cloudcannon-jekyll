@@ -28,7 +28,7 @@ module CloudCannonJekyll
         collections
       )
 
-      info = {
+      {
         time: site.time.iso8601,
         version: '0.0.2',
         cloudcannon: generate_cloudcannon,
@@ -37,24 +37,22 @@ module CloudCannonJekyll
         'collections-config' => collections_config,
         collections: collections,
         data: data,
-        source: @config['source'].gsub(Dir.pwd, '')
-      }
-
-      info['timezone'] = @config['timezone'] if @config['timezone']
-      info['base-url'] = @config['baseurl'] if @config['baseurl']
-      info['_comments'] = @config['_comments'] if @config['_comments']
-      info['_enabled_editors'] = @config['_enabled_editors'] if @config['_enabled_editors']
-      info['_instance_values'] = @config['_instance_values'] if @config['_instance_values']
-      info['_options'] = @config['_options'] if @config['_options']
-      info['_inputs'] = @config['_inputs'] if @config['_inputs']
-      info['_editables'] = @config['_editables'] if @config['_editables']
-      info['_collection_groups'] = @config['_collection_groups'] if @config['_collection_groups']
-      info['_select_data'] = @config['_select_data'] if @config['_select_data']
-      info['_array_structures'] = @config['_array_structures'] if @config['_array_structures']
-      info['_editor'] = @config['_editor'] if @config['_editor']
-      info['_source_editor'] = @config['_source_editor'] if @config['_source_editor']
-      info['defaults'] = @config['defaults'] if @config['defaults']
-      info
+        source: @config['source'].gsub(Dir.pwd, ''),
+        timezone: @config['timezone'],
+        'base-url': @config['baseurl'],
+        _comments: @config['_comments'],
+        _enabled_editors: @config['_enabled_editors'],
+        _instance_values: @config['_instance_values'],
+        _options: @config['_options'],
+        _inputs: @config['_inputs'],
+        _editables: @config['_editables'],
+        _collection_groups: @config['_collection_groups'],
+        _select_data: @config['_select_data'],
+        _array_structures: @config['_array_structures'],
+        _editor: @config['_editor'],
+        _source_editor: @config['_source_editor'],
+        defaults: @config['defaults']
+      }.compact
     end
 
     def generate_cloudcannon
@@ -103,20 +101,17 @@ module CloudCannonJekyll
     def add_legacy_select_data
       return if @config.key?('_select_data')
 
-      cloudcannon_keys = %w[_comments _options _editor _explore cloudcannon
-                            _collection_groups _enabled_editors _instance_values
-                            _source_editor _array_structures uploads_dir _inputs
-                            _structures]
+      cloudcannon_keys = %w[_comments _options _editor _explore cloudcannon _collection_groups
+                            _enabled_editors _instance_values _source_editor _array_structures
+                            uploads_dir _inputs _structures]
 
-      jekyll_keys = %w[source destination collections_dir cache_dir plugins_dir
-                       layouts_dir data_dir includes_dir collections safe
-                       include exclude keep_files encoding markdown_ext
-                       strict_front_matter show_drafts limit_posts future
-                       unpublished whitelist plugins markdown highlighter lsi
-                       excerpt_separator incremental detach port host baseurl
-                       show_dir_listing permalink paginate_path timezone quiet
-                       verbose defaults liquid kramdown title url description
-                       maruku redcloth rdiscount redcarpet gems plugins]
+      jekyll_keys = %w[source destination collections_dir cache_dir plugins_dir layouts_dir
+                       data_dir includes_dir collections safe include exclude keep_files encoding
+                       markdown_ext strict_front_matter show_drafts limit_posts future unpublished
+                       whitelist plugins markdown highlighter lsi excerpt_separator incremental
+                       detach port host baseurl show_dir_listing permalink paginate_path timezone
+                       quiet verbose defaults liquid kramdown title url description maruku
+                       redcloth rdiscount redcarpet gems plugins]
 
       select_data = @config.keys.each_with_object({}) do |key, memo|
         value = @config[key]
