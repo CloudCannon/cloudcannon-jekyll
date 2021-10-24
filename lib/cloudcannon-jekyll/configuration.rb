@@ -17,23 +17,17 @@ module CloudCannonJekyll
         user_config
       )
 
-      if config.respond_to? :add_default_collections
-        config = config.add_default_collections
-      end
+      config = config.add_default_collections if config.respond_to? :add_default_collections
 
       config = config.fix_common_issues if config.respond_to? :fix_common_issues
 
-      if config.respond_to? :add_default_excludes
-        config = config.add_default_excludes
-      end
+      config = config.add_default_excludes if config.respond_to? :add_default_excludes
 
       key = Jekyll::VERSION.start_with?('2.') ? 'gems' : 'plugins'
 
       config[key] = Array(config[key])
 
-      unless config[key].include? 'cloudcannon-jekyll'
-        config[key].push('cloudcannon-jekyll')
-      end
+      config[key].push('cloudcannon-jekyll') unless config[key].include? 'cloudcannon-jekyll'
 
       config
     end

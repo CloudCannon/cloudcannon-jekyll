@@ -2,6 +2,7 @@ AllCops:
   TargetRubyVersion: 2.4
   Include:
     - lib/**/*.rb
+    - spec/*.rb
 
   Exclude:
     - .gitignore
