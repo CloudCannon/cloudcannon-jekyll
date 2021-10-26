@@ -65,10 +65,10 @@ module CloudCannonJekyll
     def generate_paths
       {
         static: '',
-        uploads: @config['uploads_dir'],
+        uploads: @config['uploads_dir'] || 'uploads',
         data: @data_dir,
         collections: @collections_dir,
-        layouts: @config['layouts_dir']
+        layouts: @config['layouts_dir'] || '_layouts'
       }
     end
 

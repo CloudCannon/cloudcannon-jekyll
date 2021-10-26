@@ -8,13 +8,13 @@ require 'cloudcannon-jekyll'
 
 Jekyll.logger.log_level = :error
 
+SOURCE_DIR = File.expand_path('fixtures', __dir__)
+DEST_DIR = File.expand_path('dest', __dir__)
+
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
   config.order = 'random'
-
-  SOURCE_DIR = File.expand_path('fixtures', __dir__)
-  DEST_DIR = File.expand_path('dest', __dir__)
 
   def log_schema_error(error)
     # Expecting here rather than logging means it get output in the test results

@@ -41,7 +41,7 @@ describe CloudCannonJekyll::Generator do
     end
 
     it 'has valid time' do
-      expect(info['time']).to match(/\d{4}\-\d\d\-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d/)
+      expect(info['time']).to match(/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d/)
     end
 
     it 'has gem information' do
@@ -71,17 +71,13 @@ describe CloudCannonJekyll::Generator do
       expect(post['url']).to eq('/business/2016/08/10/business-mergers/')
       expect(post['path']).to eq('_posts/2016-08-10-business-mergers.md')
       expect(post['tags']).to eq(['hello'])
-      expect(post['date']).to match(/\d{4}\-\d\d\-\d\d \d\d:\d\d:\d\d [+-]\d{4}/)
+      expect(post['date']).to match(/\d{4}-\d\d-\d\d \d\d:\d\d:\d\d [+-]\d{4}/)
       expect(post['collection']).to eq('posts')
 
       expect(info['collections']['posts'].length).to eq(2)
       expect(info['collections']['other/posts'].length).to eq(1)
 
-      if Jekyll::VERSION.start_with? '2.'
-        expect(post['categories']).to eq(['business'])
-      else
-        expect(post['categories']).to eq(['Business'])
-      end
+      expect(post['categories']).to eq(['Business'])
 
       staff_member = info['collections']['staff_members'][0]
       expect(staff_member['path']).to eq('_staff_members/jane-doe.md')
@@ -343,23 +339,11 @@ describe CloudCannonJekyll::Generator do
     end
 
     it 'has paths' do
+      expect(info['paths']['collections']).to eq('')
       expect(info['paths']['uploads']).to eq('uploads')
       expect(info['paths']['static']).to eq('')
-
-      if Jekyll::VERSION.start_with? '2.'
-        expect(info['paths']['data']).to be_nil
-        expect(info['paths']['collections']).to be_nil
-        expect(info['paths']['layouts']).to be_nil
-      elsif Jekyll::VERSION.match?(/3\.[0-5]\./)
-        expect(info['paths']['data']).to eq('_data')
-        expect(info['paths']['collections']).to be_nil
-        expect(info['paths']['layouts']).to eq('_layouts')
-      else
-        expect(info['paths']['data']).to eq('_data')
-        expect(info['paths']['collections']).to eq('')
-        expect(info['paths']['layouts']).to eq('_layouts')
-      end
-
+      expect(info['paths']['data']).to eq('_data')
+      expect(info['paths']['layouts']).to eq('_layouts')
       expect(info['paths'].keys.length).to eq(5)
     end
 
@@ -580,11 +564,6 @@ describe CloudCannonJekyll::Generator do
       expect(info).not_to have_key('_source_editor')
     end
 
-    it 'has no uploads path' do
-      expect(info['paths']['uploads']).to be_nil
-      expect(info['paths'].keys.length).to eq(5)
-    end
-
     it 'has no array structures' do
       expect(info).not_to have_key('_array_structures')
     end
@@ -625,7 +604,11 @@ describe CloudCannonJekyll::Generator do
     let(:site_data) { { collections_dir: 'collections' } }
 
     it 'has collections path' do
-      expect(info['paths']['collections']).to eq('collections')
+      if Jekyll::VERSION.start_with?('2.')
+        expect(info['paths']['collections']).to eq('')
+      else
+        expect(info['paths']['collections']).to eq('collections')
+      end
     end
   end
 

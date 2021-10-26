@@ -29,7 +29,7 @@ module CloudCannonJekyll
         base = collections[key] || { 'output' => false }
         collections_config[key] = (collections_config[key] || {}).merge(base)
         collections_config[key]['path'] ||= File.join(@collections_dir, "_#{key}")
-        collections_config[key]['path'].gsub!(%r{^/+}, '')
+        collections_config[key]['path'].sub!(%r{^/+}, '')
       end
 
       collections_config['pages'] ||= {
@@ -58,7 +58,7 @@ module CloudCannonJekyll
         next unless posts_path
 
         collections_config[key] ||= {}
-        collections_config[key].merge!({ 'path' => posts_path, 'output' => true })
+        collections_config[key].merge!({ 'path' => posts_path.sub(%r{^/+}, ''), 'output' => true })
       end
 
       @split_drafts.each_key do |key|
@@ -66,7 +66,12 @@ module CloudCannonJekyll
         next unless drafts_path
 
         collections_config[key] ||= {}
-        collections_config[key].merge!({ 'path' => drafts_path, 'output' => !!@site.show_drafts })
+        collections_config[key].merge!(
+          {
+            'path' => drafts_path.sub(%r{^/+}, ''),
+            'output' => !!@site.show_drafts
+          }
+        )
       end
 
       collections_config
@@ -129,27 +134,48 @@ module CloudCannonJekyll
       end
     end
 
-    def document_to_json(doc, collection)
-      defaults = @site.frontmatter_defaults.all(doc.relative_path, doc.type)
+    def document_type(doc)
+      if doc.respond_to? :type
+        doc.type
+      elsif doc.respond_to?(:collection)
+        doc.collection.label.to_sym
+      elsif doc.instance_of?(Jekyll::Page)
+        :pages
+      elsif Jekyll::VERSION.start_with?('2.') && doc.instance_of?(Jekyll::Post)
+        :posts
+      elsif Jekyll::VERSION.start_with?('2.') && doc.instance_of?(Jekyll::Draft)
+        :drafts
+      end
+    end
 
-      base = defaults.merge(doc.data).merge(
-        {
-          'path' => document_path(doc),
-          'url' => doc.url,
-          'collection' => collection
-        }
-      )
+    def document_data(doc)
+      doc.respond_to?(:data) ? doc.data : {}
+    end
 
-      base['id'] = doc.id if doc.respond_to? :id
-      base
+    def document_url(doc)
+      doc.respond_to?(:url) ? doc.url : doc.relative_path
     end
 
     def document_path(doc)
       if doc.respond_to?(:collection) && doc.collection
         File.join(@collections_dir, doc.relative_path).sub(%r{^/+}, '')
       else
-        doc.relative_path
+        doc.relative_path.sub(%r{^/+}, '')
       end
+    end
+
+    def document_to_json(doc, collection)
+      defaults = @site.frontmatter_defaults.all(doc.relative_path, document_type(doc))
+      base = defaults.merge(document_data(doc)).merge(
+        {
+          'path' => document_path(doc),
+          'url' => document_url(doc),
+          'collection' => collection
+        }
+      )
+
+      base['id'] = doc.id if doc.respond_to? :id
+      base
     end
 
     def all_posts

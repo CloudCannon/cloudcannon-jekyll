@@ -13,9 +13,10 @@ module CloudCannonJekyll
 
     def generate_data
       cc_data = @config.dig('cloudcannon', 'data')
-      data = if cc_data == true
+      data = case cc_data
+             when true
                @site.data&.dup
-             elsif cc_data&.is_a?(Hash)
+             when Hash
                @site.data&.select { |key, _| cc_data.key?(key) }
              end
 
