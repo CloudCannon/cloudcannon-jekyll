@@ -389,8 +389,8 @@ describe CloudCannonJekyll::Generator do
         ]
       }
 
-      expect(info['_array_structures']['gallery']).to eq(expected)
-      expect(info['_array_structures'].keys.length).to eq(1)
+      expect(info['_structures']['gallery']).to eq(expected)
+      expect(info['_structures'].keys.length).to eq(1)
     end
 
     it 'has select data' do
@@ -565,7 +565,7 @@ describe CloudCannonJekyll::Generator do
     end
 
     it 'has no array structures' do
-      expect(info).not_to have_key('_array_structures')
+      expect(info).not_to have_key('_structures')
     end
 
     it 'has no select data' do

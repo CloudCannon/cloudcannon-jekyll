@@ -3,6 +3,7 @@
 require 'jekyll'
 require 'fileutils'
 require_relative 'logger'
+require_relative 'config'
 require_relative 'generators/info'
 
 module CloudCannonJekyll
@@ -18,7 +19,8 @@ module CloudCannonJekyll
     def generate(site)
       Logger.info "⭐️ Starting #{'cloudcannon-jekyll'.blue}"
       @site = site
-      generate_file('info', Info.new.generate_info(site))
+      config = Config.new(site)
+      generate_file('info', Info.new.generate_info(site, config.read))
     end
 
     def generate_file(filename, data)

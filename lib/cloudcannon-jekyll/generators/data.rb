@@ -6,18 +6,18 @@ require_relative 'paths'
 module CloudCannonJekyll
   # Generator functions for site data
   class Data
-    def initialize(site)
+    def initialize(site, config)
       @site = site
-      @config = site.config
+      @config = config
     end
 
     def generate_data
-      cc_data = @config.dig('cloudcannon', 'data')
-      data = case cc_data
+      data_config = @config['data_config']
+      data = case data_config
              when true
                @site.data&.dup
              when Hash
-               @site.data&.select { |key, _| cc_data.key?(key) }
+               @site.data&.select { |key, _| data_config.key?(key) && data_config[key] }
              end
 
       data ||= {}

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe CloudCannonJekyll::Configuration do
+describe CloudCannonJekyll::Setup do
   # Tests for the configuration step
 
   let(:site) { make_site(site_data) }

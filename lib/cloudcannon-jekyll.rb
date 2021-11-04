@@ -2,7 +2,7 @@
 
 require 'jekyll'
 require_relative 'cloudcannon-jekyll/generator'
-require_relative 'cloudcannon-jekyll/configuration'
+require_relative 'cloudcannon-jekyll/setup'
 require_relative 'cloudcannon-jekyll/version'
 
 if Jekyll::VERSION.start_with? '2.'
@@ -13,12 +13,12 @@ if Jekyll::VERSION.start_with? '2.'
 
       def reset
         jekyll_reset
-        CloudCannonJekyll::Configuration.set(self)
+        CloudCannonJekyll::Setup.set(self)
       end
     end
   end
 else
   Jekyll::Hooks.register :site, :after_reset do |site|
-    CloudCannonJekyll::Configuration.set(site)
+    CloudCannonJekyll::Setup.set(site)
   end
 end

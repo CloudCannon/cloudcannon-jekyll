@@ -10,9 +10,9 @@ module CloudCannonJekyll
 
   # Helper functions for generating collection configuration and summaries
   class Collections
-    def initialize(site)
+    def initialize(site, config)
       @site = site
-      @config = site.config
+      @config = config
       @reader = Reader.new(site)
       @collections_dir = Paths.collections_dir(site)
       @data_dir = Paths.data_dir(site)
@@ -21,8 +21,8 @@ module CloudCannonJekyll
     end
 
     def generate_collections_config
-      collections = @config['collections']
-      collections_config = @config.dig('cloudcannon', 'collections')&.dup || {}
+      collections = @site.config['collections']
+      collections_config = @config['collections_config']&.dup || {}
 
       # Ensure path for each collection config
       collections&.each_key do |key|
@@ -115,13 +115,13 @@ module CloudCannonJekyll
     end
 
     def remove_empty_collection_config(collections_config, collections)
-      cc_collections = @config.dig('cloudcannon', 'collections') || {}
+      collections_config_original = @config['collections_config'] || {}
 
       collections_config.each_key do |key|
         should_delete = if key == 'data'
                           !data_files?
                         else
-                          collections[key].empty? && !cc_collections.key?(key)
+                          collections[key].empty? && !collections_config_original.key?(key)
                         end
 
         if should_delete

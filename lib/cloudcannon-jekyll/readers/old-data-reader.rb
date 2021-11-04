@@ -2,6 +2,7 @@
 
 if Jekyll::VERSION.start_with? '2.'
   require 'jekyll'
+  require 'fileutils'
 
   module CloudCannonJekyll
     # Reads data files and creates a collections-style hash representation

@@ -2,7 +2,7 @@
 
 A Jekyll plugin to create CloudCannon editor details.
 
-[![Build Status](https://travis-ci.com/CloudCannon/cloudcannon-jekyll.svg?branch=main)](https://travis-ci.com/CloudCannon/cloudcannon-jekyll) [![Gem Version](https://badge.fury.io/rb/cloudcannon-jekyll.svg)](https://badge.fury.io/rb/cloudcannon-jekyll)
+[![Gem Version](https://badge.fury.io/rb/cloudcannon-jekyll.svg)](https://badge.fury.io/rb/cloudcannon-jekyll)
 
 ## Usage
 
@@ -37,11 +37,11 @@ OR:
 ## Testing
 
 ```
-bundle exec rspec
+./script/test
 ```
 
 To test a specific Jekyll version:
 
 ```
-JEKYLL_VERSION="2.4.0" bundle update && bundle exec rspec
+JEKYLL_VERSION="2.4.0" bundle update && ./script/test
 ```
