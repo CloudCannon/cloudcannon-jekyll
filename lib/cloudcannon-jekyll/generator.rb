@@ -212,8 +212,8 @@ module CloudCannonJekyll
       collections_config["posts"] = { "output" => true } if Jekyll::VERSION.start_with? "2."
       drafts = @reader.read_drafts(collections_dir)
 
-      if drafts.any? || (collections_config.key?("posts") && !collections_config.key?("drafts"))
-        collections_config["drafts"] = {}
+      if drafts.any? && !collections_config.key?("drafts")
+        collections_config["drafts"] = { "output" => !!@site.show_drafts }
       end
 
       folders = add_category_folder_config(collections_config, collections_config["posts"])

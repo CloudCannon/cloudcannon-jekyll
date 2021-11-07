@@ -278,6 +278,7 @@ describe CloudCannonJekyll::Generator do
       expect(drafts).not_to be_nil
       expect(drafts["path"]).to eq("_drafts")
       expect(drafts["title"]).to be_nil
+      expect(drafts["output"]).to eq(true)
 
       pages = collections_config["pages"]
       expect(pages).not_to be_nil
