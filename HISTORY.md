@@ -1,3 +1,10 @@
+# 2.3.0
+
+* Fix output for drafts collection config
+* Update schema version
+* fix parsing for category folders
+* Add logging
+
 # 2.2.0
 
 * Move data logic out of template
