@@ -44,6 +44,7 @@ module CloudCannonJekyll
     end
     # rubocop:enable Metrics/MethodLength
 
+    # rubocop:disable Metrics/CyclomaticComplexity
     def generate_collections_config(pages)
       collections = @site.config["collections"]&.dup || {}
       collections_config = @site.config.dig("cloudcannon", "collections")&.dup || {}
@@ -54,18 +55,20 @@ module CloudCannonJekyll
         collections_config[key] = (collections_config[key] || {}).merge(defaults)
       end
 
-      unless pages.empty?
-        collections_config["pages"] ||= {
+      unless pages.empty? || collections.key?("pages")
+        pages_defaults = {
           "output" => true,
           "filter" => "strict",
           "path"   => "",
         }
+
+        collections_config["pages"] = pages_defaults.merge(collections_config["pages"] || {})
       end
 
       collections_config
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def generate_collections(collections_config, pages, drafts)
       split_posts = group_by_category_folder(all_posts, "posts")
       split_drafts = group_by_category_folder(drafts, "drafts")
@@ -83,9 +86,11 @@ module CloudCannonJekyll
         collections[key] ||= []
       end
 
-      collections["pages"] = pages if collections["pages"].empty? && !pages.empty?
+      has_collection_pages = collections.key?("pages") && !collections["pages"].empty?
+      collections["pages"] = pages unless pages.empty? || has_collection_pages
       collections
     end
+    # rubocop:enable Metrics/PerceivedComplexity
     # rubocop:enable Metrics/CyclomaticComplexity
 
     def generate_data
