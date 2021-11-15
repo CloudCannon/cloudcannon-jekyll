@@ -1,3 +1,8 @@
+# 2.3.1
+
+* Fix issue where pages config overwrites default
+* Fix issue when a site has no pages
+
 # 2.3.0
 
 * Fix output for drafts collection config
