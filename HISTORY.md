@@ -1,3 +1,7 @@
+# 2.3.3
+
+* Add _structures
+
 # 2.3.2
 
 * Add _inputs to templates

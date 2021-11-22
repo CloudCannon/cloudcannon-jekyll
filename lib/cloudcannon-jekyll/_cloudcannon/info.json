@@ -66,6 +66,9 @@
 		"collections": {{ config.collections_dir | cc_jsonify }},
 		"layouts": {{ config.layouts_dir | cc_jsonify }}
 	},
+	{% if config._structures -%}
+		"_structures": {{ config._structures | cc_jsonify: 50 }},
+	{%- endif %}
 	{% if config._array_structures -%}
 		"_array_structures": {{ config._array_structures | cc_jsonify: 50 }},
 	{%- endif %}
