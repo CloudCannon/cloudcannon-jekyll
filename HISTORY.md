@@ -1,3 +1,7 @@
+# 2.3.2
+
+* Add _inputs to templates
+
 # 2.3.1
 
 * Fix issue where pages config overwrites default
