@@ -1,10 +1,14 @@
+# 2.3.4
+
+* Add `_editables`
+
 # 2.3.3
 
-* Add _structures
+* Add `_structures`
 
 # 2.3.2
 
-* Add _inputs to templates
+* Add `_inputs`
 
 # 2.3.1
 

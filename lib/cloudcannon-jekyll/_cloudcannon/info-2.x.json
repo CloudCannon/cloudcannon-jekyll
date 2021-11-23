@@ -41,6 +41,9 @@
 	{% if config._inputs %}
 		"_inputs": {{ config._inputs | cc_jsonify }},
 	{% endif %}
+	{% if config._editables %}
+		"_editables": {{ config._editables | cc_jsonify }},
+	{% endif %}
 	{% if config._collection_groups %}
 		"_collection_groups": {{ config._collection_groups | cc_jsonify }},
 	{% endif %}
