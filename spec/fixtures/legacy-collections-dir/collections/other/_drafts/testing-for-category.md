@@ -1,5 +1,6 @@
 ---
 title: Testing for category drafts
+date: 2021-02-22 00:00:00
 tags:
   - hello
 categories:

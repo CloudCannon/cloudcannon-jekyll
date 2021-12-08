@@ -1,0 +1,99 @@
+# ----
+# Site
+
+title: Example site
+url: "https://example.com"
+baseurl:
+description: Example site for testing
+timezone: Etc/UTC
+
+collections:
+  staff_members:
+    output: false
+    custom: indeed
+
+cloudcannon:
+  data:
+    footer: true
+  collections:
+    staff_members:
+      sort_key: name
+      singular_name: staff_member
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+permalink: pretty
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE
+
+uploads_dir: uploads
+
+_select_data:
+  people:
+    - Jim
+    - Pam
+  greetings:
+    hello: Hello!
+    hi: Hi
+
+_editables:
+  content:
+    image: true
+    bold: true
+
+_inputs:
+  heading_image:
+    type: image
+    comment: This image should be related to the content
+  my_html:
+    type: html
+    options:
+      italic: true
+      bold: true
+      styles: "hello.css"
+
+_editor:
+  default_path: basic
+
+_collection_groups:
+  - heading: Blogging
+    collections:
+      - posts
+      - drafts
+  - heading: Other
+    collections:
+      - pages
+      - staff_members
+
+_source_editor:
+  tab_size: 2
+  show_gutter: false
+  theme: dawn
+
+_structures:
+  gallery:
+    style: select
+    values:
+      - label: Image
+        image: /path/to/source-image.png
+        value:
+          image: /placeholder.png
+          caption:
+      - label: External link
+        icon: link
+        value:
+          url:
+          title:

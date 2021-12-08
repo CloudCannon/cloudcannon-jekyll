@@ -99,17 +99,6 @@ _array_structures:
         value:
           image: /placeholder.png
           caption:
-          nested:
-            thing:
-              which:
-                keeps:
-                  nesting:
-                    beyond:
-                      what:
-                        would:
-                          is:
-                            likely:
-                              usually: hello
       - label: External link
         icon: link
         value:

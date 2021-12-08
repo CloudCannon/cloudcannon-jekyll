@@ -1,0 +1,35 @@
+---
+title: Contact
+call_to_action: Map
+---
+<p>Contact us!</p>
+
+<div>
+	<label>Phone Number</label>
+	<p><a href="tel:{{ site.data.company.contact_phone_number }}">{{ site.data.company.contact_phone_number }}</a></p>
+
+	<label>Email Address</label>
+	<p><a href="mailto:{{ site.data.company.contact_email_address }}">{{ site.data.company.contact_email_address }}</a></p>
+
+	<label>Postal Address</label>
+	<address>{{ site.data.company.postal_address | replace: ',', '<br>' }}</address>
+
+	<label>Address</label>
+	<address>{{ site.data.company.address | replace: ',', '<br>' }}</address>
+</div>
+
+<form method="post" action="/contact-success/">
+	<label for="email_address">Email Address</label>
+	<input id="email_address"type="text" name="email">
+
+	<label for="name">Name</label>
+	<input id="name" type="text" name="name">
+
+	<label for="message">Message</label>
+	<textarea id="message" name="message"></textarea>
+
+	<input type="hidden" name="_to" value="{{ site.data.company.contact_email_address }}">
+	<input type="text" name="_gotcha" style="display: none;">
+
+	<input type="submit" value="Send Message">
+</form>

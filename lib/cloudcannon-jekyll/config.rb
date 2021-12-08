@@ -5,8 +5,26 @@ require 'fileutils'
 require_relative 'logger'
 
 module CloudCannonJekyll
+  MAPPINGS = {
+    '_sort_key' => 'sort_key',
+    '_subtext_key' => 'subtext_key',
+    '_image_key' => 'image_key',
+    '_image_size' => 'image_size',
+    '_singular_name' => 'singular_name',
+    '_singular_key' => 'singular_key',
+    '_disable_add' => 'disable_add',
+    '_icon' => 'icon',
+    '_add_options' => 'add_options'
+  }.freeze
+
   # Processes Jekyll configuration to enable the plugin and fix common issues
   class Config
+    def self.rename_legacy_collection_config_keys(collection_config)
+      collection_config&.keys&.each do |k|
+        collection_config[MAPPINGS[k]] = collection_config.delete(k) if MAPPINGS[k]
+      end
+    end
+
     def initialize(site)
       @site_config = site.config
     end
@@ -46,24 +64,37 @@ module CloudCannonJekyll
 
       {
         'data_config' => @site_config.dig('cloudcannon', 'data'),
-        'collections_config' => @site_config.dig('cloudcannon', 'collections'),
-        '_collection_groups' => @site_config['_collection_groups'] || legacy_collection_groups,
-        '_select_data' => @site_config['_select_data'] || legacy_select_data,
-        '_inputs' => @site_config['_inputs'],
-        '_editables' => @site_config['_editables'],
-        '_structures' => @site_config['_structures'] || @site_config['_array_structures'],
-        '_editor' => @site_config['_editor'],
-        '_source_editor' => @site_config['_source_editor'],
+        'collections_config' => legacy_collections_config,
+        'collection_groups' => @site_config['_collection_groups'] || legacy_collection_groups,
+        'editor' => @site_config['_editor'],
+        'source_editor' => @site_config['_source_editor'],
         'paths' => {
           'uploads' => @site_config['uploads_dir']
         },
+        '_select_data' => @site_config['_select_data'] || legacy_select_data,
+        '_inputs' => @site_config['_inputs'],
+        '_editables' => @site_config['_editables'],
+        '_structures' => @site_config['_structures'],
 
         # Deprecated keys
+        '_array_structures' => @site_config['_array_structures'],
         '_comments' => @site_config['_comments'],
         '_enabled_editors' => @site_config['_enabled_editors'],
         '_instance_values' => @site_config['_instance_values'],
         '_options' => @site_config['_options']
       }
+    end
+
+    def legacy_collections_config
+      collections_config = @site_config.dig('cloudcannon', 'collections')
+
+      return unless collections_config
+
+      collections_config.each do |_, collection_config|
+        Config.rename_legacy_collection_config_keys(collection_config)
+      end
+
+      collections_config
     end
 
     def legacy_collection_groups
@@ -73,7 +104,8 @@ module CloudCannonJekyll
     def legacy_select_data
       cloudcannon_keys = %w[_comments _options _editor _explore cloudcannon _collection_groups
                             _enabled_editors _instance_values _source_editor _array_structures
-                            uploads_dir _editables _inputs _structures]
+                            uploads_dir _editables _inputs _structures editor source_editor
+                            collection_groups]
 
       jekyll_keys = %w[source destination collections_dir cache_dir plugins_dir layouts_dir
                        data_dir includes_dir collections safe include exclude keep_files encoding
@@ -94,7 +126,8 @@ module CloudCannonJekyll
         memo[key] = value
       end
 
-      select_data.compact
+      compacted = select_data.compact
+      compacted.empty? ? nil : compacted
     end
   end
 end

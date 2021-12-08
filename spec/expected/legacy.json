@@ -1,0 +1,684 @@
+{
+	"time": "2021-12-07T00:34:18+00:00",
+	"version": "0.0.3",
+	"cloudcannon": {
+		"name": "cloudcannon-jekyll",
+		"version": "2.2.0"
+	},
+	"generator": {
+		"name": "jekyll",
+		"version": "4.2.1",
+		"environment": "development",
+		"metadata": {
+			"markdown": "kramdown",
+			"kramdown": {
+				"auto_ids": true,
+				"toc_levels": [
+					1,
+					2,
+					3,
+					4,
+					5,
+					6
+				],
+				"entity_output": "as_char",
+				"smart_quotes": "lsquo,rsquo,ldquo,rdquo",
+				"input": "GFM",
+				"hard_wrap": false,
+				"guess_lang": true,
+				"footnote_nr": 1,
+				"show_warnings": false
+			},
+			"commonmark": null
+		}
+	},
+	"paths": {
+		"static": "",
+		"uploads": "uploads",
+		"data": "_data",
+		"collections": "",
+		"layouts": "_layouts"
+	},
+	"collections_config": {
+		"empty": {
+			"auto_discovered": false,
+			"output": false,
+			"path": "_empty"
+		},
+		"staff_members": {
+			"auto_discovered": false,
+			"sort_key": "name",
+			"singular_name": "staff_member",
+			"output": false,
+			"custom": "indeed",
+			"path": "_staff_members"
+		},
+		"posts": {
+			"auto_discovered": true,
+			"output": true,
+			"permalink": "/:categories/:year/:month/:day/:title/",
+			"path": "_posts"
+		},
+		"pages": {
+			"auto_discovered": true,
+			"path": "",
+			"output": true,
+			"filter": "strict"
+		},
+		"data": {
+			"auto_discovered": true,
+			"path": "_data",
+			"output": false
+		},
+		"drafts": {
+			"auto_discovered": true,
+			"path": "_drafts",
+			"output": false
+		},
+		"other/posts": {
+			"auto_discovered": true,
+			"path": "other/_posts",
+			"output": true
+		},
+		"other/drafts": {
+			"auto_discovered": true,
+			"path": "other/_drafts",
+			"output": false
+		}
+	},
+	"collection_groups": [
+		{
+			"heading": "Blogging",
+			"collections": [
+				"posts",
+				"drafts"
+			]
+		},
+		{
+			"heading": "Other",
+			"collections": [
+				"pages",
+				"staff_members"
+			]
+		}
+	],
+	"collections": {
+		"empty": [],
+		"staff_members": [
+			{
+				"layout": "page",
+				"draft": false,
+				"categories": [],
+				"name": "Jane Doe",
+				"image": "//placekitten.com/440/440?a=.png",
+				"credentials": "LLB",
+				"phone_extension": "02",
+				"title": "Jane Doe",
+				"slug": "jane-doe",
+				"ext": ".md",
+				"tags": [],
+				"excerpt": "<p>Jane has 19 years of experience in law, and specialises in property and business.</p>\n",
+				"path": "_staff_members/jane-doe.md",
+				"url": "/staff_members/jane-doe/",
+				"collection": "staff_members",
+				"id": "/staff_members/jane-doe"
+			},
+			{
+				"layout": "page",
+				"draft": false,
+				"categories": [],
+				"name": "John Doe",
+				"image": "//placebear.com/440/440?a=.png",
+				"credentials": "LLB",
+				"phone_extension": "11",
+				"title": "John Doe",
+				"slug": "john-doe",
+				"ext": ".md",
+				"tags": [],
+				"excerpt": "<p>With an interest in employment law, John works tirelessly to improve workplaces.</p>\n",
+				"path": "_staff_members/john-doe.md",
+				"url": "/staff_members/john-doe/",
+				"collection": "staff_members",
+				"id": "/staff_members/john-doe"
+			}
+		],
+		"posts": [
+			{
+				"layout": "post",
+				"_array_structures": {
+					"gallery": {
+						"style": "select",
+						"values": [
+							{
+								"label": "Image",
+								"image": "/path/to/source-image.png",
+								"value": {
+									"image": "/placeholder.png",
+									"caption": null
+								}
+							},
+							{
+								"label": "External link",
+								"icon": "link",
+								"value": {
+									"url": null,
+									"title": null
+								}
+							}
+						]
+					}
+				},
+				"draft": false,
+				"categories": [
+					"Business"
+				],
+				"title": "Business Mergers",
+				"date": "2016-08-10 00:00:00 +0000",
+				"tags": [
+					"hello"
+				],
+				"author_staff_member": "jane-doe",
+				"image": "https://unsplash.it/600/450?image=737&a=.png",
+				"large_header": false,
+				"slug": "business-mergers",
+				"ext": ".md",
+				"excerpt": "<p>Mergers and acquisitions are transactions in which the ownership of companies, other business organizations or their operating units are transferred or combined.</p>\n",
+				"path": "_posts/2016-08-10-business-mergers.md",
+				"url": "/business/2016/08/10/business-mergers/",
+				"collection": "posts",
+				"id": "/business/2016/08/10/business-mergers"
+			},
+			{
+				"layout": "post",
+				"_array_structures": {
+					"gallery": {
+						"style": "select",
+						"values": [
+							{
+								"label": "Image",
+								"image": "/path/to/source-image.png",
+								"value": {
+									"image": "/placeholder.png",
+									"caption": null
+								}
+							},
+							{
+								"label": "External link",
+								"icon": "link",
+								"value": {
+									"url": null,
+									"title": null
+								}
+							}
+						]
+					}
+				},
+				"draft": false,
+				"categories": [
+					"Property"
+				],
+				"title": "Real Estate Flipping",
+				"date": "2016-11-11 00:00:00 +0000",
+				"tags": [
+					"hi"
+				],
+				"author_staff_member": "john-doe",
+				"image": "https://unsplash.it/600/450?image=448&a=.png",
+				"large_header": false,
+				"slug": "real-estate-flipping",
+				"ext": ".md",
+				"excerpt": "<p>Flipping is a term used primarily in the US to describe purchasing a revenue-generating asset and quickly reselling it for profit.</p>\n",
+				"path": "_posts/2016-11-11-real-estate-flipping.md",
+				"url": "/property/2016/11/11/real-estate-flipping/",
+				"collection": "posts",
+				"id": "/property/2016/11/11/real-estate-flipping"
+			}
+		],
+		"pages": [
+			{
+				"layout": "page",
+				"title": "Not Found",
+				"call_to_action": "Contact",
+				"background_image_path": null,
+				"large_header": false,
+				"show_in_navigation": false,
+				"permalink": "/404.html",
+				"sitemap": false,
+				"path": "404.html",
+				"url": "/404.html",
+				"collection": "pages"
+			},
+			{
+				"layout": "page",
+				"title": "About",
+				"call_to_action": "Contact",
+				"background_image_path": null,
+				"large_header": false,
+				"show_in_navigation": true,
+				"navigation_order": 1,
+				"path": "about.html",
+				"url": "/about/",
+				"collection": "pages"
+			},
+			{
+				"layout": "page",
+				"title": "Contact Success",
+				"call_to_action": "Advice",
+				"background_image_path": null,
+				"large_header": false,
+				"show_in_navigation": false,
+				"sitemap": false,
+				"path": "contact-success.html",
+				"url": "/contact-success/",
+				"collection": "pages"
+			},
+			{
+				"layout": "page",
+				"title": "Contact",
+				"call_to_action": "Map",
+				"background_image_path": null,
+				"large_header": false,
+				"show_in_navigation": true,
+				"navigation_order": 3,
+				"map": {
+					"latitude": -45.8787605,
+					"longitude": 170.5027976,
+					"zoom": 13
+				},
+				"path": "contact.html",
+				"url": "/contact/",
+				"collection": "pages"
+			},
+			{
+				"layout": "page",
+				"title": null,
+				"call_to_action": "Contact",
+				"background_image_path": null,
+				"large_header": true,
+				"testimonials": [
+					{
+						"message": "We use Justice Law in all our endeavours. They offer an unparalleled service when it comes to running a business.",
+						"image": "https://placekitten.com/g/60/60?a=.png",
+						"name": "Joice Carmold"
+					},
+					{
+						"message": "Justice Law are the best of the best. Being local, they care about people and have strong ties to the community.",
+						"image": "https://www.fillmurray.com/60/60?a=.png",
+						"name": "Peter Rottenburg"
+					},
+					{
+						"message": "Justice Law were everything we could have hoped for when buying our first home. Highly recommended to all.",
+						"image": "https://placebear.com/60/60?a=.png",
+						"name": "D. and G. Gibbleston"
+					}
+				],
+				"_options": {
+					"image": {
+						"width": 60,
+						"height": 60
+					}
+				},
+				"path": "index.html",
+				"url": "/",
+				"collection": "pages"
+			},
+			{
+				"layout": "page",
+				"title": "Services",
+				"call_to_action": "Contact",
+				"background_image_path": null,
+				"large_header": false,
+				"show_in_navigation": true,
+				"navigation_order": 2,
+				"path": "services.html",
+				"url": "/services/",
+				"collection": "pages"
+			},
+			{
+				"layout": "page",
+				"title": "Terms",
+				"cta": "Contact",
+				"background_image_path": null,
+				"large_header": false,
+				"show_in_navigation": false,
+				"path": "terms.md",
+				"url": "/terms/",
+				"collection": "pages"
+			},
+			{
+				"layout": "page",
+				"path": "static-page.html",
+				"url": "/static-page.html",
+				"collection": "pages"
+			}
+		],
+		"drafts": [
+			{
+				"layout": "post",
+				"_array_structures": {
+					"gallery": {
+						"style": "select",
+						"values": [
+							{
+								"label": "Image",
+								"image": "/path/to/source-image.png",
+								"value": {
+									"image": "/placeholder.png",
+									"caption": null
+								}
+							},
+							{
+								"label": "External link",
+								"icon": "link",
+								"value": {
+									"url": null,
+									"title": null
+								}
+							}
+						]
+					}
+				},
+				"draft": true,
+				"categories": [
+					"Business"
+				],
+				"title": "WIP",
+				"date": "2016-08-10 00:00:00 +0000",
+				"tags": [
+					"hello"
+				],
+				"author_staff_member": "jane-doe",
+				"image": null,
+				"large_header": false,
+				"slug": "incomplete",
+				"ext": ".md",
+				"excerpt": "<p>Still working on this one.</p>\n",
+				"path": "_drafts/incomplete.md",
+				"url": "/business/2016/08/10/incomplete/",
+				"collection": "drafts",
+				"id": "/business/2016/08/10/incomplete"
+			}
+		],
+		"other/posts": [
+			{
+				"layout": "post",
+				"_array_structures": {
+					"gallery": {
+						"style": "select",
+						"values": [
+							{
+								"label": "Image",
+								"image": "/path/to/source-image.png",
+								"value": {
+									"image": "/placeholder.png",
+									"caption": null
+								}
+							},
+							{
+								"label": "External link",
+								"icon": "link",
+								"value": {
+									"url": null,
+									"title": null
+								}
+							}
+						]
+					}
+				},
+				"draft": false,
+				"categories": [
+					"other",
+					"Business"
+				],
+				"title": "Category test",
+				"tags": [
+					"hello"
+				],
+				"author_staff_member": "jane-doe",
+				"image": "https://unsplash.it/600/450?image=737&a=.png",
+				"large_header": false,
+				"date": "2020-08-10 00:00:00 +0000",
+				"slug": "category-test",
+				"ext": ".md",
+				"excerpt": "<p>Categories can be set with a folder structure.</p>\n",
+				"path": "other/_posts/2020-08-10-category-test.md",
+				"url": "/other/business/2020/08/10/category-test/",
+				"collection": "other/posts",
+				"id": "/other/business/2020/08/10/category-test"
+			}
+		],
+		"other/drafts": [
+			{
+				"layout": "post",
+				"_array_structures": {
+					"gallery": {
+						"style": "select",
+						"values": [
+							{
+								"label": "Image",
+								"image": "/path/to/source-image.png",
+								"value": {
+									"image": "/placeholder.png",
+									"caption": null
+								}
+							},
+							{
+								"label": "External link",
+								"icon": "link",
+								"value": {
+									"url": null,
+									"title": null
+								}
+							}
+						]
+					}
+				},
+				"draft": true,
+				"categories": [
+					"other",
+					"Business"
+				],
+				"title": "Testing for category drafts",
+				"tags": [
+					"hello"
+				],
+				"author_staff_member": "jane-doe",
+				"image": "https://unsplash.it/600/450?image=737&a=.png",
+				"large_header": false,
+				"slug": "testing-for-category",
+				"ext": ".md",
+				"excerpt": "<p>Test draft</p>\n",
+				"date": "2021-02-22 02:04:29 +0000",
+				"path": "other/_drafts/testing-for-category.md",
+				"url": "/other/business/2021/02/22/testing-for-category/",
+				"collection": "other/drafts",
+				"id": "/other/business/2021/02/22/testing-for-category"
+			}
+		]
+	},
+	"data": {
+		"footer": [
+			{
+				"title": "Pages",
+				"links": [
+					{
+						"name": "Home",
+						"link": "/"
+					},
+					{
+						"name": "About",
+						"link": "/about/"
+					},
+					{
+						"name": "Services",
+						"link": "/services/"
+					},
+					{
+						"name": "Contact",
+						"link": "/contact/"
+					},
+					{
+						"name": "Advice",
+						"link": "/advice/"
+					}
+				]
+			},
+			{
+				"title": "Social",
+				"links": [
+					{
+						"name": "Facebook",
+						"link": "http://facebook.com",
+						"social_icon": "Facebook",
+						"new_window": true
+					},
+					{
+						"name": "Twitter",
+						"link": "http://twitter.com",
+						"social_icon": "Twitter",
+						"new_window": true
+					},
+					{
+						"name": "Instagram",
+						"link": "http://instagram.com/",
+						"social_icon": "Instagram",
+						"new_window": true
+					},
+					{
+						"name": "LinkedIn",
+						"link": "https://linkedin.com",
+						"social_icon": "LinkedIn",
+						"new_window": true
+					}
+				]
+			}
+		],
+		"company": {
+			"title": "Example",
+			"description": "Testing things",
+			"contact_email_address": "contact@example.com",
+			"contact_phone_number": "(03) 123 4567",
+			"address": "123 Example Street, Gooseburb, 9876, Ducktown, New Zealand",
+			"postal_address": "PO Box 123, Ducktown, New Zealand"
+		},
+		"categories": [
+			"Business",
+			"Property",
+			"other"
+		],
+		"tags": [
+			"hello",
+			"hi"
+		]
+	},
+	"source": "/spec/fixtures/legacy",
+	"timezone": "Etc/UTC",
+	"base_url": "basic",
+	"_select_data": {
+		"categories": [
+			"forever",
+			"strings"
+		],
+		"staff": [
+			"jim",
+			"bob"
+		],
+		"things": [
+			"hello",
+			"there"
+		],
+		"cards_per_rows": {
+			"2": "Two",
+			"3": "Three",
+			"4": "Four",
+			"6": "Six"
+		}
+	},
+	"editor": {
+		"default_path": "basic"
+	},
+	"source_editor": {
+		"tab_size": 2,
+		"show_gutter": false,
+		"theme": "dawn"
+	},
+	"_array_structures": {
+		"gallery": {
+			"style": "select",
+			"values": [
+				{
+					"label": "Image",
+					"image": "/path/to/source-image.png",
+					"value": {
+						"image": "/placeholder.png",
+						"caption": null
+					}
+				},
+				{
+					"label": "External link",
+					"icon": "link",
+					"value": {
+						"url": null,
+						"title": null
+					}
+				}
+			]
+		}
+	},
+	"_comments": {
+		"heading_image": "This image should be related to the content"
+	},
+	"_options": {
+		"content": {
+			"image": true,
+			"bold": true
+		},
+		"my_html": {
+			"italic": true,
+			"bold": true,
+			"styles": "hello.css"
+		}
+	},
+	"defaults": [
+		{
+			"scope": {
+				"path": ""
+			},
+			"values": {
+				"layout": "page"
+			}
+		},
+		{
+			"scope": {
+				"path": "",
+				"type": "posts"
+			},
+			"values": {
+				"layout": "post",
+				"_array_structures": {
+					"gallery": {
+						"style": "select",
+						"values": [
+							{
+								"label": "Image",
+								"image": "/path/to/source-image.png",
+								"value": {
+									"image": "/placeholder.png",
+									"caption": null
+								}
+							},
+							{
+								"label": "External link",
+								"icon": "link",
+								"value": {
+									"url": null,
+									"title": null
+								}
+							}
+						]
+					}
+				}
+			}
+		}
+	]
+}

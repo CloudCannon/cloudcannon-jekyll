@@ -16,13 +16,6 @@ RSpec.configure do |config|
   config.filter_run :focus
   config.order = 'random'
 
-  def log_schema_error(error)
-    # Expecting here rather than logging means it get output in the test results
-    log = "'#{error['data_pointer']}' schema mismatch: (data: #{error['data']})"\
-      " (schema: #{error['schema']})"
-    expect(log).to be_nil
-  end
-
   def source_dir(*files)
     File.join(SOURCE_DIR, *files)
   end
@@ -31,13 +24,13 @@ RSpec.configure do |config|
     File.join(DEST_DIR, *files)
   end
 
-  def make_site(options = {}, fixture = 'standard')
+  def make_site(options = {}, fixture = 'empty')
     config_defaults = {
       'source' => File.expand_path(fixture, source_dir),
-      'destination' => dest_dir
+      'destination' => File.expand_path(fixture, dest_dir)
     }.freeze
 
-    site_config = Jekyll.configuration(config_defaults.merge(options))
+    site_config = Jekyll.configuration(options.merge(config_defaults))
     Jekyll::Site.new(site_config)
   end
 end

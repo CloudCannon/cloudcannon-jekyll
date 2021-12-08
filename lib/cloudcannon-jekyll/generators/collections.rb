@@ -24,32 +24,40 @@ module CloudCannonJekyll
       collections = @site.config['collections']
       collections_config = @config['collections_config']&.dup || {}
 
-      # Ensure path for each collection config
       collections&.each_key do |key|
-        base = collections[key] || { 'output' => false }
-        collections_config[key] = (collections_config[key] || {}).merge(base)
-        collections_config[key]['path'] ||= File.join(@collections_dir, "_#{key}")
-        collections_config[key]['path'].sub!(%r{^/+}, '')
+        processed = (collections[key] || {}).merge(collections_config[key] || {})
+        processed['output'] ||= false
+        processed['auto_discovered'] = !collections_config.key?(key)
+        processed['path'] ||= File.join(@collections_dir, "_#{key}").sub(%r{^/+}, '')
+        processed['path'].sub!(%r{^/+}, '')
+
+        Config.rename_legacy_collection_config_keys(processed)
+
+        collections_config[key] = processed
       end
 
       collections_config['pages'] ||= {
+        'auto_discovered' => true,
         'path' => '',
         'output' => true,
         'filter' => 'strict'
       }
 
       collections_config['data'] ||= {
+        'auto_discovered' => true,
         'path' => @data_dir,
         'output' => false
       }
 
       collections_config['posts'] ||= {
-        'path' => File.join(@collections_dir, '_posts'),
+        'auto_discovered' => true,
+        'path' => File.join(@collections_dir, '_posts').sub(%r{^/+}, ''),
         'output' => true
       }
 
       collections_config['drafts'] ||= {
-        'path' => File.join(@collections_dir, '_drafts'),
+        'auto_discovered' => true,
+        'path' => File.join(@collections_dir, '_drafts').sub(%r{^/+}, ''),
         'output' => !!@site.show_drafts
       }
 
@@ -57,18 +65,23 @@ module CloudCannonJekyll
         posts_path = @split_posts[key]&.first&.relative_path&.sub(%r{(^|/)_posts.*}, '\1_posts')
         next unless posts_path
 
-        collections_config[key] ||= {}
-        collections_config[key].merge!({ 'path' => posts_path.sub(%r{^/+}, ''), 'output' => true })
+        collections_config[key] = (collections_config[key] || {}).merge(
+          {
+            'auto_discovered' => true,
+            'path' => File.join(@collections_dir, posts_path).sub(%r{^/+}, ''),
+            'output' => true
+          }
+        )
       end
 
       @split_drafts.each_key do |key|
         drafts_path = @split_drafts[key]&.first&.relative_path&.sub(%r{(^|/)_drafts.*}, '\1_drafts')
         next unless drafts_path
 
-        collections_config[key] ||= {}
-        collections_config[key].merge!(
+        collections_config[key] = (collections_config[key] || {}).merge(
           {
-            'path' => drafts_path.sub(%r{^/+}, ''),
+            'auto_discovered' => true,
+            'path' => File.join(@collections_dir, drafts_path).sub(%r{^/+}, ''),
             'output' => !!@site.show_drafts
           }
         )
@@ -115,13 +128,11 @@ module CloudCannonJekyll
     end
 
     def remove_empty_collection_config(collections_config, collections)
-      collections_config_original = @config['collections_config'] || {}
-
-      collections_config.each_key do |key|
+      collections_config.each do |key, collection_config|
         should_delete = if key == 'data'
                           !data_files?
                         else
-                          collections[key].empty? && !collections_config_original.key?(key)
+                          collections[key].empty? && collection_config['auto_discovered']
                         end
 
         if should_delete

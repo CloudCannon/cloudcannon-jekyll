@@ -16,6 +16,7 @@ collections:
   empty:
 
 cloudcannon:
+  data: true
   collections:
     empty:
     staff_members:
@@ -32,18 +33,6 @@ defaults:
       type: "posts"
     values:
       layout: post
-      nested1:
-        nested2:
-          nested3:
-            nested4:
-              nested5:
-                nested6:
-                  nested7:
-                    nested8:
-                      nested9:
-                        nested10:
-                          nested11:
-                            nested12: deep
       _array_structures:
         gallery:
           style: select
@@ -53,17 +42,6 @@ defaults:
               value:
                 image: /placeholder.png
                 caption:
-                nested:
-                  thing:
-                    which:
-                      keeps:
-                        nesting:
-                          beyond:
-                            what:
-                              would:
-                                is:
-                                  likely:
-                                    usually: hello
             - label: External link
               icon: link
               value:
@@ -137,17 +115,6 @@ _array_structures:
         value:
           image: /placeholder.png
           caption:
-          nested:
-            thing:
-              which:
-                keeps:
-                  nesting:
-                    beyond:
-                      what:
-                        would:
-                          is:
-                            likely:
-                              usually: hello
       - label: External link
         icon: link
         value:
