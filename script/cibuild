@@ -1,6 +1,0 @@
-#!/bin/sh
-
-set -ex
-
-$(dirname "$0")/test
-bundle exec gem build cloudcannon-jekyll.gemspec

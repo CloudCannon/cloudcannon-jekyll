@@ -1,0 +1,19 @@
+---
+title:
+call_to_action: Contact
+quotes:
+  - text: Hey there
+    name: Bee
+  - text: Hi mate
+    name: Sea
+  - text: Greetings to you
+    name: Zed Zee
+---
+<p>An example site.</p>
+
+{% for quote in page.quotes %}
+	<blockquote>
+		<p>{{ quote.text }}</p>
+		<p>By {{ quote.name }}</p>
+	</blockquote>
+{% endfor %}

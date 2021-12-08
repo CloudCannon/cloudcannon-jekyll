@@ -30,19 +30,29 @@ module CloudCannonJekyll
     end
 
     def read
-      config_defaults(config || legacy_config)
+      config_defaults(custom_config || config || legacy_config)
+    end
+
+    def custom_config
+      custom_path = ENV['CLOUDCANNON_CONFIG_PATH']
+      return unless custom_path
+
+      loaded = config_file(custom_path)
+      Logger.info("⚙️ No config file found at #{custom_path.bold}") unless loaded
+      loaded
     end
 
     def config
-      loaded = config_file('cloudcannon.config.yml') ||
-               config_file('cloudcannon.config.yaml')
+      loaded = config_file('cloudcannon.config.json') ||
+               config_file('cloudcannon.config.yaml') ||
+               config_file('cloudcannon.config.yml')
 
-      Logger.info("⚙️ No config file found at #{'cloudcannon.config.yml'.bold}") unless loaded
+      Logger.info("⚙️ No config file found at #{'cloudcannon.config.(json|yaml|yml)'.bold}") unless loaded
       loaded
     end
 
     def config_file(path)
-      loaded = YAML.safe_load(File.read(path))
+      loaded = YAML.safe_load(File.read(path)) # Also works for JSON
       Logger.info "⚙️ Using config file at #{path.bold}"
       loaded
     rescue Errno::ENOENT

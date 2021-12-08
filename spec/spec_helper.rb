@@ -24,7 +24,9 @@ RSpec.configure do |config|
     File.join(DEST_DIR, *files)
   end
 
-  def make_site(options = {}, fixture = 'empty')
+  def make_site(options = {}, fixture = 'empty', config_path = nil)
+    ENV['CLOUDCANNON_CONFIG_PATH'] = config_path
+
     config_defaults = {
       'source' => File.expand_path(fixture, source_dir),
       'destination' => File.expand_path(fixture, dest_dir)

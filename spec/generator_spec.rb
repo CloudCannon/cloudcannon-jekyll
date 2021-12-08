@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
+require 'fileutils'
 require 'pathname'
+require 'spec_helper'
 
 describe CloudCannonJekyll::Generator do
   # Tests for the generator
 
   let(:fixture) { 'empty' }
-  let(:site) { make_site({}, fixture) }
+  let(:config_path) { nil }
+  let(:site) { make_site({}, fixture, config_path) }
   let(:info_raw) { File.read(dest_dir(fixture, '_cloudcannon/info.json')) }
   let(:info) { JSON.parse(info_raw) }
   before { site&.process }
@@ -30,28 +32,49 @@ describe CloudCannonJekyll::Generator do
     expect(info['time']).to match(/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d[+-]\d\d:\d\d/)
   end
 
-  context 'site config' do
-    let(:fixture) { 'site-config' }
+  context 'config files' do
     let(:expected_keys) do
       %w[time version cloudcannon generator paths collections_config collection_groups collections
          data source timezone base_url _inputs _editables _select_data _structures
          editor source_editor defaults]
     end
 
-    it 'generates info' do
-      check_fixture(fixture, expected_keys, info)
-    end
-  end
+    context 'json config' do
+      let(:fixture) { 'json-config' }
+      let(:config_path) { source_dir('json-config/cloudcannon.config.json') }
 
-  context 'no config' do
-    let(:fixture) { 'no-config' }
-    let(:expected_keys) do
-      %w[time version cloudcannon generator paths collections_config collections data source
-         timezone base_url defaults]
+      it 'generates info' do
+        check_fixture(fixture, expected_keys, info)
+      end
     end
 
-    it 'generates info' do
-      check_fixture(fixture, expected_keys, info)
+    context 'yaml config' do
+      let(:fixture) { 'yaml-config' }
+      let(:config_path) { source_dir('yaml-config/cloudcannon.config.yml') }
+
+      it 'generates info' do
+        check_fixture(fixture, expected_keys, info)
+      end
+    end
+
+    context 'site config' do
+      let(:fixture) { 'site-config' }
+
+      it 'generates info' do
+        check_fixture(fixture, expected_keys, info)
+      end
+    end
+
+    context 'no config' do
+      let(:fixture) { 'no-config' }
+      let(:expected_keys) do
+        %w[time version cloudcannon generator paths collections_config collections data source
+           timezone base_url defaults]
+      end
+
+      it 'generates info' do
+        check_fixture(fixture, expected_keys, info)
+      end
     end
   end
 
