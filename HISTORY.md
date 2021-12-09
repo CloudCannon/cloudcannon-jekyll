@@ -1,3 +1,27 @@
+# 2.3.4
+
+* Add `_editables`
+
+# 2.3.3
+
+* Add `_structures`
+
+# 2.3.2
+
+* Add `_inputs`
+
+# 2.3.1
+
+* Fix issue where pages config overwrites default
+* Fix issue when a site has no pages
+
+# 2.3.0
+
+* Fix output for drafts collection config
+* Update schema version
+* fix parsing for category folders
+* Add logging
+
 # 2.2.0
 
 * Move data logic out of template

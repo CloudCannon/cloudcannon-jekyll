@@ -19,6 +19,8 @@ cloudcannon:
   data: true
   collections:
     empty:
+    drafts:
+      output: true
     staff_members:
       _sort_key: name
       _singular_name: staff_member
