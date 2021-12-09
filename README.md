@@ -88,10 +88,10 @@ _select_data:
     - Green
     - Blue
 
-# Base path to your site source files, same as input for Eleventy
+# Base path to your site source files, same as source for Jekyll
 source: src
 
-# The subpath your built output files are mounted at
+# The subpath your built output files are mounted at, same as baseurl for Jekyll
 base_url: /documentation
 
 # Populates collections for navigation and metadata in the editor
