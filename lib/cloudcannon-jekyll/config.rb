@@ -47,7 +47,10 @@ module CloudCannonJekyll
                config_file('cloudcannon.config.yaml') ||
                config_file('cloudcannon.config.yml')
 
-      Logger.info("⚙️ No config file found at #{'cloudcannon.config.(json|yaml|yml)'.bold}") unless loaded
+      unless loaded
+        Logger.info("⚙️ No config file found at #{'cloudcannon.config.(json|yaml|yml)'.bold}")
+      end
+
       loaded
     end
 

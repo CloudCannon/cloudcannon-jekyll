@@ -1,47 +1,186 @@
-# CloudCannon Jekyll plugin
+# CloudCannon Jekyll
 
-A Jekyll plugin to create CloudCannon editor details.
+A Jekyll plugin that creates [CloudCannon](https://cloudcannon.com/) build information.
 
-[![Gem Version](https://badge.fury.io/rb/cloudcannon-jekyll.svg)](https://badge.fury.io/rb/cloudcannon-jekyll)
+This plugin runs during your Jekyll build, discovering your pages, collections, and data files to
+create a JSON file used to automatically integrate the site with CloudCannon.
 
-## Usage
+[<img src="https://img.shields.io/gem/v/cloudcannon-jekyll?logo=rubygems" alt="version badge">](https://rubygems.org/gems/cloudcannon-jekyll)
+[<img src="https://img.shields.io/gem/dt/cloudcannon-jekyll" alt="downloads badge">](https://rubygems.org/gems/cloudcannon-jekyll)
 
-1. Add `gem 'cloudcannon-jekyll'` to your site's `Gemfile`
-2. Run `bundle install`
-3. Add the following to your site's `_config.yml`:
+***
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Development](#plugin-options)
+- [License](#license)
+
+***
+
+## Installation
+
+**You don't have to install anything** when building on CloudCannon. This plugin is automatically
+installed before your site is built. This gives you the latest support, new features, and fixes
+as they are released.
+
+Although **not recommended**, you can install the plugin manually.
+
+<details>
+<summary>Manual installation steps</summary>
+
+<blockquote>
+
+When installing manually, you'll have to upgrade when new versions are released.
+You could also follow these steps to debug an integration issue locally. This assumes you are using [Bundler](https://bundler.io/) to manage dependencies.
+
+CloudCannon won't automatically install this plugin before builds if `cloudcannon-jekyll` is already installed.
+
+```sh
+$ bundle add cloudcannon-jekyll --group jekyll_plugins
+```
+
+Add the following to your `_config.yml` if you're listing plugins here as well:
 
 ```yaml
 plugins:
   - cloudcannon-jekyll
 ```
 
-💡 If you are using a Jekyll version less than 3.5.0, use the gems key instead of plugins.
+💡 For Jekyll versions less than `v3.5.0`, use `gems` instead of `plugins`.
+
+</blockquote>
+</details>
 
 
-## Releasing new version
+## Configuration
 
-1. Increase version in lib/cloudcannon-jekyll/version.rb
-2. Update HISTORY.md
-3. Create a release and tag in GitHub
-4. Build new gem with `gem build cloudcannon-jekyll.gemspec`
-5. Push new version to rubygems.org with `gem push cloudcannon-jekyll-{{ VERSION HERE }}.gem`
+This plugin uses an optional configuration file as a base to generate `_cloudcannon/info.json`
+(used to integrate your site with CloudCannon).
 
-OR:
+Add your global CloudCannon configuration to this file, alongside any optional configuration for
+this plugin.
 
-1. Increase version in lib/cloudcannon-jekyll/version.rb
-2. Update HISTORY.md
-3. Run `./scripts/release`
-3. Create a release in GitHub
+Configuration files should be in the same directory you run `bundle exec jekyll build`. The first
+supported file found in this order is used:
 
+- `cloudcannon.config.json`
+- `cloudcannon.config.yaml`
+- `cloudcannon.config.yml`
 
-## Testing
+Alternatively, use the `CLOUDCANNON_CONFIG_PATH` environment variable to use a specific config file
+in a custom location:
 
+```sh
+$ CLOUDCANNON_CONFIG_PATH=src/cloudcannon.config.yml bundle exec jekyll build
 ```
-./script/test
+
+Example content for `cloudcannon.config.yml`:
+
+```yaml
+# Global CloudCannon configuration
+_inputs:
+  title:
+    type: text
+    comment: The title of your page.
+_select_data:
+  colors:
+    - Red
+    - Green
+    - Blue
+
+# Base path to your site source files, same as input for Eleventy
+source: src
+
+# The subpath your built output files are mounted at
+base_url: /documentation
+
+# Populates collections for navigation and metadata in the editor
+collections_config:
+  people:
+    # Base path for files in this collection, relative to source
+    path: content/people
+
+    # Whether this collection produces output files or not
+    output: true
+
+    # Collection-level configuration
+    name: Personnel
+    _enabled_editors:
+      - data
+  posts:
+    path: _posts
+    output: true
+  pages:
+    name: Main pages
+
+# Generates the data for select and multiselect inputs matching these names
+data_config:
+  # Populates data with authors from an data file with the matching name
+  authors: true
+  offices: true
+
+paths:
+  # The default location for newly uploaded files, relative to source
+  uploads: assets/uploads
+
+  # The path to the root collections folder, relative to source
+  collections: items
+
+  # The path to site data files, relative to source
+  data: _data
+
+  # The path to site layout files, relative to source
+  layouts: _layouts
+
+  # The path to site include files, relative to source
+  includes: _partials
 ```
 
-To test a specific Jekyll version:
+See the [CloudCannon documentation](https://cloudcannon.com/documentation/) for more information
+on the available features you can configure.
 
+Configuration is set in `cloudcannon.config.*`, but the plugin also automatically
+reads and processes the following from Jekyll if unset:
+
+- `collections_config` from `collections` in `_config.yml`
+- `paths.collections` from `collections_dir` in `_config.yml`
+- `paths.layouts` from `layouts_dir` in `_config.yml`
+- `paths.data` from `data_dir` in `_config.yml`
+- `paths.includes` from `includes_dir` in `_config.yml`
+- `base_url` from `baseurl` in `_config.yml`
+- `source` from the `--source` CLI option or `source` in `_config.yml`
+
+## Development
+
+### Releasing new versions
+
+1. Increase the version in `lib/cloudcannon-jekyll/version.rb`
+2. Update `HISTORY.md`
+3. Run `./script/release`
+3. [Create a release on GitHub](https://github.com/CloudCannon/cloudcannon-jekyll/releases/new)
+
+### Testing
+
+Running tests for currently installed Jekyll version:
+
+```sh
+$ ./script/test
 ```
-JEKYLL_VERSION="2.4.0" bundle update && ./script/test
+
+Running tests for all specified Jekyll versions:
+
+```sh
+$ ./script/test-all
 ```
+
+Running tests for a specific Jekyll version:
+
+```sh
+$ JEKYLL_VERSION="2.4.0" bundle update && ./script/test
+```
+
+💡 Make sure you don't accidentally commit a downgraded Jekyll version after changing the versions through testing.
+
+## License
+
+MIT
