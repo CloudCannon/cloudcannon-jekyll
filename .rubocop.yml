@@ -6,9 +6,9 @@ AllCops:
     - spec/*.rb
   Exclude:
     - .gitignore
+    - .reek.yml
     - .rspec
     - .rubocop.yml
-    - .travis.yml
     - Gemfile.lock
     - HISTORY.md
     - LICENSE.txt

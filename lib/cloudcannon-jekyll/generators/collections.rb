@@ -7,6 +7,8 @@ require_relative 'paths'
 
 module CloudCannonJekyll
   STATIC_EXTENSIONS = ['.html', '.htm'].freeze
+  IS_JEKYLL_2_X_X = Jekyll::VERSION.start_with?('2.').freeze
+  IS_JEKYLL_3_04_X = Jekyll::VERSION.match?(/3\.[0-4]\./).freeze
 
   # Helper functions for generating collection configuration and summaries
   class Collections
@@ -23,6 +25,10 @@ module CloudCannonJekyll
     def generate_collections_config
       collections = @site.config['collections']
       collections_config = @config['collections_config']&.dup || {}
+
+      if collections.is_a?(Array)
+        collections = collections.each_with_object({}) { |key, memo| memo[key] = {} }
+      end
 
       collections&.each_key do |key|
         processed = (collections[key] || {}).merge(collections_config[key] || {})
@@ -146,21 +152,46 @@ module CloudCannonJekyll
     end
 
     def document_type(doc)
-      if doc.respond_to? :type
+      if IS_JEKYLL_2_X_X && (doc.instance_of?(Jekyll::Post) || doc.instance_of?(Jekyll::Draft))
+        :posts
+      elsif doc.respond_to? :type
         doc.type
       elsif doc.respond_to?(:collection)
         doc.collection.label.to_sym
       elsif doc.instance_of?(Jekyll::Page)
         :pages
-      elsif Jekyll::VERSION.start_with?('2.') && doc.instance_of?(Jekyll::Post)
-        :posts
-      elsif Jekyll::VERSION.start_with?('2.') && doc.instance_of?(Jekyll::Draft)
-        :drafts
       end
     end
 
+    def legacy_document_data(doc)
+      data = doc.data.merge(
+        {
+          categories: doc.categories,
+          tags: doc.tags,
+          date: doc.date
+        }
+      )
+
+      data['slug'] = doc.slug if doc.respond_to?(:slug)
+      data
+    end
+
+    def legacy_doc?(doc)
+      (IS_JEKYLL_3_04_X && doc.instance_of?(Jekyll::Document) && doc.collection.label == 'posts') ||
+        (IS_JEKYLL_2_X_X && (doc.instance_of?(Jekyll::Draft) || doc.instance_of?(Jekyll::Post)))
+    end
+
     def document_data(doc)
-      doc.respond_to?(:data) ? doc.data : {}
+      data = if legacy_doc?(doc)
+               legacy_document_data(doc)
+             elsif doc.respond_to?(:data)
+               doc.data
+             else
+               {}
+             end
+
+      defaults = @site.frontmatter_defaults.all(doc.relative_path, document_type(doc))
+      defaults.merge(data)
     end
 
     def document_url(doc)
@@ -168,16 +199,17 @@ module CloudCannonJekyll
     end
 
     def document_path(doc)
-      if doc.respond_to?(:collection) && doc.collection
-        File.join(@collections_dir, doc.relative_path).sub(%r{^/+}, '')
-      else
-        doc.relative_path.sub(%r{^/+}, '')
-      end
+      path = if doc.respond_to?(:collection) && doc.collection
+               File.join(@collections_dir, doc.relative_path)
+             else
+               doc.relative_path
+             end
+
+      path.sub(%r{^/+}, '')
     end
 
     def document_to_json(doc, collection)
-      defaults = @site.frontmatter_defaults.all(doc.relative_path, document_type(doc))
-      base = defaults.merge(document_data(doc)).merge(
+      base = document_data(doc).merge(
         {
           'path' => document_path(doc),
           'url' => document_url(doc),

@@ -2,10 +2,8 @@
 
 set -ex
 
-# Checks to see the build is likely to fail on Travis.
-# Duplicated the versions from .travis.yml
-
 JEKYLL_VERSION=2.4.0 bundle update && $(dirname "$0")/test &&
 JEKYLL_VERSION=3.0.0 bundle update && $(dirname "$0")/test &&
 JEKYLL_VERSION=3.8.5 bundle update && $(dirname "$0")/test &&
-JEKYLL_VERSION=4.2.0 bundle update && $(dirname "$0")/test
+JEKYLL_VERSION=4.2.1 bundle update && $(dirname "$0")/test
+

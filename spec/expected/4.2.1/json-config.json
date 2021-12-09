@@ -1,0 +1,445 @@
+{
+	"time": "2024-01-01T00:00:00+13:00",
+	"version": "0.0.3",
+	"cloudcannon": {
+		"name": "cloudcannon-jekyll",
+		"version": "2.2.0"
+	},
+	"generator": {
+		"name": "jekyll",
+		"version": "4.2.1",
+		"environment": "development",
+		"metadata": {
+			"markdown": "kramdown",
+			"kramdown": {
+				"auto_ids": true,
+				"toc_levels": [
+					1,
+					2,
+					3,
+					4,
+					5,
+					6
+				],
+				"entity_output": "as_char",
+				"smart_quotes": "lsquo,rsquo,ldquo,rdquo",
+				"input": "GFM",
+				"hard_wrap": false,
+				"guess_lang": true,
+				"footnote_nr": 1,
+				"show_warnings": false
+			},
+			"commonmark": null
+		}
+	},
+	"paths": {
+		"static": "",
+		"uploads": "uploads",
+		"data": "_data",
+		"collections": "",
+		"layouts": "_layouts"
+	},
+	"collections_config": {
+		"staff_members": {
+			"output": false,
+			"custom": "indeed",
+			"sort_key": "name",
+			"singular_name": "staff_member",
+			"auto_discovered": false,
+			"path": "_staff_members"
+		},
+		"posts": {
+			"output": true,
+			"permalink": "/:categories/:year/:month/:day/:title/",
+			"auto_discovered": true,
+			"path": "_posts"
+		},
+		"pages": {
+			"auto_discovered": true,
+			"path": "",
+			"output": true,
+			"filter": "strict"
+		},
+		"data": {
+			"auto_discovered": true,
+			"path": "_data",
+			"output": false
+		},
+		"drafts": {
+			"auto_discovered": true,
+			"path": "_drafts",
+			"output": false
+		},
+		"other/posts": {
+			"auto_discovered": true,
+			"path": "other/_posts",
+			"output": true
+		},
+		"other/drafts": {
+			"auto_discovered": true,
+			"path": "other/_drafts",
+			"output": false
+		}
+	},
+	"collection_groups": [
+		{
+			"heading": "Blogging",
+			"collections": [
+				"posts",
+				"drafts"
+			]
+		},
+		{
+			"heading": "Other",
+			"collections": [
+				"pages",
+				"staff_members"
+			]
+		}
+	],
+	"collections": {
+		"staff_members": [
+			{
+				"layout": "default",
+				"draft": false,
+				"categories": [
+
+				],
+				"name": "Jane Doe",
+				"credentials": "LLB",
+				"title": "Jane Doe",
+				"slug": "jane-doe",
+				"ext": ".md",
+				"tags": [
+
+				],
+				"excerpt": "<p>Jane is a character.</p>\n",
+				"path": "_staff_members/jane-doe.md",
+				"url": "/staff_members/jane-doe/",
+				"collection": "staff_members",
+				"id": "/staff_members/jane-doe"
+			},
+			{
+				"layout": "default",
+				"draft": false,
+				"categories": [
+
+				],
+				"name": "John Doe",
+				"credentials": "LLB",
+				"title": "John Doe",
+				"slug": "john-doe",
+				"ext": ".md",
+				"tags": [
+
+				],
+				"excerpt": "<p>John is a character.</p>\n",
+				"path": "_staff_members/john-doe.md",
+				"url": "/staff_members/john-doe/",
+				"collection": "staff_members",
+				"id": "/staff_members/john-doe"
+			}
+		],
+		"posts": [
+			{
+				"layout": "post",
+				"draft": false,
+				"categories": [
+					"Stuff"
+				],
+				"title": "Awesome things",
+				"date": "2016-08-10 00:00:00 +0000",
+				"author": "/staff-members/jane-doe",
+				"image": null,
+				"slug": "awesome-things",
+				"ext": ".md",
+				"tags": [
+
+				],
+				"excerpt": "<p>Great things in there that are awesome.</p>\n",
+				"path": "_posts/2016-08-10-awesome-things.md",
+				"url": "/stuff/2016/08/10/awesome-things/",
+				"collection": "posts",
+				"id": "/stuff/2016/08/10/awesome-things"
+			},
+			{
+				"layout": "post",
+				"draft": false,
+				"categories": [
+					"Stuff"
+				],
+				"title": "Good stuff",
+				"date": "2016-11-11 00:00:00 +0000",
+				"author": "/staff-members/john-doe",
+				"image": "/images/example.png",
+				"slug": "good-stuff",
+				"ext": ".md",
+				"tags": [
+
+				],
+				"excerpt": "<p>Heaps of good stuff in here</p>\n",
+				"path": "_posts/2016-11-11-good-stuff.md",
+				"url": "/stuff/2016/11/11/good-stuff/",
+				"collection": "posts",
+				"id": "/stuff/2016/11/11/good-stuff"
+			}
+		],
+		"pages": [
+			{
+				"layout": "default",
+				"title": "Not Found",
+				"call_to_action": "Contact",
+				"permalink": "/404.html",
+				"sitemap": false,
+				"path": "404.html",
+				"url": "/404.html",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"title": "About",
+				"call_to_action": "Contact",
+				"path": "about.html",
+				"url": "/about/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"title": "Blog",
+				"call_to_action": "Contact",
+				"path": "blog.html",
+				"url": "/blog/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"title": "Contact Success",
+				"call_to_action": "Advice",
+				"sitemap": false,
+				"path": "contact-success.html",
+				"url": "/contact-success/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"title": "Contact",
+				"call_to_action": "Map",
+				"path": "contact.html",
+				"url": "/contact/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"title": "Content",
+				"call_to_action": "Contact",
+				"path": "content.md",
+				"url": "/content/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"title": null,
+				"call_to_action": "Contact",
+				"quotes": [
+					{
+						"text": "Hey there",
+						"name": "Bee"
+					},
+					{
+						"text": "Hi mate",
+						"name": "Sea"
+					},
+					{
+						"text": "Greetings to you",
+						"name": "Zed Zee"
+					}
+				],
+				"path": "index.html",
+				"url": "/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"path": "static-page.html",
+				"url": "/static-page.html",
+				"collection": "pages"
+			}
+		],
+		"drafts": [
+			{
+				"layout": "post",
+				"draft": true,
+				"categories": [
+					"Business"
+				],
+				"title": "WIP",
+				"date": "2016-08-10 00:00:00 +0000",
+				"author_staff_member": "jane-doe",
+				"image": null,
+				"slug": "incomplete",
+				"ext": ".md",
+				"tags": [
+
+				],
+				"excerpt": "<p>Still working on this one.</p>\n",
+				"path": "_drafts/incomplete.md",
+				"url": "/business/2016/08/10/incomplete/",
+				"collection": "drafts",
+				"id": "/business/2016/08/10/incomplete"
+			}
+		],
+		"other/posts": [
+			{
+				"layout": "post",
+				"draft": false,
+				"categories": [
+					"other",
+					"Stuff"
+				],
+				"title": "Category test",
+				"author": "/staff-members/jane-doe",
+				"image": null,
+				"large_header": false,
+				"date": "2020-08-10 00:00:00 +0000",
+				"slug": "category-test",
+				"ext": ".md",
+				"tags": [
+
+				],
+				"excerpt": "<p>Categories can be set with a folder structure.</p>\n",
+				"path": "other/_posts/2020-08-10-category-test.md",
+				"url": "/other/stuff/2020/08/10/category-test/",
+				"collection": "other/posts",
+				"id": "/other/stuff/2020/08/10/category-test"
+			}
+		],
+		"other/drafts": [
+			{
+				"layout": "post",
+				"draft": true,
+				"categories": [
+					"other"
+				],
+				"title": "Other WIP",
+				"author": "/staff-members/jane-doe",
+				"image": "/uploads/example-upload.png",
+				"slug": "wip",
+				"ext": ".md",
+				"tags": [
+
+				],
+				"excerpt": "<p>Test draft</p>\n",
+				"date": "2021-12-07 23:45:02 +0000",
+				"path": "other/_drafts/wip.md",
+				"url": "/other/2021/12/07/wip/",
+				"collection": "other/drafts",
+				"id": "/other/2021/12/07/wip"
+			}
+		]
+	},
+	"data": {
+		"footer": [
+			{
+				"links": [
+					{
+						"link": "http://example.com",
+						"name": "Example"
+					},
+					{
+						"link": "http://example.com",
+						"name": "Another Example"
+					}
+				],
+				"title": "Links"
+			}
+		],
+		"categories": [
+			"Stuff",
+			"other"
+		],
+		"tags": []
+	},
+	"source": "/spec/fixtures/json-config",
+	"timezone": "Etc/UTC",
+	"base_url": "",
+	"_inputs": {
+		"heading_image": {
+			"type": "image",
+			"comment": "This image should be related to the content"
+		},
+		"my_html": {
+			"type": "html",
+			"options": {
+				"italic": true,
+				"bold": true,
+				"styles": "hello.css"
+			}
+		}
+	},
+	"_editables": {
+		"content": {
+			"image": true,
+			"bold": true
+		}
+	},
+	"_select_data": {
+		"people": [
+			"Jim",
+			"Pam"
+		],
+		"greetings": {
+			"hello": "Hello!",
+			"hi": "Hi"
+		}
+	},
+	"_structures": {
+		"gallery": {
+			"style": "select",
+			"values": [
+				{
+					"label": "Image",
+					"image": "/path/to/source-image.png",
+					"value": {
+						"image": "/placeholder.png",
+						"caption": null
+					}
+				},
+				{
+					"label": "External link",
+					"icon": "link",
+					"value": {
+						"url": null,
+						"title": null
+					}
+				}
+			]
+		}
+	},
+	"editor": {
+		"default_path": "basic"
+	},
+	"source_editor": {
+		"tab_size": 2,
+		"show_gutter": false,
+		"theme": "dawn"
+	},
+	"defaults": [
+		{
+			"scope": {
+				"path": ""
+			},
+			"values": {
+				"layout": "default"
+			}
+		},
+		{
+			"scope": {
+				"path": "",
+				"type": "posts"
+			},
+			"values": {
+				"layout": "post"
+			}
+		}
+	]
+}

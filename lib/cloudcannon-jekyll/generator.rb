@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'jekyll'
+require 'json'
 require 'fileutils'
 require_relative 'logger'
 require_relative 'config'

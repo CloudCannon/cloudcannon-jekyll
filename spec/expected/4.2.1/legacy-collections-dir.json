@@ -1,0 +1,374 @@
+{
+	"time": "2024-01-01T00:00:00+13:00",
+	"version": "0.0.3",
+	"cloudcannon": {
+		"name": "cloudcannon-jekyll",
+		"version": "2.2.0"
+	},
+	"generator": {
+		"name": "jekyll",
+		"version": "4.2.1",
+		"environment": "development",
+		"metadata": {
+			"markdown": "kramdown",
+			"kramdown": {
+				"auto_ids": true,
+				"toc_levels": [
+					1,
+					2,
+					3,
+					4,
+					5,
+					6
+				],
+				"entity_output": "as_char",
+				"smart_quotes": "lsquo,rsquo,ldquo,rdquo",
+				"input": "GFM",
+				"hard_wrap": false,
+				"guess_lang": true,
+				"footnote_nr": 1,
+				"show_warnings": false
+			},
+			"commonmark": null
+		}
+	},
+	"paths": {
+		"static": "",
+		"uploads": "uploads",
+		"data": "_data",
+		"collections": "collections",
+		"layouts": "_layouts"
+	},
+	"collections_config": {
+		"staff_members": {
+			"auto_discovered": true,
+			"sort_key": "name",
+			"singular_name": "staff_member",
+			"output": false,
+			"custom": "indeed",
+			"path": "collections/_staff_members"
+		},
+		"posts": {
+			"auto_discovered": true,
+			"output": true,
+			"permalink": "/:categories/:year/:month/:day/:title/",
+			"path": "collections/_posts"
+		},
+		"pages": {
+			"auto_discovered": true,
+			"path": "collections/_pages",
+			"output": true
+		},
+		"data": {
+			"auto_discovered": true,
+			"path": "_data",
+			"output": false
+		},
+		"drafts": {
+			"auto_discovered": true,
+			"path": "collections/_drafts",
+			"output": false
+		},
+		"other/posts": {
+			"auto_discovered": true,
+			"path": "collections/other/_posts",
+			"output": true
+		},
+		"other/drafts": {
+			"auto_discovered": true,
+			"path": "collections/other/_drafts",
+			"output": false
+		}
+	},
+	"collection_groups": [
+		{
+			"heading": "Blogging",
+			"collections": [
+				"posts",
+				"drafts"
+			]
+		},
+		{
+			"heading": "Other",
+			"collections": [
+				"pages",
+				"staff_members"
+			]
+		}
+	],
+	"collections": {
+		"empty": [],
+		"staff_members": [
+			{
+				"layout": "page",
+				"draft": false,
+				"categories": [],
+				"name": "Jane Doe",
+				"image": "//placekitten.com/440/440?a=.png",
+				"credentials": "LLB",
+				"phone_extension": "02",
+				"title": "Jane Doe",
+				"slug": "jane-doe",
+				"ext": ".md",
+				"tags": [],
+				"excerpt": "<p>Jane has 19 years of experience in law, and specialises in property and business.</p>\n",
+				"path": "collections/_staff_members/jane-doe.md",
+				"url": "/staff_members/jane-doe/",
+				"collection": "staff_members",
+				"id": "/staff_members/jane-doe"
+			},
+			{
+				"layout": "page",
+				"draft": false,
+				"categories": [],
+				"name": "John Doe",
+				"image": "//placebear.com/440/440?a=.png",
+				"credentials": "LLB",
+				"phone_extension": "11",
+				"title": "John Doe",
+				"slug": "john-doe",
+				"ext": ".md",
+				"tags": [],
+				"excerpt": "<p>With an interest in employment law, John works tirelessly to improve workplaces.</p>\n",
+				"path": "collections/_staff_members/john-doe.md",
+				"url": "/staff_members/john-doe/",
+				"collection": "staff_members",
+				"id": "/staff_members/john-doe"
+			}
+		],
+		"posts": [
+			{
+				"layout": "post",
+				"draft": false,
+				"categories": [
+					"Business"
+				],
+				"title": "Business Mergers",
+				"date": "2016-08-10 00:00:00 +0000",
+				"tags": [
+					"hello"
+				],
+				"author_staff_member": "jane-doe",
+				"image": "https://unsplash.it/600/450?image=737&a=.png",
+				"large_header": false,
+				"slug": "business-mergers",
+				"ext": ".md",
+				"excerpt": "<p>Mergers and acquisitions are transactions in which the ownership of companies, other business organizations or their operating units are transferred or combined.</p>\n",
+				"path": "collections/_posts/2016-08-10-business-mergers.md",
+				"url": "/business/2016/08/10/business-mergers/",
+				"collection": "posts",
+				"id": "/business/2016/08/10/business-mergers"
+			},
+			{
+				"layout": "post",
+				"draft": false,
+				"categories": [
+					"Property"
+				],
+				"title": "Real Estate Flipping",
+				"date": "2016-11-11 00:00:00 +0000",
+				"tags": [
+					"hi"
+				],
+				"author_staff_member": "john-doe",
+				"image": "https://unsplash.it/600/450?image=448&a=.png",
+				"large_header": false,
+				"slug": "real-estate-flipping",
+				"ext": ".md",
+				"excerpt": "<p>Flipping is a term used primarily in the US to describe purchasing a revenue-generating asset and quickly reselling it for profit.</p>\n",
+				"path": "collections/_posts/2016-11-11-real-estate-flipping.md",
+				"url": "/property/2016/11/11/real-estate-flipping/",
+				"collection": "posts",
+				"id": "/property/2016/11/11/real-estate-flipping"
+			}
+		],
+		"pages": [
+			{
+				"categories": [],
+				"collection": "pages",
+				"draft": false,
+				"excerpt": "<p>Hello</p>\n",
+				"ext": ".md",
+				"id": "/pages/page-item",
+				"layout": "default",
+				"path": "collections/_pages/page-item.md",
+				"slug": "page-item",
+				"tags": [],
+				"title": "Page Item",
+				"url": "/pages/page-item/"
+			}
+		],
+		"drafts": [
+			{
+				"layout": "post",
+				"draft": true,
+				"categories": [
+					"Business"
+				],
+				"title": "WIP",
+				"date": "2016-08-10 00:00:00 +0000",
+				"tags": [
+					"hello"
+				],
+				"author_staff_member": "jane-doe",
+				"image": null,
+				"large_header": false,
+				"slug": "incomplete",
+				"ext": ".md",
+				"excerpt": "<p>Still working on this one.</p>\n",
+				"path": "collections/_drafts/incomplete.md",
+				"url": "/business/2016/08/10/incomplete/",
+				"collection": "drafts",
+				"id": "/business/2016/08/10/incomplete"
+			}
+		],
+		"other/posts": [
+			{
+				"layout": "post",
+				"draft": false,
+				"categories": [
+					"other",
+					"Business"
+				],
+				"title": "Category test",
+				"tags": [
+					"hello"
+				],
+				"author_staff_member": "jane-doe",
+				"image": "https://unsplash.it/600/450?image=737&a=.png",
+				"large_header": false,
+				"date": "2020-08-10 00:00:00 +0000",
+				"slug": "category-test",
+				"ext": ".md",
+				"excerpt": "<p>Categories can be set with a folder structure.</p>\n",
+				"path": "collections/other/_posts/2020-08-10-category-test.md",
+				"url": "/other/business/2020/08/10/category-test/",
+				"collection": "other/posts",
+				"id": "/other/business/2020/08/10/category-test"
+			}
+		],
+		"other/drafts": [
+			{
+				"layout": "post",
+				"draft": true,
+				"categories": [
+					"other",
+					"Business"
+				],
+				"title": "Testing for category drafts",
+				"tags": [
+					"hello"
+				],
+				"author_staff_member": "jane-doe",
+				"image": "https://unsplash.it/600/450?image=737&a=.png",
+				"large_header": false,
+				"slug": "testing-for-category",
+				"ext": ".md",
+				"excerpt": "<p>Test draft</p>\n",
+				"date": "2021-02-22 00:00:00 +0000",
+				"path": "collections/other/_drafts/testing-for-category.md",
+				"url": "/other/business/2021/02/22/testing-for-category/",
+				"collection": "other/drafts",
+				"id": "/other/business/2021/02/22/testing-for-category"
+			}
+		]
+	},
+	"data": {
+		"categories": [
+			"Business",
+			"Property",
+			"other"
+		],
+		"tags": [
+			"hello",
+			"hi"
+		]
+	},
+	"source": "/spec/fixtures/legacy-collections-dir",
+	"timezone": "Etc/UTC",
+	"base_url": "basic",
+	"_select_data": {
+		"categories": [
+			"forever",
+			"strings"
+		],
+		"staff": [
+			"jim",
+			"bob"
+		],
+		"things": [
+			"hello",
+			"there"
+		],
+		"cards_per_rows": {
+			"2": "Two",
+			"3": "Three",
+			"4": "Four",
+			"6": "Six"
+		}
+	},
+	"editor": {
+		"default_path": "basic"
+	},
+	"source_editor": {
+		"tab_size": 2,
+		"show_gutter": false,
+		"theme": "dawn"
+	},
+	"_array_structures": {
+		"gallery": {
+			"style": "select",
+			"values": [
+				{
+					"label": "Image",
+					"image": "/path/to/source-image.png",
+					"value": {
+						"image": "/placeholder.png",
+						"caption": null
+					}
+				},
+				{
+					"label": "External link",
+					"icon": "link",
+					"value": {
+						"url": null,
+						"title": null
+					}
+				}
+			]
+		}
+	},
+	"_comments": {
+		"heading_image": "This image should be related to the content"
+	},
+	"_options": {
+		"content": {
+			"image": true,
+			"bold": true
+		},
+		"my_html": {
+			"italic": true,
+			"bold": true,
+			"styles": "hello.css"
+		}
+	},
+	"defaults": [
+		{
+			"scope": {
+				"path": ""
+			},
+			"values": {
+				"layout": "page"
+			}
+		},
+		{
+			"scope": {
+				"path": "",
+				"type": "posts"
+			},
+			"values": {
+				"layout": "post"
+			}
+		}
+	]
+}

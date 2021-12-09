@@ -12,7 +12,7 @@ module CloudCannonJekyll
     end
 
     def self.data_dir(site)
-      site.config['data_dir'].sub(%r{^/+}, '') || '_data'
+      site.config['data_dir']&.sub(%r{^/+}, '') || '_data'
     end
   end
 end

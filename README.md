@@ -170,7 +170,7 @@ $ ./script/test
 Running tests for all specified Jekyll versions:
 
 ```sh
-$ ./script/test-all
+$ ./script/test-all-versions
 ```
 
 Running tests for a specific Jekyll version:
@@ -178,8 +178,6 @@ Running tests for a specific Jekyll version:
 ```sh
 $ JEKYLL_VERSION="2.4.0" bundle update && ./script/test
 ```
-
-💡 Make sure you don't accidentally commit a downgraded Jekyll version after changing the versions through testing.
 
 ## License
 
