@@ -3,7 +3,7 @@
 	"version": "0.0.3",
 	"cloudcannon": {
 		"name": "cloudcannon-jekyll",
-		"version": "2.2.0"
+		"version": "2.3.4"
 	},
 	"generator": {
 		"name": "jekyll",
@@ -68,9 +68,9 @@
 			"output": false
 		},
 		"drafts": {
-			"auto_discovered": true,
+			"auto_discovered": false,
 			"path": "_drafts",
-			"output": false
+			"output": true
 		},
 		"other/posts": {
 			"auto_discovered": true,
@@ -454,11 +454,11 @@
 				"image": "https://unsplash.it/600/450?image=737&a=.png",
 				"large_header": false,
 				"slug": "testing-for-category",
-				"date": "2021-02-22 02:04:29 +0000",
+				"date": "2024-01-01 00:00:00 +1300",
 				"path": "other/_drafts/testing-for-category.md",
-				"url": "/other/business/2021/02/22/testing-for-category/",
+				"url": "/other/business/2024/01/01/testing-for-category/",
 				"collection": "other/drafts",
-				"id": "/other/business/2021/02/22/testing-for-category"
+				"id": "/other/business/2024/01/01/testing-for-category"
 			}
 		]
 	},

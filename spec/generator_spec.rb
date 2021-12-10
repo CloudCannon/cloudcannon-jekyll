@@ -14,7 +14,9 @@ describe CloudCannonJekyll::Generator do
   let(:info_raw) { File.read(dest_dir(fixture, '_cloudcannon/info.json')) }
   let(:info) { JSON.parse(info_raw) }
   before do
-    allow(Time).to receive(:now).and_return(Time.parse('2024-01-01 00:00:00 +1300'))
+    mocked_now = Time.parse('2024-01-01 00:00:00 +1300')
+    allow(Time).to receive(:now).and_return(mocked_now)
+    allow(File).to receive(:mtime).and_return(mocked_now)
     site&.process
   end
 

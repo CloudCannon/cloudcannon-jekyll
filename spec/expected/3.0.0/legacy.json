@@ -3,7 +3,7 @@
 	"version": "0.0.3",
 	"cloudcannon": {
 		"name": "cloudcannon-jekyll",
-		"version": "2.2.0"
+		"version": "2.3.4"
 	},
 	"generator": {
 		"name": "jekyll",
@@ -69,9 +69,9 @@
 			"output": false
 		},
 		"drafts": {
-			"auto_discovered": true,
+			"auto_discovered": false,
 			"path": "_drafts",
-			"output": false
+			"output": true
 		},
 		"other/posts": {
 			"auto_discovered": true,

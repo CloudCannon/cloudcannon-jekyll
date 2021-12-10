@@ -3,7 +3,7 @@
 	"version": "0.0.3",
 	"cloudcannon": {
 		"name": "cloudcannon-jekyll",
-		"version": "2.2.0"
+		"version": "2.3.4"
 	},
 	"generator": {
 		"name": "jekyll",
@@ -287,11 +287,11 @@
 				"tags": [
 
 				],
-				"date": "2021-12-07 23:45:02 +0000",
+				"date": "2024-01-01 00:00:00 +1300",
 				"path": "other/_drafts/wip.md",
-				"url": "/other/2021/12/07/wip/",
+				"url": "/other/2024/01/01/wip/",
 				"collection": "other/drafts",
-				"id": "/other/2021/12/07/wip"
+				"id": "/other/2024/01/01/wip"
 			}
 		]
 	},

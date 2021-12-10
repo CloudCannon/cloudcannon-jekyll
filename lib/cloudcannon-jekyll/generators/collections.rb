@@ -23,74 +23,77 @@ module CloudCannonJekyll
     end
 
     def generate_collections_config
-      collections = @site.config['collections']
+      collections = @site.config['collections'] || {}
       collections_config = @config['collections_config']&.dup || {}
 
       if collections.is_a?(Array)
         collections = collections.each_with_object({}) { |key, memo| memo[key] = {} }
       end
 
-      collections&.each_key do |key|
-        processed = (collections[key] || {}).merge(collections_config[key] || {})
+      defaults = {
+        'data' => {
+          'path' => @data_dir,
+          'output' => false
+        },
+        'posts' => {
+          'path' => File.join(@collections_dir, '_posts').sub(%r{^/+}, ''),
+          'output' => true
+        },
+        'drafts' => {
+          'path' => File.join(@collections_dir, '_drafts').sub(%r{^/+}, ''),
+          'output' => !!@site.show_drafts
+        }
+      }
+
+      unless collections.key?('pages')
+        defaults['pages'] = {
+          'path' => '',
+          'output' => true,
+          'filter' => 'strict'
+        }
+      end
+
+      collection_keys = (defaults.keys + collections.keys).uniq
+
+      collection_keys.each do |key|
+        processed = (defaults[key] || {})
+                    .merge(collections[key] || {})
+                    .merge(collections_config[key] || {})
+
         processed['output'] ||= false
         processed['auto_discovered'] = !collections_config.key?(key)
-        processed['path'] ||= File.join(@collections_dir, "_#{key}").sub(%r{^/+}, '')
-        processed['path'].sub!(%r{^/+}, '')
+        processed['path'] ||= File.join(@collections_dir, "_#{key}")
+        processed['path'] = processed['path'].sub(%r{^/+}, '')
 
         Config.rename_legacy_collection_config_keys(processed)
 
         collections_config[key] = processed
       end
 
-      collections_config['pages'] ||= {
-        'auto_discovered' => true,
-        'path' => '',
-        'output' => true,
-        'filter' => 'strict'
-      }
-
-      collections_config['data'] ||= {
-        'auto_discovered' => true,
-        'path' => @data_dir,
-        'output' => false
-      }
-
-      collections_config['posts'] ||= {
-        'auto_discovered' => true,
-        'path' => File.join(@collections_dir, '_posts').sub(%r{^/+}, ''),
-        'output' => true
-      }
-
-      collections_config['drafts'] ||= {
-        'auto_discovered' => true,
-        'path' => File.join(@collections_dir, '_drafts').sub(%r{^/+}, ''),
-        'output' => !!@site.show_drafts
-      }
-
       @split_posts.each_key do |key|
         posts_path = @split_posts[key]&.first&.relative_path&.sub(%r{(^|/)_posts.*}, '\1_posts')
         next unless posts_path
 
-        collections_config[key] = (collections_config[key] || {}).merge(
-          {
-            'auto_discovered' => true,
-            'path' => File.join(@collections_dir, posts_path).sub(%r{^/+}, ''),
-            'output' => true
-          }
-        )
+        defaults = {
+          'auto_discovered' => !collections_config.key?(key),
+          'path' => File.join(@collections_dir, posts_path).sub(%r{^/+}, ''),
+          'output' => true
+        }
+
+        collections_config[key] = defaults.merge(collections_config[key] || {})
       end
 
       @split_drafts.each_key do |key|
         drafts_path = @split_drafts[key]&.first&.relative_path&.sub(%r{(^|/)_drafts.*}, '\1_drafts')
         next unless drafts_path
 
-        collections_config[key] = (collections_config[key] || {}).merge(
-          {
-            'auto_discovered' => true,
-            'path' => File.join(@collections_dir, drafts_path).sub(%r{^/+}, ''),
-            'output' => !!@site.show_drafts
-          }
-        )
+        defaults = {
+          'auto_discovered' => !collections_config.key?(key),
+          'path' => File.join(@collections_dir, drafts_path).sub(%r{^/+}, ''),
+          'output' => !!@site.show_drafts
+        }
+
+        collections_config[key] = defaults.merge(collections_config[key] || {})
       end
 
       collections_config
