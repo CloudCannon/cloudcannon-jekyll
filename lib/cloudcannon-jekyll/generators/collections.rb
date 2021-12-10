@@ -36,16 +36,14 @@ module CloudCannonJekyll
           'output' => false
         },
         'posts' => {
-          'path' => File.join(@collections_dir, '_posts').sub(%r{^/+}, ''),
           'output' => true
         },
         'drafts' => {
-          'path' => File.join(@collections_dir, '_drafts').sub(%r{^/+}, ''),
           'output' => !!@site.show_drafts
         }
       }
 
-      unless collections.key?('pages')
+      unless collections.key?('pages') && !collections['pages'].empty?
         defaults['pages'] = {
           'path' => '',
           'output' => true,
