@@ -1,0 +1,14 @@
+---
+title: About
+call_to_action: Contact
+---
+<p>All about us!</p>
+
+<ul>
+	{% for member in site.staff_members %}
+		<li>
+			<p>{{ member.name }} <small>{{ member.credentials }}</small></p>
+			<p>{{ member.content | markdownify }}</p>
+		</li>
+	{% endfor %}
+</ul>

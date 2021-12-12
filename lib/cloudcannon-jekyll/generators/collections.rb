@@ -26,6 +26,8 @@ module CloudCannonJekyll
       collections = @site.config['collections'] || {}
       collections_config = @config['collections_config']&.dup || {}
 
+      return collections_config if @config['collections_config_override']
+
       if collections.is_a?(Array)
         collections = collections.each_with_object({}) { |key, memo| memo[key] = {} }
       end
@@ -125,7 +127,7 @@ module CloudCannonJekyll
         end
       end
 
-      if collections['pages'].empty?
+      if collections.key?('pages') && collections['pages'].empty?
         collections['pages'] = all_pages.map do |doc|
           document_to_json(doc, 'pages')
         end
