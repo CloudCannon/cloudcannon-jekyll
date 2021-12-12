@@ -1,3 +1,11 @@
+# 3.0.0
+
+* Add `collections_config_override`
+* Ensure `paths.data` doesnt start with slash
+* Support external configuration files
+* Remove template rendering step and write output directly
+* Update output to support schema version `0.0.3`
+
 # 2.3.4
 
 * Add `_editables`
