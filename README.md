@@ -12,7 +12,7 @@ create a JSON file used to automatically integrate the site with CloudCannon.
 
 - [Installation](#installation)
 - [Configuration](#configuration)
-- [Development](#plugin-options)
+- [Development](#development)
 - [License](#license)
 
 ***
