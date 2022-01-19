@@ -1,3 +1,7 @@
+# 3.0.1
+
+* Support aliases in YAML configuration files
+
 # 3.0.0
 
 * Add `collections_config_override`
