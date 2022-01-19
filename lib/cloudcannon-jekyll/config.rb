@@ -55,7 +55,7 @@ module CloudCannonJekyll
     end
 
     def config_file(path)
-      loaded = YAML.safe_load(File.read(path)) # Also works for JSON
+      loaded = YAML.safe_load(File.read(path), aliases: true) # Also loads JSON
       Logger.info "⚙️ Using config file at #{path.bold}"
       loaded
     rescue Errno::ENOENT
@@ -88,11 +88,11 @@ module CloudCannonJekyll
         '_inputs' => @site_config['_inputs'],
         '_editables' => @site_config['_editables'],
         '_structures' => @site_config['_structures'],
+        '_enabled_editors' => @site_config['_enabled_editors'],
 
         # Deprecated keys
         '_array_structures' => @site_config['_array_structures'],
         '_comments' => @site_config['_comments'],
-        '_enabled_editors' => @site_config['_enabled_editors'],
         '_instance_values' => @site_config['_instance_values'],
         '_options' => @site_config['_options']
       }
