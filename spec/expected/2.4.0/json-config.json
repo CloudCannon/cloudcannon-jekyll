@@ -3,7 +3,7 @@
 	"version": "0.0.3",
 	"cloudcannon": {
 		"name": "cloudcannon-jekyll",
-		"version": "3.0.0"
+		"version": "*.*.*"
 	},
 	"generator": {
 		"name": "jekyll",

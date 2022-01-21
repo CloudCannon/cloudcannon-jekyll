@@ -7,27 +7,18 @@
 	},
 	"generator": {
 		"name": "jekyll",
-		"version": "4.2.1",
+		"version": "3.3.1",
 		"environment": "development",
 		"metadata": {
 			"markdown": "kramdown",
 			"kramdown": {
 				"auto_ids": true,
-				"toc_levels": [
-					1,
-					2,
-					3,
-					4,
-					5,
-					6
-				],
 				"entity_output": "as_char",
-				"smart_quotes": "lsquo,rsquo,ldquo,rdquo",
-				"input": "GFM",
-				"hard_wrap": false,
-				"guess_lang": true,
 				"footnote_nr": 1,
-				"show_warnings": false
+				"hard_wrap": false,
+				"input": "GFM",
+				"smart_quotes": "lsquo,rsquo,ldquo,rdquo",
+				"toc_levels": "1..6"
 			},
 			"commonmark": null
 		}
@@ -42,10 +33,7 @@
 	"collections_config": {
 		"staff_members": {
 			"output": false,
-			"custom": "indeed",
-			"sort_key": "name",
-			"singular_name": "staff_member",
-			"auto_discovered": false,
+			"auto_discovered": true,
 			"path": "_staff_members"
 		},
 		"posts": {
@@ -81,22 +69,6 @@
 			"output": false
 		}
 	},
-	"collection_groups": [
-		{
-			"heading": "Blogging",
-			"collections": [
-				"posts",
-				"drafts"
-			]
-		},
-		{
-			"heading": "Other",
-			"collections": [
-				"pages",
-				"staff_members"
-			]
-		}
-	],
 	"collections": {
 		"staff_members": [
 			{
@@ -107,6 +79,7 @@
 				],
 				"name": "Jane Doe",
 				"credentials": "LLB",
+"date": "2024-01-01 00:00:00 +1300",
 				"title": "Jane Doe",
 				"slug": "jane-doe",
 				"ext": ".md",
@@ -126,6 +99,7 @@
 				],
 				"name": "John Doe",
 				"credentials": "LLB",
+"date": "2024-01-01 00:00:00 +1300",
 				"title": "John Doe",
 				"slug": "john-doe",
 				"ext": ".md",
@@ -331,91 +305,15 @@
 		]
 	},
 	"data": {
-		"footer": [
-			{
-				"links": [
-					{
-						"link": "http://example.com",
-						"name": "Example"
-					},
-					{
-						"link": "http://example.com",
-						"name": "Another Example"
-					}
-				],
-				"title": "Links"
-			}
-		],
 		"categories": [
 			"Stuff",
 			"other"
 		],
 		"tags": []
 	},
-	"source": "/spec/fixtures/json-config",
+	"source": "/spec/fixtures/no-config",
 	"timezone": "Etc/UTC",
 	"base_url": "",
-	"_inputs": {
-		"heading_image": {
-			"type": "image",
-			"comment": "This image should be related to the content"
-		},
-		"my_html": {
-			"type": "html",
-			"options": {
-				"italic": true,
-				"bold": true,
-				"styles": "hello.css"
-			}
-		}
-	},
-	"_editables": {
-		"content": {
-			"image": true,
-			"bold": true
-		}
-	},
-	"_select_data": {
-		"people": [
-			"Jim",
-			"Pam"
-		],
-		"greetings": {
-			"hello": "Hello!",
-			"hi": "Hi"
-		}
-	},
-	"_structures": {
-		"gallery": {
-			"style": "select",
-			"values": [
-				{
-					"label": "Image",
-					"image": "/path/to/source-image.png",
-					"value": {
-						"image": "/placeholder.png",
-						"caption": null
-					}
-				},
-				{
-					"label": "External link",
-					"icon": "link",
-					"value": {
-						"url": null,
-						"title": null
-					}
-				}
-			]
-		}
-	},
-	"editor": {
-		"default_path": "basic"
-	},
-	"source_editor": {
-		"tab_size": 2,
-		"show_gutter": false,
-		"theme": "dawn"
-	},
 	"defaults": [
 		{
 			"scope": {

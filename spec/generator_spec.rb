@@ -18,6 +18,7 @@ describe CloudCannonJekyll::Generator do
     mocked_now = Time.parse('2024-01-01 00:00:00 +1300')
     allow(Time).to receive(:now).and_return(mocked_now)
     allow(File).to receive(:mtime).and_return(mocked_now)
+    stub_const('CloudCannonJekyll::VERSION', '*.*.*')
     site&.process
   end
 

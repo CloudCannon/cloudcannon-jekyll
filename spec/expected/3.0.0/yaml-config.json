@@ -3,7 +3,7 @@
 	"version": "0.0.3",
 	"cloudcannon": {
 		"name": "cloudcannon-jekyll",
-		"version": "3.0.0"
+		"version": "*.*.*"
 	},
 	"generator": {
 		"name": "jekyll",
@@ -108,7 +108,6 @@
 				"tags": [
 
 				],
-				"excerpt": "<p>Jane is a character.</p>\n",
 				"path": "_staff_members/jane-doe.md",
 				"url": "/staff_members/jane-doe/",
 				"collection": "staff_members",
@@ -125,7 +124,6 @@
 				"tags": [
 
 				],
-				"excerpt": "<p>John is a character.</p>\n",
 				"path": "_staff_members/john-doe.md",
 				"url": "/staff_members/john-doe/",
 				"collection": "staff_members",
@@ -147,7 +145,6 @@
 				"tags": [
 
 				],
-				"excerpt": "<p>Great things in there that are awesome.</p>\n",
 				"path": "_posts/2016-08-10-awesome-things.md",
 				"url": "/stuff/2016/08/10/awesome-things/",
 				"collection": "posts",
@@ -167,7 +164,6 @@
 				"tags": [
 
 				],
-				"excerpt": "<p>Heaps of good stuff in here</p>\n",
 				"path": "_posts/2016-11-11-good-stuff.md",
 				"url": "/stuff/2016/11/11/good-stuff/",
 				"collection": "posts",
@@ -268,7 +264,6 @@
 				"tags": [
 
 				],
-				"excerpt": "<p>Still working on this one.</p>\n",
 				"path": "_drafts/incomplete.md",
 				"url": "/business/2016/08/10/incomplete/",
 				"collection": "drafts",
@@ -292,7 +287,6 @@
 				"tags": [
 
 				],
-				"excerpt": "<p>Categories can be set with a folder structure.</p>\n",
 				"path": "other/_posts/2020-08-10-category-test.md",
 				"url": "/other/stuff/2020/08/10/category-test/",
 				"collection": "other/posts",
@@ -311,7 +305,6 @@
 				"tags": [
 
 				],
-				"excerpt": "<p>Test draft</p>\n",
 				"date": "2024-01-01 00:00:00 +1300",
 				"path": "other/_drafts/wip.md",
 				"url": "/2024/01/01/wip/",

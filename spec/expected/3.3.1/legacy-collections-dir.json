@@ -7,27 +7,18 @@
 	},
 	"generator": {
 		"name": "jekyll",
-		"version": "4.2.1",
+		"version": "3.3.1",
 		"environment": "development",
 		"metadata": {
 			"markdown": "kramdown",
 			"kramdown": {
 				"auto_ids": true,
-				"toc_levels": [
-					1,
-					2,
-					3,
-					4,
-					5,
-					6
-				],
 				"entity_output": "as_char",
-				"smart_quotes": "lsquo,rsquo,ldquo,rdquo",
-				"input": "GFM",
-				"hard_wrap": false,
-				"guess_lang": true,
 				"footnote_nr": 1,
-				"show_warnings": false
+				"hard_wrap": false,
+				"input": "GFM",
+				"smart_quotes": "lsquo,rsquo,ldquo,rdquo",
+				"toc_levels": "1..6"
 			},
 			"commonmark": null
 		}
@@ -106,6 +97,7 @@
 				"name": "Jane Doe",
 				"image": "//placekitten.com/440/440?a=.png",
 				"credentials": "LLB",
+"date": "2024-01-01 00:00:00 +1300",
 				"phone_extension": "02",
 				"title": "Jane Doe",
 				"slug": "jane-doe",
@@ -123,6 +115,7 @@
 				"name": "John Doe",
 				"image": "//placebear.com/440/440?a=.png",
 				"credentials": "LLB",
+"date": "2024-01-01 00:00:00 +1300",
 				"phone_extension": "11",
 				"title": "John Doe",
 				"slug": "john-doe",

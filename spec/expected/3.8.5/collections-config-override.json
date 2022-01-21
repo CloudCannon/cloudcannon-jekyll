@@ -3,7 +3,7 @@
 	"version": "0.0.3",
 	"cloudcannon": {
 		"name": "cloudcannon-jekyll",
-		"version": "3.0.0"
+		"version": "*.*.*"
 	},
 	"generator": {
 		"name": "jekyll",
@@ -70,7 +70,6 @@
 				"tags": [
 
 				],
-				"excerpt": "<p>Jane is a character.</p>\n",
 				"path": "_staff_members/jane-doe.md",
 				"url": "/staff_members/jane-doe/",
 				"collection": "staff_members",
@@ -90,7 +89,6 @@
 				"tags": [
 
 				],
-				"excerpt": "<p>John is a character.</p>\n",
 				"path": "_staff_members/john-doe.md",
 				"url": "/staff_members/john-doe/",
 				"collection": "staff_members",

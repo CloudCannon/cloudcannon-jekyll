@@ -157,7 +157,7 @@ module CloudCannonJekyll
     def document_type(doc)
       if IS_JEKYLL_2_X_X && (doc.instance_of?(Jekyll::Post) || doc.instance_of?(Jekyll::Draft))
         :posts
-      elsif doc.respond_to? :type
+      elsif doc.respond_to?(:type)
         doc.type
       elsif doc.respond_to?(:collection)
         doc.collection.label.to_sym
@@ -188,11 +188,12 @@ module CloudCannonJekyll
       data = if legacy_doc?(doc)
                legacy_document_data(doc)
              elsif doc.respond_to?(:data)
-               doc.data
+               doc.data.dup
              else
                {}
              end
 
+      data.delete('excerpt')
       defaults = @site.frontmatter_defaults.all(doc.relative_path, document_type(doc))
       defaults.merge(data)
     end
