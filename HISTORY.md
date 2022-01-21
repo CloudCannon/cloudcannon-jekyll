@@ -1,3 +1,7 @@
+# 3.0.2
+
+* Remove excerpt from output
+
 # 3.0.1
 
 * Support aliases in YAML configuration files
