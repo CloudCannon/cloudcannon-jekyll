@@ -167,14 +167,12 @@ module CloudCannonJekyll
     end
 
     def legacy_document_data(doc)
-      data = doc.data.merge(
-        {
-          categories: doc.categories,
-          tags: doc.tags,
-          date: doc.date
-        }
-      )
+      legacy_data = {}
+      legacy_data['categories'] = doc.categories if doc.respond_to?(:categories)
+      legacy_data['tags'] = doc.tags if doc.respond_to?(:tags)
+      legacy_data['date'] = doc.date if doc.respond_to?(:date)
 
+      data = doc.data.merge(legacy_data)
       data['slug'] = doc.slug if doc.respond_to?(:slug)
       data
     end
