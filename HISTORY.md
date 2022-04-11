@@ -1,3 +1,8 @@
+# 3.1.0
+
+* Add options for ignoring and preventing parsing collections
+* Fix potential null reference
+
 # 3.0.2
 
 * Remove excerpt from output
