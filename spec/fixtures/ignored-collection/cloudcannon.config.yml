@@ -1,0 +1,67 @@
+data_config:
+  footer: true
+
+collections_config:
+  staff_members:
+    parser: false
+  posts: false
+
+paths:
+  uploads: uploads
+
+_select_data:
+  people:
+    - Jim
+    - Pam
+  greetings:
+    hello: Hello!
+    hi: Hi
+
+_editables:
+  content:
+    image: true
+    bold: true
+
+_inputs:
+  heading_image:
+    type: image
+    comment: This image should be related to the content
+  my_html:
+    type: html
+    options:
+      italic: true
+      bold: true
+      styles: "hello.css"
+
+editor:
+  default_path: basic
+
+collection_groups:
+  - heading: Blogging
+    collections:
+      - posts
+      - drafts
+  - heading: Other
+    collections:
+      - pages
+      - staff_members
+
+source_editor:
+  tab_size: 2
+  show_gutter: false
+  theme: dawn
+
+_structures:
+  gallery:
+    style: select
+    values:
+      - label: Image
+        image: /path/to/source-image.png
+        value:
+          image: /placeholder.png
+          caption:
+      - label: External link
+        icon: link
+        value:
+          url:
+          title:

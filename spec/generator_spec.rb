@@ -58,6 +58,15 @@ describe CloudCannonJekyll::Generator do
       end
     end
 
+    context 'for ignored collection' do
+      let(:fixture) { 'ignored-collection' }
+      let(:config_path) { source_dir('ignored-collection/cloudcannon.config.yml') }
+
+      it 'should generate info' do
+        check_fixture(fixture, expected_keys, info)
+      end
+    end
+
     context 'from site config' do
       let(:fixture) { 'site-config' }
 

@@ -24,7 +24,8 @@ module CloudCannonJekyll
 
     def generate_collections_config
       collections = @site.config['collections'] || {}
-      collections_config = @config['collections_config']&.dup || {}
+      input_collections_config = @config['collections_config'] || {}
+      collections_config = input_collections_config.reject { |_, v| v == false }
 
       return collections_config if @config['collections_config_override']
 
@@ -56,6 +57,8 @@ module CloudCannonJekyll
       collection_keys = (defaults.keys + collections.keys).uniq
 
       collection_keys.each do |key|
+        next if input_collections_config[key] == false
+
         processed = (defaults[key] || {})
                     .merge(collections[key] || {})
                     .merge(collections_config[key] || {})
@@ -71,6 +74,8 @@ module CloudCannonJekyll
       end
 
       @split_posts.each_key do |key|
+        next if input_collections_config[key] == false
+
         posts_path = @split_posts[key]&.first&.relative_path&.sub(%r{(^|/)_posts.*}, '\1_posts')
         next unless posts_path
 
@@ -84,6 +89,8 @@ module CloudCannonJekyll
       end
 
       @split_drafts.each_key do |key|
+        next if input_collections_config[key] == false
+
         drafts_path = @split_drafts[key]&.first&.relative_path&.sub(%r{(^|/)_drafts.*}, '\1_drafts')
         next unless drafts_path
 
@@ -112,6 +119,10 @@ module CloudCannonJekyll
 
       collections_config.each_key do |key|
         next if key == 'data'
+
+        collections[key] ||= []
+
+        next if collections_config.dig(key, 'parser') == false
 
         collections[key] = if key == 'posts' || key.end_with?('/posts')
                              @split_posts[key]
