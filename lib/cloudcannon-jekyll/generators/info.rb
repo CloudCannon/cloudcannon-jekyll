@@ -70,6 +70,8 @@ module CloudCannonJekyll
       {
         static: '',
         uploads: @config.dig('paths', 'uploads') || 'uploads',
+        dam_uploads: @config.dig('paths', 'dam_uploads') || '',
+        dam_static: @config.dig('paths', 'dam_static') || '',
         data: @data_dir,
         collections: @collections_dir,
         layouts: @site_config['layouts_dir'] || '_layouts'
