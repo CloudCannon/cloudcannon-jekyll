@@ -1,3 +1,7 @@
+# 3.2.0
+
+* Add dam_uploads and dam_static to paths
+
 # 3.1.0
 
 * Add options for ignoring and preventing parsing collections

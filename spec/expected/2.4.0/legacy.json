@@ -31,6 +31,8 @@
 		}
 	},
 	"paths": {
+		"dam_static": "",
+		"dam_uploads": "",
 		"static": "",
 		"uploads": "uploads",
 		"data": "_data",
