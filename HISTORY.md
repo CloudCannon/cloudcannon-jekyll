@@ -1,3 +1,11 @@
+# 3.2.2
+
+* Pass through any keys in the global configuration file
+
+# 3.2.1
+
+* No changes
+
 # 3.2.0
 
 * Add dam_uploads and dam_static to paths

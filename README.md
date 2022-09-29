@@ -156,8 +156,9 @@ reads and processes the following from Jekyll if unset:
 
 1. Increase the version in `lib/cloudcannon-jekyll/version.rb`
 2. Update `HISTORY.md`
-3. Run `./script/release`
-3. [Create a release on GitHub](https://github.com/CloudCannon/cloudcannon-jekyll/releases/new)
+3. Commit and push those changes
+4. Run `./script/release`
+5. [Create a release on GitHub](https://github.com/CloudCannon/cloudcannon-jekyll/releases/new)
 
 ### Testing
 
