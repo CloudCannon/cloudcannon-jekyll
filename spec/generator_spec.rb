@@ -34,15 +34,14 @@ describe CloudCannonJekyll::Generator do
   end
 
   context 'with configuration' do
-    let(:expected_keys) do
-      %w[time version cloudcannon generator paths collections_config collection_groups collections
-         data source timezone base_url _inputs _editables _select_data _structures
-         editor source_editor defaults]
-    end
-
     context 'from json config file' do
       let(:fixture) { 'json-config' }
       let(:config_path) { source_dir('json-config/cloudcannon.config.json') }
+      let(:expected_keys) do
+        %w[time version cloudcannon generator paths collections_config collection_groups collections
+           data source timezone base_url _inputs _editables _select_data _structures
+           editor source_editor defaults data_config]
+      end
 
       it 'should generate info' do
         check_fixture(fixture, expected_keys, info)
@@ -52,6 +51,11 @@ describe CloudCannonJekyll::Generator do
     context 'from yaml config file' do
       let(:fixture) { 'yaml-config' }
       let(:config_path) { source_dir('yaml-config/cloudcannon.config.yml') }
+      let(:expected_keys) do
+        %w[time version cloudcannon generator paths collections_config collection_groups collections
+           data source timezone base_url _inputs _editables _select_data _structures
+           editor source_editor defaults data_config _snippets]
+      end
 
       it 'should generate info' do
         check_fixture(fixture, expected_keys, info)
@@ -61,6 +65,11 @@ describe CloudCannonJekyll::Generator do
     context 'for ignored collection' do
       let(:fixture) { 'ignored-collection' }
       let(:config_path) { source_dir('ignored-collection/cloudcannon.config.yml') }
+      let(:expected_keys) do
+        %w[time version cloudcannon generator paths collections_config collection_groups collections
+           data source timezone base_url _inputs _editables _select_data _structures
+           editor source_editor defaults data_config]
+      end
 
       it 'should generate info' do
         check_fixture(fixture, expected_keys, info)
@@ -69,6 +78,11 @@ describe CloudCannonJekyll::Generator do
 
     context 'from site config' do
       let(:fixture) { 'site-config' }
+      let(:expected_keys) do
+        %w[time version cloudcannon generator paths collections_config collection_groups collections
+           data source timezone base_url _inputs _editables _select_data _structures
+           editor source_editor defaults data_config]
+      end
 
       it 'should generate info' do
         check_fixture(fixture, expected_keys, info)
@@ -90,6 +104,11 @@ describe CloudCannonJekyll::Generator do
     context 'containing collections_config_override' do
       let(:fixture) { 'collections-config-override' }
       let(:config_path) { source_dir('collections-config-override/cloudcannon.config.yml') }
+      let(:expected_keys) do
+        %w[time version cloudcannon generator paths collections_config collection_groups collections
+           data source timezone base_url _inputs _editables _select_data _structures
+           editor source_editor defaults collections_config_override data_config]
+      end
 
       it 'should generate info' do
         check_fixture(fixture, expected_keys, info)
@@ -106,6 +125,11 @@ describe CloudCannonJekyll::Generator do
 
     context 'base' do
       let(:fixture) { 'legacy' }
+      let(:expected_keys) do
+        %w[time version cloudcannon generator paths collections_config
+           collection_groups collections data source timezone base_url _select_data
+           editor source_editor _array_structures _comments _options defaults data_config]
+      end
 
       it 'should generate info' do
         check_fixture(fixture, expected_keys, info)

@@ -106,6 +106,10 @@
 	},
 	"source": "/spec/fixtures/collections-config-override",
 	"timezone": "Etc/UTC",
+	"data_config": {
+		"footer": true
+	},
+	"collections_config_override": true,
 	"base_url": "",
 	"_inputs": {
 		"heading_image": {

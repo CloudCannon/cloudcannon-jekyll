@@ -65,3 +65,8 @@ _structures:
         value:
           url:
           title:
+
+_snippets:
+  jekyll_include:
+    preview:
+      text: Partial

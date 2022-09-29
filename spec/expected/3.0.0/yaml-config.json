@@ -339,6 +339,16 @@
 	},
 	"source": "/spec/fixtures/yaml-config",
 	"timezone": "Etc/UTC",
+	"_snippets": {
+		"jekyll_include": {
+			"preview": {
+				"text": "Partial"
+			}
+		}
+	},
+	"data_config": {
+		"footer": true
+	},
 	"base_url": "",
 	"_inputs": {
 		"heading_image": {

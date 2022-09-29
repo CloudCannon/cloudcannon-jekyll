@@ -259,6 +259,9 @@
 	},
 	"source": "/spec/fixtures/ignored-collection",
 	"timezone": "Etc/UTC",
+	"data_config": {
+		"footer": true
+	},
 	"base_url": "",
 	"_inputs": {
 		"heading_image": {

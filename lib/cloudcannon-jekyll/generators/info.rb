@@ -22,36 +22,25 @@ module CloudCannonJekyll
       collections = collections_generator.generate_collections(collections_config)
       collections_generator.remove_empty_collection_config(collections_config, collections)
 
-      {
+      base = @config || {}
+
+      generated = {
         time: site.time.iso8601,
         version: '0.0.3',
         cloudcannon: generate_cloudcannon,
         generator: generate_generator,
         paths: generate_paths,
         collections_config: collections_config,
-        collection_groups: @config['collection_groups'],
         collections: collections,
         data: generate_data,
         source: @config['source'] || '',
-        timezone: @config['timezone'],
         base_url: @config['base_url'] || '',
-        editor: @config['editor'],
-        source_editor: @config['source_editor'],
-        _inputs: @config['_inputs'],
-        _editables: @config['_editables'],
-        _select_data: @config['_select_data'],
-        _structures: @config['_structures'],
-
-        # Deprecated
-        _array_structures: @config['_array_structures'],
-        _comments: @config['_comments'],
-        _enabled_editors: @config['_enabled_editors'],
-        _instance_values: @config['_instance_values'],
-        _options: @config['_options'],
 
         # Jekyll-only
         defaults: @site_config['defaults']
-      }.compact
+      }
+
+      base.merge(generated).compact
     end
 
     def generate_data

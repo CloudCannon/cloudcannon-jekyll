@@ -562,6 +562,7 @@
 	},
 	"source": "/spec/fixtures/legacy",
 	"timezone": "Etc/UTC",
+	"data_config": true,
 	"base_url": "basic",
 	"_select_data": {
 		"categories": [
