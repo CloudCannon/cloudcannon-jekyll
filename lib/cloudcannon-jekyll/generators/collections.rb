@@ -20,6 +20,7 @@ module CloudCannonJekyll
       @data_dir = Paths.data_dir(site)
       @split_posts = group_by_category_folder(all_posts, 'posts')
       @split_drafts = group_by_category_folder(all_drafts, 'drafts')
+      @uses_jekyll_paginate_v2 = defined?(Jekyll::PaginateV2::Generator::PaginationPage) == 'constant'
     end
 
     def generate_collections_config
@@ -214,6 +215,9 @@ module CloudCannonJekyll
     def document_path(doc)
       path = if doc.respond_to?(:collection) && doc.collection
                File.join(@collections_dir, doc.relative_path)
+             elsif @uses_jekyll_paginate_v2 && doc.is_a?(Jekyll::PaginateV2::Generator::PaginationPage)
+               parts = doc.relative_path.split(File::SEPARATOR).drop(1)
+               File.join('/', *parts)
              else
                doc.relative_path
              end
