@@ -1,3 +1,7 @@
+# 3.2.3
+
+* Fixed malformed paths on index pages caused by jekyll-paginate-v2
+
 # 3.2.2
 
 * Pass through any keys in the global configuration file
