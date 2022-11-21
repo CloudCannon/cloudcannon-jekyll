@@ -1,3 +1,7 @@
+# 3.2.4
+
+* Revert changes to Jekyll Paginate behaviour
+
 # 3.2.3
 
 * Fixed malformed paths on index pages caused by jekyll-paginate-v2
