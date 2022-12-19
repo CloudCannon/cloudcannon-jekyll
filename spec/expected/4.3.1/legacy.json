@@ -7,7 +7,7 @@
 	},
 	"generator": {
 		"name": "jekyll",
-		"version": "4.2.1",
+		"version": "4.3.1",
 		"environment": "development",
 		"metadata": {
 			"markdown": "kramdown",

@@ -1,0 +1,12 @@
+---
+title: Blog
+call_to_action: Contact
+---
+
+<p>Here's a blog. <a href="{{ site.baseurl }}/feed.xml">Subscribe with RSS</a>.</p>
+
+<ol>
+	{% for post in site.posts %}
+		<li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+	{% endfor %}
+</ol>

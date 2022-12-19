@@ -8,5 +8,9 @@ module CloudCannonJekyll
     def self.info(str)
       Jekyll.logger.info('CloudCannon:', str)
     end
+
+    def self.warn(str)
+      Jekyll.logger.warn('CloudCannon:', str)
+    end
   end
 end

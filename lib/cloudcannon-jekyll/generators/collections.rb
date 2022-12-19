@@ -24,8 +24,7 @@ module CloudCannonJekyll
 
     def generate_collections_config
       collections = @site.config['collections'] || {}
-      input_collections_config = @config['collections_config'] || {}
-      collections_config = input_collections_config.reject { |_, v| v == false }
+      collections_config = @config['collections_config'] || {}
 
       return collections_config if @config['collections_config_override']
 
@@ -54,11 +53,9 @@ module CloudCannonJekyll
         }
       end
 
-      collection_keys = (defaults.keys + collections.keys).uniq
+      collection_keys = (collections_config.keys + defaults.keys + collections.keys).uniq
 
       collection_keys.each do |key|
-        next if input_collections_config[key] == false
-
         processed = (defaults[key] || {})
                     .merge(collections[key] || {})
                     .merge(collections_config[key] || {})
@@ -74,8 +71,6 @@ module CloudCannonJekyll
       end
 
       @split_posts.each_key do |key|
-        next if input_collections_config[key] == false
-
         posts_path = @split_posts[key]&.first&.relative_path&.sub(%r{(^|/)_posts.*}, '\1_posts')
         next unless posts_path
 
@@ -89,8 +84,6 @@ module CloudCannonJekyll
       end
 
       @split_drafts.each_key do |key|
-        next if input_collections_config[key] == false
-
         drafts_path = @split_drafts[key]&.first&.relative_path&.sub(%r{(^|/)_drafts.*}, '\1_drafts')
         next unless drafts_path
 
@@ -114,33 +107,53 @@ module CloudCannonJekyll
       paths.empty? ? [File.join('/', @collections_dir, '_drafts')] : paths
     end
 
+    def each_document(&block)
+      @site.pages.each(&block)
+      @site.static_files.each(&block)
+      @site.collections.each_value { |coll| coll.docs.each(&block) }
+      all_drafts.each(&block)
+
+      # Jekyll 2.x.x doesn't have posts in site.collections
+      all_posts.each(&block) if IS_JEKYLL_2_X_X
+    end
+
     def generate_collections(collections_config)
+      assigned_pages = {}
       collections = {}
+
+      path_map = collections_config_path_map(collections_config)
+
+      each_document do |doc|
+        next unless allowed_document?(doc)
+
+        key = document_collection_key(doc, path_map)
+
+        unless key
+          Logger.warn "⚠️ No collection for #{doc.relative_path.bold}"
+          next
+        end
+
+        if collections_config.dig(key, 'parser') == false
+          Logger.warn "⚠️ Ignoring #{doc.relative_path.bold} in #{key.bold} collection"
+          next
+        end
+
+        collections[key] ||= []
+        collections[key].push(document_to_json(doc, key))
+
+        assigned_pages[doc.relative_path] = true if doc.instance_of?(Jekyll::Page)
+      end
 
       collections_config.each_key do |key|
         next if key == 'data'
 
         collections[key] ||= []
-
-        next if collections_config.dig(key, 'parser') == false
-
-        collections[key] = if key == 'posts' || key.end_with?('/posts')
-                             @split_posts[key]
-                           elsif key == 'drafts' || key.end_with?('/drafts')
-                             @split_drafts[key]
-                           else
-                             @site.collections[key]&.docs
-                           end
-
-        collections[key] ||= []
-        collections[key] = collections[key].map do |doc|
-          document_to_json(doc, key)
-        end
       end
 
       if collections.key?('pages') && collections['pages'].empty?
-        collections['pages'] = all_pages.map do |doc|
-          document_to_json(doc, 'pages')
+        all_pages.each do |page|
+          assigned = assigned_pages[page.relative_path]
+          collections['pages'].push(document_to_json(page, 'pages')) unless assigned
         end
       end
 
@@ -152,7 +165,7 @@ module CloudCannonJekyll
         should_delete = if key == 'data'
                           !data_files?
                         else
-                          collections[key].empty? && collection_config['auto_discovered']
+                          collections[key]&.empty? && collection_config['auto_discovered']
                         end
 
         if should_delete
@@ -175,6 +188,27 @@ module CloudCannonJekyll
       elsif doc.instance_of?(Jekyll::Page)
         :pages
       end
+    end
+
+    def collections_config_path_map(collections_config)
+      unsorted = collections_config.map do |key, collection_config|
+        {
+          key: key,
+          path: "/#{collection_config['path']}/".sub(%r{/+}, '/')
+        }
+      end
+
+      unsorted.sort_by { |pair| pair[:path].length }.reverse
+    end
+
+    def document_collection_key(doc, path_map)
+      path = "/#{File.join(@collections_dir, doc.relative_path)}/".sub(%r{/+}, '/')
+
+      collection_path_pair = path_map.find do |pair|
+        path.start_with? pair[:path]
+      end
+
+      collection_path_pair[:key] if collection_path_pair
     end
 
     def legacy_document_data(doc)
@@ -247,15 +281,27 @@ module CloudCannonJekyll
     end
 
     def all_pages
-      html_pages = @site.pages.select do |page|
-        page.html? || page.url.end_with?('/')
-      end
+      pages = @site.pages.select { |doc| allowed_page?(doc) }
+      static_pages = @site.static_files.select { |doc| allowed_static_file?(doc) }
+      pages + static_pages
+    end
 
-      static_pages = @site.static_files.select do |static_page|
-        STATIC_EXTENSIONS.include?(static_page.extname)
+    def allowed_document?(doc)
+      if doc.instance_of?(Jekyll::Page)
+        allowed_page?(doc)
+      elsif doc.instance_of?(Jekyll::StaticFile)
+        allowed_static_file?(doc)
+      else
+        true
       end
+    end
 
-      html_pages + static_pages
+    def allowed_page?(page)
+      page.html? || page.url.end_with?('/')
+    end
+
+    def allowed_static_file?(static_file)
+      STATIC_EXTENSIONS.include?(static_file.extname)
     end
 
     def data_files?

@@ -62,6 +62,20 @@ describe CloudCannonJekyll::Generator do
       end
     end
 
+    context 'for path-based collections' do
+      let(:fixture) { 'path-based-collections' }
+      let(:config_path) { source_dir('path-based-collections/cloudcannon.config.yml') }
+      let(:expected_keys) do
+        %w[time version cloudcannon generator paths collections_config collection_groups collections
+           data source timezone base_url _inputs _editables _select_data _structures
+           editor source_editor defaults data_config _snippets]
+      end
+
+      it 'should generate info' do
+        check_fixture(fixture, expected_keys, info)
+      end
+    end
+
     context 'for ignored collection' do
       let(:fixture) { 'ignored-collection' }
       let(:config_path) { source_dir('ignored-collection/cloudcannon.config.yml') }

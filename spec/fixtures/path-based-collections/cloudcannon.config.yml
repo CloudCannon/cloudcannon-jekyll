@@ -2,8 +2,12 @@ data_config:
   footer: true
 
 collections_config:
+  more_pages:
+    path: more-pages
+    output: true
   staff_members:
-    parser: false
+    sort_key: name
+    singular_name: staff_member
 
 paths:
   uploads: uploads
@@ -64,3 +68,8 @@ _structures:
         value:
           url:
           title:
+
+_snippets:
+  jekyll_include:
+    preview:
+      text: Partial

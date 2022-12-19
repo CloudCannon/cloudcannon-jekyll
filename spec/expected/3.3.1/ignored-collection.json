@@ -50,21 +50,6 @@
 			"auto_discovered": true,
 			"path": "_data",
 			"output": false
-		},
-		"drafts": {
-			"auto_discovered": true,
-			"path": "_drafts",
-			"output": false
-		},
-		"other/posts": {
-			"auto_discovered": true,
-			"path": "other/_posts",
-			"output": true
-		},
-		"other/drafts": {
-			"auto_discovered": true,
-			"path": "other/_drafts",
-			"output": false
 		}
 	},
 	"collection_groups": [
@@ -84,6 +69,8 @@
 		}
 	],
 	"collections": {
+		"posts": [],
+		"drafts": [],
 		"staff_members": [],
 		"pages": [
 			{
@@ -165,74 +152,6 @@
 				"url": "/static-page.html",
 				"collection": "pages"
 			}
-		],
-		"drafts": [
-			{
-				"layout": "post",
-				"draft": true,
-				"categories": [
-					"Business"
-				],
-				"title": "WIP",
-				"date": "2016-08-10 00:00:00 +0000",
-				"author_staff_member": "jane-doe",
-				"image": null,
-				"slug": "incomplete",
-				"ext": ".md",
-				"tags": [
-
-				],
-				"path": "_drafts/incomplete.md",
-				"url": "/business/2016/08/10/incomplete/",
-				"collection": "drafts",
-				"id": "/business/2016/08/10/incomplete"
-			}
-		],
-		"other/posts": [
-			{
-				"layout": "post",
-				"draft": false,
-				"categories": [
-					"other",
-					"Stuff"
-				],
-				"title": "Category test",
-				"author": "/staff-members/jane-doe",
-				"image": null,
-				"large_header": false,
-				"date": "2020-08-10 00:00:00 +0000",
-				"slug": "category-test",
-				"ext": ".md",
-				"tags": [
-
-				],
-				"path": "other/_posts/2020-08-10-category-test.md",
-				"url": "/other/stuff/2020/08/10/category-test/",
-				"collection": "other/posts",
-				"id": "/other/stuff/2020/08/10/category-test"
-			}
-		],
-		"other/drafts": [
-			{
-				"layout": "post",
-				"draft": true,
-				"categories": [
-					"other"
-				],
-				"title": "Other WIP",
-				"author": "/staff-members/jane-doe",
-				"image": "/uploads/example-upload.png",
-				"slug": "wip",
-				"ext": ".md",
-				"tags": [
-
-				],
-				"date": "2024-01-01 00:00:00 +1300",
-				"path": "other/_drafts/wip.md",
-				"url": "/other/2024/01/01/wip/",
-				"collection": "other/drafts",
-				"id": "/other/2024/01/01/wip"
-			}
 		]
 	},
 	"data": {
@@ -251,10 +170,7 @@
 				"title": "Links"
 			}
 		],
-		"categories": [
-			"Stuff",
-			"other"
-		],
+		"categories": [],
 		"tags": []
 	},
 	"source": "/spec/fixtures/ignored-collection",

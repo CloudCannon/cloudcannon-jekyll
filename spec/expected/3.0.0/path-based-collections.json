@@ -7,27 +7,25 @@
 	},
 	"generator": {
 		"name": "jekyll",
-		"version": "4.2.1",
+		"version": "3.0.0",
 		"environment": "development",
 		"metadata": {
 			"markdown": "kramdown",
 			"kramdown": {
 				"auto_ids": true,
-				"toc_levels": [
-					1,
-					2,
-					3,
-					4,
-					5,
-					6
-				],
+				"coderay": {
+					"coderay_bold_every": 10,
+					"coderay_css": "style",
+					"coderay_line_number_start": 1,
+					"coderay_line_numbers": "inline",
+					"coderay_tab_width": 4,
+					"coderay_wrap": "div"
+				},
 				"entity_output": "as_char",
-				"smart_quotes": "lsquo,rsquo,ldquo,rdquo",
-				"input": "GFM",
-				"hard_wrap": false,
-				"guess_lang": true,
 				"footnote_nr": 1,
-				"show_warnings": false
+				"smart_quotes": "lsquo,rsquo,ldquo,rdquo",
+				"toc_levels": "1..6",
+				"enable_coderay": false
 			},
 			"commonmark": null
 		}
@@ -52,8 +50,8 @@
 		},
 		"posts": {
 			"output": true,
-			"permalink": "/:categories/:year/:month/:day/:title/",
 			"auto_discovered": true,
+			"permalink": "/:categories/:year/:month/:day/:title/",
 			"path": "_posts"
 		},
 		"pages": {
@@ -61,6 +59,11 @@
 			"path": "",
 			"output": true,
 			"filter": "strict"
+		},
+		"more_pages": {
+			"auto_discovered": false,
+			"path": "more-pages",
+			"output": true
 		},
 		"data": {
 			"auto_discovered": true,
@@ -70,16 +73,6 @@
 		"drafts": {
 			"auto_discovered": true,
 			"path": "_drafts",
-			"output": false
-		},
-		"other/posts": {
-			"auto_discovered": true,
-			"path": "other/_posts",
-			"output": true
-		},
-		"other/drafts": {
-			"auto_discovered": true,
-			"path": "other/_drafts",
 			"output": false
 		}
 	},
@@ -103,15 +96,12 @@
 		"staff_members": [
 			{
 				"layout": "default",
-				"draft": false,
 				"categories": [
 
 				],
 				"name": "Jane Doe",
 				"credentials": "LLB",
-				"title": "Jane Doe",
-				"slug": "jane-doe",
-				"ext": ".md",
+				"date": "2024-01-01 00:00:00 +1300",
 				"tags": [
 
 				],
@@ -122,15 +112,12 @@
 			},
 			{
 				"layout": "default",
-				"draft": false,
 				"categories": [
 
 				],
 				"name": "John Doe",
 				"credentials": "LLB",
-				"title": "John Doe",
-				"slug": "john-doe",
-				"ext": ".md",
+				"date": "2024-01-01 00:00:00 +1300",
 				"tags": [
 
 				],
@@ -143,7 +130,6 @@
 		"posts": [
 			{
 				"layout": "post",
-				"draft": false,
 				"categories": [
 					"Stuff"
 				],
@@ -151,8 +137,8 @@
 				"date": "2016-08-10 00:00:00 +0000",
 				"author": "/staff-members/jane-doe",
 				"image": null,
-				"slug": "awesome-things",
 				"ext": ".md",
+				"slug": "awesome-things",
 				"tags": [
 
 				],
@@ -163,7 +149,6 @@
 			},
 			{
 				"layout": "post",
-				"draft": false,
 				"categories": [
 					"Stuff"
 				],
@@ -171,8 +156,8 @@
 				"date": "2016-11-11 00:00:00 +0000",
 				"author": "/staff-members/john-doe",
 				"image": "/images/example.png",
-				"slug": "good-stuff",
 				"ext": ".md",
+				"slug": "good-stuff",
 				"tags": [
 
 				],
@@ -180,6 +165,16 @@
 				"url": "/stuff/2016/11/11/good-stuff/",
 				"collection": "posts",
 				"id": "/stuff/2016/11/11/good-stuff"
+			}
+		],
+		"more_pages": [
+			{
+				"layout": "default",
+				"title": "Another Page",
+				"call_to_action": "Contact",
+				"path": "more-pages/another-page.html",
+				"url": "/more-pages/another-page/",
+				"collection": "more_pages"
 			}
 		],
 		"pages": [
@@ -266,7 +261,6 @@
 		"drafts": [
 			{
 				"layout": "post",
-				"draft": true,
 				"categories": [
 					"Business"
 				],
@@ -274,8 +268,6 @@
 				"date": "2016-08-10 00:00:00 +0000",
 				"author_staff_member": "jane-doe",
 				"image": null,
-				"slug": "incomplete",
-				"ext": ".md",
 				"tags": [
 
 				],
@@ -283,52 +275,6 @@
 				"url": "/business/2016/08/10/incomplete/",
 				"collection": "drafts",
 				"id": "/business/2016/08/10/incomplete"
-			}
-		],
-		"other/posts": [
-			{
-				"layout": "post",
-				"draft": false,
-				"categories": [
-					"other",
-					"Stuff"
-				],
-				"title": "Category test",
-				"author": "/staff-members/jane-doe",
-				"image": null,
-				"large_header": false,
-				"date": "2020-08-10 00:00:00 +0000",
-				"slug": "category-test",
-				"ext": ".md",
-				"tags": [
-
-				],
-				"path": "other/_posts/2020-08-10-category-test.md",
-				"url": "/other/stuff/2020/08/10/category-test/",
-				"collection": "other/posts",
-				"id": "/other/stuff/2020/08/10/category-test"
-			}
-		],
-		"other/drafts": [
-			{
-				"layout": "post",
-				"draft": true,
-				"categories": [
-					"other"
-				],
-				"title": "Other WIP",
-				"author": "/staff-members/jane-doe",
-				"image": "/uploads/example-upload.png",
-				"slug": "wip",
-				"ext": ".md",
-				"tags": [
-
-				],
-				"date": "2024-01-01 00:00:00 +1300",
-				"path": "other/_drafts/wip.md",
-				"url": "/other/2024/01/01/wip/",
-				"collection": "other/drafts",
-				"id": "/other/2024/01/01/wip"
 			}
 		]
 	},
@@ -349,13 +295,19 @@
 			}
 		],
 		"categories": [
-			"Stuff",
-			"other"
+			"Stuff"
 		],
 		"tags": []
 	},
-	"source": "/spec/fixtures/site-config",
+	"source": "/spec/fixtures/path-based-collections",
 	"timezone": "Etc/UTC",
+	"_snippets": {
+		"jekyll_include": {
+			"preview": {
+				"text": "Partial"
+			}
+		}
+	},
 	"data_config": {
 		"footer": true
 	},

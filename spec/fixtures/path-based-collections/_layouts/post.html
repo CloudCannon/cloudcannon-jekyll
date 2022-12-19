@@ -1,0 +1,11 @@
+---
+layout: page
+---
+
+<ul>
+	<li>Date: {{ page.date | date: '%B %d, %Y' }}</li>
+	<li>Author: {{ page.author }}</li>
+	<li>Categories: {{ page.categories | join: ', ' }}</li>
+</ul>
+
+{{ content }}

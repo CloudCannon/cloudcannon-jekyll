@@ -7,27 +7,25 @@
 	},
 	"generator": {
 		"name": "jekyll",
-		"version": "4.2.1",
+		"version": "2.4.0",
 		"environment": "development",
 		"metadata": {
 			"markdown": "kramdown",
 			"kramdown": {
 				"auto_ids": true,
-				"toc_levels": [
-					1,
-					2,
-					3,
-					4,
-					5,
-					6
-				],
+				"coderay": {
+					"coderay_bold_every": 10,
+					"coderay_css": "style",
+					"coderay_line_number_start": 1,
+					"coderay_line_numbers": "inline",
+					"coderay_tab_width": 4,
+					"coderay_wrap": "div"
+				},
 				"entity_output": "as_char",
-				"smart_quotes": "lsquo,rsquo,ldquo,rdquo",
-				"input": "GFM",
-				"hard_wrap": false,
-				"guess_lang": true,
 				"footnote_nr": 1,
-				"show_warnings": false
+				"smart_quotes": "lsquo,rsquo,ldquo,rdquo",
+				"toc_levels": "1..6",
+				"use_coderay": false
 			},
 			"commonmark": null
 		}
@@ -44,12 +42,14 @@
 	"collections_config": {
 		"staff_members": {
 			"output": false,
-			"auto_discovered": true,
+			"custom": "indeed",
+			"sort_key": "name",
+			"singular_name": "staff_member",
+			"auto_discovered": false,
 			"path": "_staff_members"
 		},
 		"posts": {
 			"output": true,
-			"permalink": "/:categories/:year/:month/:day/:title/",
 			"auto_discovered": true,
 			"path": "_posts"
 		},
@@ -58,6 +58,11 @@
 			"path": "",
 			"output": true,
 			"filter": "strict"
+		},
+		"more_pages": {
+			"auto_discovered": false,
+			"path": "more-pages",
+			"output": true
 		},
 		"data": {
 			"auto_discovered": true,
@@ -68,72 +73,54 @@
 			"auto_discovered": true,
 			"path": "_drafts",
 			"output": false
-		},
-		"other/posts": {
-			"auto_discovered": true,
-			"path": "other/_posts",
-			"output": true
-		},
-		"other/drafts": {
-			"auto_discovered": true,
-			"path": "other/_drafts",
-			"output": false
 		}
 	},
+	"collection_groups": [
+		{
+			"heading": "Blogging",
+			"collections": [
+				"posts",
+				"drafts"
+			]
+		},
+		{
+			"heading": "Other",
+			"collections": [
+				"pages",
+				"staff_members"
+			]
+		}
+	],
 	"collections": {
 		"staff_members": [
 			{
 				"layout": "default",
-				"draft": false,
-				"categories": [
-
-				],
 				"name": "Jane Doe",
 				"credentials": "LLB",
-				"title": "Jane Doe",
-				"slug": "jane-doe",
-				"ext": ".md",
-				"tags": [
-
-				],
 				"path": "_staff_members/jane-doe.md",
-				"url": "/staff_members/jane-doe/",
-				"collection": "staff_members",
-				"id": "/staff_members/jane-doe"
+				"url": "/staff_members/jane-doe.html",
+				"collection": "staff_members"
 			},
 			{
 				"layout": "default",
-				"draft": false,
-				"categories": [
-
-				],
 				"name": "John Doe",
 				"credentials": "LLB",
-				"title": "John Doe",
-				"slug": "john-doe",
-				"ext": ".md",
-				"tags": [
-
-				],
 				"path": "_staff_members/john-doe.md",
-				"url": "/staff_members/john-doe/",
-				"collection": "staff_members",
-				"id": "/staff_members/john-doe"
+				"url": "/staff_members/john-doe.html",
+				"collection": "staff_members"
 			}
 		],
 		"posts": [
 			{
 				"layout": "post",
-				"draft": false,
 				"categories": [
-					"Stuff"
+					"stuff"
 				],
 				"title": "Awesome things",
 				"date": "2016-08-10 00:00:00 +0000",
 				"author": "/staff-members/jane-doe",
 				"image": null,
 				"slug": "awesome-things",
-				"ext": ".md",
 				"tags": [
 
 				],
@@ -144,16 +131,14 @@
 			},
 			{
 				"layout": "post",
-				"draft": false,
 				"categories": [
-					"Stuff"
+					"stuff"
 				],
 				"title": "Good stuff",
 				"date": "2016-11-11 00:00:00 +0000",
 				"author": "/staff-members/john-doe",
 				"image": "/images/example.png",
 				"slug": "good-stuff",
-				"ext": ".md",
 				"tags": [
 
 				],
@@ -161,6 +146,16 @@
 				"url": "/stuff/2016/11/11/good-stuff/",
 				"collection": "posts",
 				"id": "/stuff/2016/11/11/good-stuff"
+			}
+		],
+		"more_pages": [
+			{
+				"layout": "default",
+				"title": "Another Page",
+				"call_to_action": "Contact",
+				"path": "more-pages/another-page.html",
+				"url": "/more-pages/another-page/",
+				"collection": "more_pages"
 			}
 		],
 		"pages": [
@@ -247,16 +242,14 @@
 		"drafts": [
 			{
 				"layout": "post",
-				"draft": true,
 				"categories": [
-					"Business"
+					"business"
 				],
 				"title": "WIP",
 				"date": "2016-08-10 00:00:00 +0000",
 				"author_staff_member": "jane-doe",
 				"image": null,
 				"slug": "incomplete",
-				"ext": ".md",
 				"tags": [
 
 				],
@@ -265,64 +258,103 @@
 				"collection": "drafts",
 				"id": "/business/2016/08/10/incomplete"
 			}
-		],
-		"other/posts": [
-			{
-				"layout": "post",
-				"draft": false,
-				"categories": [
-					"other",
-					"Stuff"
-				],
-				"title": "Category test",
-				"author": "/staff-members/jane-doe",
-				"image": null,
-				"large_header": false,
-				"date": "2020-08-10 00:00:00 +0000",
-				"slug": "category-test",
-				"ext": ".md",
-				"tags": [
-
-				],
-				"path": "other/_posts/2020-08-10-category-test.md",
-				"url": "/other/stuff/2020/08/10/category-test/",
-				"collection": "other/posts",
-				"id": "/other/stuff/2020/08/10/category-test"
-			}
-		],
-		"other/drafts": [
-			{
-				"layout": "post",
-				"draft": true,
-				"categories": [
-					"other"
-				],
-				"title": "Other WIP",
-				"author": "/staff-members/jane-doe",
-				"image": "/uploads/example-upload.png",
-				"slug": "wip",
-				"ext": ".md",
-				"tags": [
-
-				],
-				"date": "2024-01-01 00:00:00 +1300",
-				"path": "other/_drafts/wip.md",
-				"url": "/other/2024/01/01/wip/",
-				"collection": "other/drafts",
-				"id": "/other/2024/01/01/wip"
-			}
 		]
 	},
 	"data": {
+		"footer": [
+			{
+				"links": [
+					{
+						"link": "http://example.com",
+						"name": "Example"
+					},
+					{
+						"link": "http://example.com",
+						"name": "Another Example"
+					}
+				],
+				"title": "Links"
+			}
+		],
 		"categories": [
-			"Stuff",
-			"other"
+			"stuff"
 		],
 		"tags": []
 	},
-	"source": "/spec/fixtures/no-config",
+	"source": "/spec/fixtures/path-based-collections",
 	"timezone": "Etc/UTC",
+	"_snippets": {
+		"jekyll_include": {
+			"preview": {
+				"text": "Partial"
+			}
+		}
+	},
+	"data_config": {
+		"footer": true
+	},
 	"base_url": "",
+	"_inputs": {
+		"heading_image": {
+			"type": "image",
+			"comment": "This image should be related to the content"
+		},
+		"my_html": {
+			"type": "html",
+			"options": {
+				"italic": true,
+				"bold": true,
+				"styles": "hello.css"
+			}
+		}
+	},
+	"_editables": {
+		"content": {
+			"image": true,
+			"bold": true
+		}
+	},
+	"_select_data": {
+		"people": [
+			"Jim",
+			"Pam"
+		],
+		"greetings": {
+			"hello": "Hello!",
+			"hi": "Hi"
+		}
+	},
+	"_structures": {
+		"gallery": {
+			"style": "select",
+			"values": [
+				{
+					"label": "Image",
+					"image": "/path/to/source-image.png",
+					"value": {
+						"image": "/placeholder.png",
+						"caption": null
+					}
+				},
+				{
+					"label": "External link",
+					"icon": "link",
+					"value": {
+						"url": null,
+						"title": null
+					}
+				}
+			]
+		}
+	},
+	"editor": {
+		"default_path": "basic"
+	},
+	"source_editor": {
+		"tab_size": 2,
+		"show_gutter": false,
+		"theme": "dawn"
+	},
 	"defaults": [
 		{
 			"scope": {
