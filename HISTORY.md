@@ -1,3 +1,7 @@
+# 4.0.0
+
+* Assign files to collections based on paths rather than matching Jekyll collection
+
 # 3.2.4
 
 * Revert changes to Jekyll Paginate behaviour
