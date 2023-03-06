@@ -22,6 +22,16 @@ module CloudCannonJekyll
       @split_drafts = group_by_category_folder(all_drafts, 'drafts')
     end
 
+    def generate_collections_config_path(key)
+      if key.end_with?("/posts")
+        File.join(@collections_dir, key.sub(/\/posts$/, "/_posts"))
+      elsif key.end_with?("/drafts")
+        File.join(@collections_dir, key.sub(/\/drafts$/, "/_drafts"))
+      else
+        File.join(@collections_dir, "_#{key}")
+      end
+    end
+
     def generate_collections_config
       collections = @site.config['collections'] || {}
       collections_config = @config['collections_config'] || {}
@@ -62,7 +72,7 @@ module CloudCannonJekyll
 
         processed['output'] ||= false
         processed['auto_discovered'] = !collections_config.key?(key)
-        processed['path'] ||= File.join(@collections_dir, "_#{key}")
+        processed['path'] ||= generate_collections_config_path(key)
         processed['path'] = processed['path'].sub(%r{^/+}, '')
 
         Config.rename_legacy_collection_config_keys(processed)
