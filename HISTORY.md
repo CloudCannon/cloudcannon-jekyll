@@ -1,3 +1,7 @@
+# 4.0.1
+
+* Fix nested post and draft collection mapping
+
 # 4.0.0
 
 * Assign files to collections based on paths rather than matching Jekyll collection
