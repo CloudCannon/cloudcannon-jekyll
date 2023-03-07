@@ -1,3 +1,7 @@
+# 4.0.2
+
+* Prevent reading PageWithoutAFile documents
+
 # 4.0.1
 
 * Fix nested post and draft collection mapping
