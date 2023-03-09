@@ -1,3 +1,7 @@
+# 4.0.3
+
+* Print version when starting
+
 # 4.0.2
 
 * Prevent reading PageWithoutAFile documents
