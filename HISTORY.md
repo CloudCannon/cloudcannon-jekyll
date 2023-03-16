@@ -1,3 +1,7 @@
+# 4.0.4
+
+* Fix PageWithoutAFile check for Jekyll ~v3.6
+
 # 4.0.3
 
 * Print version when starting
