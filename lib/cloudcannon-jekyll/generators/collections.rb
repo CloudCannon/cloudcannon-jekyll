@@ -297,7 +297,7 @@ module CloudCannonJekyll
     end
 
     def allowed_document?(doc)
-      if !IS_JEKYLL_2_X_X && !IS_JEKYLL_3_04_X && doc.instance_of?(Jekyll::PageWithoutAFile)
+      if Jekyll.const_defined?(:PageWithoutAFile) && doc.instance_of?(Jekyll::PageWithoutAFile)
         false
       elsif doc.instance_of?(Jekyll::Page)
         allowed_page?(doc)
