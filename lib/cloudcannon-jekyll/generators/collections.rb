@@ -149,7 +149,15 @@ module CloudCannonJekyll
         end
 
         collections[key] ||= []
-        collections[key].push(document_to_json(doc, key))
+
+        begin
+          jsonified = document_to_json(doc, key)
+          JSON.generate(jsonified) # this is here to catch JSON errors per file
+          collections[key].push(jsonified)
+        rescue
+          Logger.warn "⚠️ Failed to parse #{doc.relative_path.bold}"
+        end
+
 
         assigned_pages[doc.relative_path] = true if doc.instance_of?(Jekyll::Page)
       end
