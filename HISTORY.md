@@ -1,3 +1,7 @@
+# 4.0.5
+
+* Fix builds breaking on one unparseable file
+
 # 4.0.4
 
 * Fix PageWithoutAFile check for Jekyll ~v3.6
