@@ -7,7 +7,7 @@
 	},
 	"generator": {
 		"name": "jekyll",
-		"version": "4.3.1",
+		"version": "4.3.2",
 		"environment": "development",
 		"metadata": {
 			"markdown": "kramdown",
@@ -43,9 +43,22 @@
 	},
 	"collections_config": {
 		"staff_members": {
-			"sort_key": "name",
-			"singular_name": "staff_member",
+			"output": false,
+			"custom": "indeed",
+			"auto_discovered": false,
+			"parser": false,
 			"path": "_staff_members"
+		},
+		"pages": {
+			"auto_discovered": true,
+			"path": "",
+			"output": true,
+			"filter": "strict"
+		},
+		"data": {
+			"auto_discovered": true,
+			"path": "_data",
+			"output": false
 		}
 	},
 	"collection_groups": [
@@ -65,44 +78,88 @@
 		}
 	],
 	"collections": {
-		"staff_members": [
+		"staff_members": [],
+		"posts": [],
+		"drafts": [],
+		"pages": [
 			{
 				"layout": "default",
-				"draft": false,
-				"categories": [
-
-				],
-				"name": "Jane Doe",
-				"credentials": "LLB",
-				"title": "Jane Doe",
-				"slug": "jane-doe",
-				"ext": ".md",
-				"tags": [
-
-				],
-				"path": "_staff_members/jane-doe.md",
-				"url": "/staff_members/jane-doe/",
-				"collection": "staff_members",
-				"id": "/staff_members/jane-doe"
+				"title": "Not Found",
+				"call_to_action": "Contact",
+				"permalink": "/404.html",
+				"sitemap": false,
+				"path": "404.html",
+				"url": "/404.html",
+				"collection": "pages"
 			},
 			{
 				"layout": "default",
-				"draft": false,
-				"categories": [
-
+				"title": "About",
+				"call_to_action": "Contact",
+				"path": "about.html",
+				"url": "/about/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"title": "Blog",
+				"call_to_action": "Contact",
+				"path": "blog.html",
+				"url": "/blog/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"title": "Contact Success",
+				"call_to_action": "Advice",
+				"sitemap": false,
+				"path": "contact-success.html",
+				"url": "/contact-success/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"title": "Contact",
+				"call_to_action": "Map",
+				"path": "contact.html",
+				"url": "/contact/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"title": "Content",
+				"call_to_action": "Contact",
+				"path": "content.md",
+				"url": "/content/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"title": null,
+				"call_to_action": "Contact",
+				"quotes": [
+					{
+						"text": "Hey there",
+						"name": "Bee"
+					},
+					{
+						"text": "Hi mate",
+						"name": "Sea"
+					},
+					{
+						"text": "Greetings to you",
+						"name": "Zed Zee"
+					}
 				],
-				"name": "John Doe",
-				"credentials": "LLB",
-				"title": "John Doe",
-				"slug": "john-doe",
-				"ext": ".md",
-				"tags": [
-
-				],
-				"path": "_staff_members/john-doe.md",
-				"url": "/staff_members/john-doe/",
-				"collection": "staff_members",
-				"id": "/staff_members/john-doe"
+				"path": "index.html",
+				"url": "/",
+				"collection": "pages"
+			},
+			{
+				"layout": "default",
+				"path": "static-page.html",
+				"url": "/static-page.html",
+				"collection": "pages"
 			}
 		]
 	},
@@ -122,18 +179,14 @@
 				"title": "Links"
 			}
 		],
-		"categories": [
-			"Stuff",
-			"other"
-		],
+		"categories": [],
 		"tags": []
 	},
-	"source": "/spec/fixtures/collections-config-override",
+	"source": "/spec/fixtures/ignored-collection",
 	"timezone": "Etc/UTC",
 	"data_config": {
 		"footer": true
 	},
-	"collections_config_override": true,
 	"base_url": "",
 	"_inputs": {
 		"heading_image": {
