@@ -5,7 +5,8 @@ collections_config:
   more_pages:
     path: more-pages
     output: true
-  staff_members:
+  staff:
+    path: _staff_members
     sort_key: name
     singular_name: staff_member
 
@@ -47,7 +48,7 @@ collection_groups:
   - heading: Other
     collections:
       - pages
-      - staff_members
+      - staff
 
 source_editor:
   tab_size: 2

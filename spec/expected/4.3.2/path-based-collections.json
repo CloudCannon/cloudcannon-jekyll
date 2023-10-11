@@ -7,7 +7,7 @@
 	},
 	"generator": {
 		"name": "jekyll",
-		"version": "4.3.1",
+		"version": "4.3.2",
 		"environment": "development",
 		"metadata": {
 			"markdown": "kramdown",
@@ -42,9 +42,8 @@
 		"layouts": "_layouts"
 	},
 	"collections_config": {
-		"staff_members": {
+		"staff": {
 			"output": false,
-			"custom": "indeed",
 			"sort_key": "name",
 			"singular_name": "staff_member",
 			"auto_discovered": false,
@@ -62,6 +61,11 @@
 			"output": true,
 			"filter": "strict"
 		},
+		"more_pages": {
+			"auto_discovered": false,
+			"path": "more-pages",
+			"output": true
+		},
 		"data": {
 			"auto_discovered": true,
 			"path": "_data",
@@ -70,16 +74,6 @@
 		"drafts": {
 			"auto_discovered": true,
 			"path": "_drafts",
-			"output": false
-		},
-		"other/posts": {
-			"auto_discovered": true,
-			"path": "other/_posts",
-			"output": true
-		},
-		"other/drafts": {
-			"auto_discovered": true,
-			"path": "other/_drafts",
 			"output": false
 		}
 	},
@@ -95,12 +89,12 @@
 			"heading": "Other",
 			"collections": [
 				"pages",
-				"staff_members"
+				"staff"
 			]
 		}
 	],
 	"collections": {
-		"staff_members": [
+		"staff": [
 			{
 				"layout": "default",
 				"draft": false,
@@ -117,7 +111,7 @@
 				],
 				"path": "_staff_members/jane-doe.md",
 				"url": "/staff_members/jane-doe/",
-				"collection": "staff_members",
+				"collection": "staff",
 				"id": "/staff_members/jane-doe"
 			},
 			{
@@ -136,7 +130,7 @@
 				],
 				"path": "_staff_members/john-doe.md",
 				"url": "/staff_members/john-doe/",
-				"collection": "staff_members",
+				"collection": "staff",
 				"id": "/staff_members/john-doe"
 			}
 		],
@@ -180,6 +174,16 @@
 				"url": "/stuff/2016/11/11/good-stuff/",
 				"collection": "posts",
 				"id": "/stuff/2016/11/11/good-stuff"
+			}
+		],
+		"more_pages": [
+			{
+				"layout": "default",
+				"title": "Another Page",
+				"call_to_action": "Contact",
+				"path": "more-pages/another-page.html",
+				"url": "/more-pages/another-page/",
+				"collection": "more_pages"
 			}
 		],
 		"pages": [
@@ -284,52 +288,6 @@
 				"collection": "drafts",
 				"id": "/business/2016/08/10/incomplete"
 			}
-		],
-		"other/posts": [
-			{
-				"layout": "post",
-				"draft": false,
-				"categories": [
-					"other",
-					"Stuff"
-				],
-				"title": "Category test",
-				"author": "/staff-members/jane-doe",
-				"image": null,
-				"large_header": false,
-				"date": "2020-08-10 00:00:00 +0000",
-				"slug": "category-test",
-				"ext": ".md",
-				"tags": [
-
-				],
-				"path": "other/_posts/2020-08-10-category-test.md",
-				"url": "/other/stuff/2020/08/10/category-test/",
-				"collection": "other/posts",
-				"id": "/other/stuff/2020/08/10/category-test"
-			}
-		],
-		"other/drafts": [
-			{
-				"layout": "post",
-				"draft": true,
-				"categories": [
-					"other"
-				],
-				"title": "Other WIP",
-				"author": "/staff-members/jane-doe",
-				"image": "/uploads/example-upload.png",
-				"slug": "wip",
-				"ext": ".md",
-				"tags": [
-
-				],
-				"date": "2024-01-01 00:00:00 +1300",
-				"path": "other/_drafts/wip.md",
-				"url": "/other/2024/01/01/wip/",
-				"collection": "other/drafts",
-				"id": "/other/2024/01/01/wip"
-			}
 		]
 	},
 	"data": {
@@ -349,13 +307,19 @@
 			}
 		],
 		"categories": [
-			"Stuff",
-			"other"
+			"Stuff"
 		],
 		"tags": []
 	},
-	"source": "/spec/fixtures/site-config",
+	"source": "/spec/fixtures/path-based-collections",
 	"timezone": "Etc/UTC",
+	"_snippets": {
+		"jekyll_include": {
+			"preview": {
+				"text": "Partial"
+			}
+		}
+	},
 	"data_config": {
 		"footer": true
 	},

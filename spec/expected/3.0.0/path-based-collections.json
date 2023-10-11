@@ -40,9 +40,8 @@
 		"layouts": "_layouts"
 	},
 	"collections_config": {
-		"staff_members": {
+		"staff": {
 			"output": false,
-			"custom": "indeed",
 			"sort_key": "name",
 			"singular_name": "staff_member",
 			"auto_discovered": false,
@@ -88,12 +87,12 @@
 			"heading": "Other",
 			"collections": [
 				"pages",
-				"staff_members"
+				"staff"
 			]
 		}
 	],
 	"collections": {
-		"staff_members": [
+		"staff": [
 			{
 				"layout": "default",
 				"categories": [
@@ -107,7 +106,7 @@
 				],
 				"path": "_staff_members/jane-doe.md",
 				"url": "/staff_members/jane-doe/",
-				"collection": "staff_members",
+				"collection": "staff",
 				"id": "/staff_members/jane-doe"
 			},
 			{
@@ -123,7 +122,7 @@
 				],
 				"path": "_staff_members/john-doe.md",
 				"url": "/staff_members/john-doe/",
-				"collection": "staff_members",
+				"collection": "staff",
 				"id": "/staff_members/john-doe"
 			}
 		],
