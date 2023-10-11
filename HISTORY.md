@@ -1,3 +1,8 @@
+# 4.0.6
+
+* Remove auto-discovered collections with duplicate paths
+* Update Jekyll 4 test version to 4.3.2
+
 # 4.0.5
 
 * Fix builds breaking on one unparseable file
