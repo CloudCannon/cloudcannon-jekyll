@@ -1,3 +1,7 @@
+# 4.0.7
+
+* Refactor filter_map to support old Ruby versions
+
 # 4.0.6
 
 * Remove auto-discovered collections with duplicate paths
