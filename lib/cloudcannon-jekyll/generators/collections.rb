@@ -107,7 +107,7 @@ module CloudCannonJekyll
       end
 
       # Remove auto-discovered collections with duplicate paths
-      set_paths = collections_config.filter_map { |_, v| v['path'] unless v['auto_discovered'] }
+      set_paths = collections_config.reject { |_, v| v['auto_discovered'] }.map { |_, v| v['path'] }
       collections_config.delete_if { |_, v| v['auto_discovered'] && set_paths.include?(v['path']) }
 
       collections_config
