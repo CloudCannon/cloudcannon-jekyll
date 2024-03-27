@@ -8,6 +8,7 @@ collections_config:
 
 paths:
   uploads: uploads
+  uploads_use_relative_path: true
 
 _select_data:
   people:

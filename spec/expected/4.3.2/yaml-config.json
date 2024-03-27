@@ -40,7 +40,7 @@
 		"data": "_data",
 		"collections": "",
 		"layouts": "_layouts",
-		"uploads_use_relative_path": false
+		"uploads_use_relative_path": true
 	},
 	"collections_config": {
 		"staff_members": {
