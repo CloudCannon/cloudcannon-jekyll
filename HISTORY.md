@@ -1,3 +1,7 @@
+# 4.1.0
+
+* Add uploads_use_relative_path to paths
+
 # 4.0.7
 
 * Refactor filter_map to support old Ruby versions

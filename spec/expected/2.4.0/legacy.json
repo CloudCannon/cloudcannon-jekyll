@@ -37,7 +37,8 @@
 		"uploads": "uploads",
 		"data": "_data",
 		"collections": "",
-		"layouts": "_layouts"
+		"layouts": "_layouts",
+		"uploads_use_relative_path": false
 	},
 	"collections_config": {
 		"empty": {
